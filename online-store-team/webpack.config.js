@@ -2,7 +2,8 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const EslintWebpackPlugin = require('eslint-webpack-plugin')
+const EslintWebpackPlugin = require('eslint-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const baseConfig = {
     entry: path.resolve(__dirname, './src/index'),
@@ -37,7 +38,15 @@ const baseConfig = {
             filename: 'index.html',
         }),
         new CleanWebpackPlugin(),
-        new EslintWebpackPlugin({ extensions: 'ts' })
+        new EslintWebpackPlugin({ extensions: 'ts' }),
+        new CopyWebpackPlugin({
+          patterns:[
+              {
+                  from: './src/components/view/*.html',
+                  to: path.resolve(__dirname, 'dist/components/view/[name].html')
+              }
+          ]
+      })
     ],
 };
 
