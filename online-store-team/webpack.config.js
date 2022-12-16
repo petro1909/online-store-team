@@ -23,6 +23,10 @@ const baseConfig = {
               test: /\.(png|jpg|gif|svg|eot|ttf|woff|wav|mp3)$/,
               type: 'asset/resource'
             },
+            {
+              test: /\.html$/i,
+              loader: "html-loader",
+            },
         ],
     },
     resolve: {
@@ -31,6 +35,7 @@ const baseConfig = {
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, './dist'),
+        publicPath: "/"
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -38,21 +43,26 @@ const baseConfig = {
             filename: 'index.html',
         }),
         new CleanWebpackPlugin(),
-        new EslintWebpackPlugin({ extensions: 'ts' }),
-        new CopyWebpackPlugin({
-          patterns:[
-              {
-                  from: './src/components/view/*.html',
-                  to: path.resolve(__dirname, 'dist/components/view/[name].html')
-              }
-          ]
-      })
+        new EslintWebpackPlugin({ 
+          extensions: 'ts',
+          emitError: false,
+          emitWarning: false,
+          failOnError: false,
+          failOnWarning: false
+        }),
+      //   new CopyWebpackPlugin({
+      //     patterns:[
+      //         {
+      //             from: './src/components/view/*/*.html',
+      //             to: path.resolve(__dirname, 'dist/view/[name].html')
+      //         }
+      //     ]
+      // })
     ],
 };
 
 module.exports = ({ mode }) => {
     const isProductionMode = mode === 'prod';
-    console.log(isProductionMode)
     const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
 
     return merge(baseConfig, envConfig);
