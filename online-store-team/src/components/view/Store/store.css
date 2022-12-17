@@ -1,0 +1,20 @@
+.store {
+    display: flex;
+    width: 100%;
+}
+
+.goods {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.goods__header {
+    display: flex;
+    justify-content: space-around;
+}
+
+.goods__output {
+    display: flex;
+    flex-wrap: wrap;
+}
