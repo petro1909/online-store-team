@@ -36,6 +36,18 @@
     width: 45%;
 }
 
-label {
+.checkbox-line {
+}
+
+.checkbox-line_active {
+}
+
+.checkbox-line__input {
+}
+
+.checkbox-line__label {
     cursor: pointer;
+}
+
+.checkbox-line__product-quantity {
 }
