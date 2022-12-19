@@ -1,0 +1,54 @@
+.footer {
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.footer-links {
+display: flex;
+list-style: none;
+}
+
+.footer-links__item {
+display: flex;
+justify-content: center;
+align-items: center;
+width: fit-content;
+padding: 5px 10px;
+}
+
+.link{
+text-decoration: none;
+color: rgb(255, 255, 255);
+transition: all 500ms ease-in-out;
+}
+
+.link:hover {
+color: rgb(245, 200, 70); /* TODO add variable */
+}
+
+.link-cvg:hover {
+background-color:rgb(245, 200, 70);
+}
+
+.github {
+width: 40px;
+height: 40px;
+background-color:rgb(255, 255, 255);
+-webkit-mask:  url(../../../assets/img/Footer/github-icon.svg) no-repeat 50% 50%;
+mask: url(../../../assets/img/Footer/github-icon.svg) no-repeat 50% 50%;
+}
+
+.year {
+height: fit-content;
+}
+
+.rsschool {
+width: 70px;
+height: 40px;
+background-color:white;
+-webkit-mask:  url(../../../assets/img/Footer/rs-school-icon.svg) no-repeat 50% 50%;
+mask: url(../../../assets/img/Footer/rs-school-icon.svg) no-repeat 50% 50%;
+}
