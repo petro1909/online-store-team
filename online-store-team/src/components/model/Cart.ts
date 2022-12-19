@@ -1,6 +1,6 @@
 export default class Cart {
     public totalPrice: number;
-    private cartProducts: Array<CartProduct>;
+    public cartProducts: Array<CartProduct>;
     public promocode: IPromocode | undefined;
 
     constructor() {
