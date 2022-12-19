@@ -1,0 +1,37 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    padding: 0.5rem 3rem;
+
+}
+
+.logo {
+    padding: 0.25rem;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.cart-total {
+    font-size: 1.5rem;
+}
+
+.cart-total__cost {
+}
+
+.cart-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.cart-content__quantity {
+    font-size: 1.5rem;
+}

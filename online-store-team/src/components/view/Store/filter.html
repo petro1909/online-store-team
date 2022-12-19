@@ -1,0 +1,42 @@
+<aside class="filters-block">
+    <button type="reset" form="filters">RESET</button>
+    <button id="copy-link">COPY LINK</button>
+    <form class="filters" action="#" id="filters">
+        <fieldset class="sort" form="filters">
+            <input class="search" type="search" name="search" id="search" placeholder="Search product">
+            <select class="" name="select">
+                <option value="sort-title" disabled="" selected="" class="sort-name">Sort options:</option>
+                <option value="price-ASC">Sort by price ASC</option>
+                <option value="price-DESC">Sort by price DESC</option>
+                <option value="rating-ASC">Sort by rating ASC</option>
+                <option value="rating-DESC">Sort by rating DESC</option>
+                <option value="discount-ASC">Sort by discount ASC</option>
+                <option value="discount-DESC">Sort by discount DESC</option>
+            </select>
+        </fieldset>
+        <fieldset class="category" form="filters" name="category">
+            <legend>Category</legend>
+        </fieldset>
+        <fieldset class="brand" form="filters" name="brand">
+            <legend>Brand</legend>
+        </fieldset>
+        <fieldset class="price" form="filters" name="price">
+            <legend>Price</legend>
+            <input class="limits" type="number" name="price" id="min-price" placeholder="From">
+            <input class="limits" type="number" name="price" id="max-price"  placeholder="To">
+        </fieldset>
+        <fieldset class="stock" form="filters" name="stock">
+            <legend>Stock</legend>
+            <input class="limits" type="number" name="stock" id="min-stock" placeholder="From">
+            <input class="limits" type="number" name="stock" id="max-stock"  placeholder="To">
+        </fieldset>
+    </form>
+</aside>
+
+<template id="checkboxLine">
+    <div class="checkbox-line checkbox-line_active">
+        <input class="checkbox-line__input" type="checkbox" id="" value="" name="">
+        <label class="checkbox-line__label" for=""></label>
+        <span class="checkbox-line__product-quantity"></span>
+    </div>
+</template>
