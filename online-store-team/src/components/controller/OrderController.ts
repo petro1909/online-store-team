@@ -7,7 +7,8 @@ export default class OrderController extends BaseController {
         super();
         this.orderView = new OrderView();
     }
-    public override init(): void {
+    public override async init(): Promise<void> {
         this.orderView.drawOrder();
+        
     }
 }
