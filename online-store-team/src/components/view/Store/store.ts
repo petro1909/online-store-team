@@ -3,15 +3,16 @@ import filterHtml from "./filter.html";
 import "./store.css";
 
 export default class StoreView {
-    public drawStore(): void {
+    public drawStore(store, storeOptions): void {
         this.drawFilter();
-        this.drawProducts();
+        this.drawProducts(products);
     }
-    private drawProducts() {
-        document.getElementById("root")!.innerHTML = storeHtml;
+    private drawProducts(products: Array<Product>) {
+        console.log(products);
+        document.getElementById("root")!.innerHTML = products;
     }
 
-    private drawFilter() {
+    private drawFilter(storeOptions) {
         document.getElementById("root")!.innerHTML = filterHtml;
     }
 }
