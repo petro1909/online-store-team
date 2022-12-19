@@ -25,7 +25,7 @@ export default class Router {
         const fullPath: [string, string] = this.getWindowPathString();
         const route = Router.routes[fullPath[0] as keyof typeof Router.routes] || Router.routes[404];
         const controller = ControllerFactory.initController(route);
-        controller.init(fullPath[1]);
+        await controller.init(fullPath[1]);
     };
 
     private getWindowPathString(): [string, string] {
