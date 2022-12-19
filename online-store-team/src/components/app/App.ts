@@ -18,7 +18,7 @@ export default class App {
 
     public start() {
         this.router.start();
-        this.header.drawHeader();
+        this.header.drawHeader(App.cart);
         this.footer.drawFooter();
 
         document.querySelectorAll('[href^="/"]').forEach((a) => a.addEventListener("click", this.router.route));
