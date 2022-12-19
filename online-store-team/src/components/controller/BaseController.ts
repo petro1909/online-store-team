@@ -1,3 +1,3 @@
 export default abstract class BaseController {
-    public abstract init(queryParams?: string): void;
+    public abstract init(queryParams?: string): Promise<void>;
 }
