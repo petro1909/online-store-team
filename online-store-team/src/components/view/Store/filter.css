@@ -1,0 +1,53 @@
+.filters-block {
+    width: 20%;
+}
+
+.filters {
+    width: 100%;
+}
+
+.sort {
+}
+
+.category {
+    display: block;
+    width: 90%;
+    height: 30vh;
+    overflow-y: scroll;
+}
+
+.brand {
+    height: 30vh;
+    width: 90%;
+    overflow-y: scroll;
+}
+
+.price {
+    display: flex;
+    width: 90%;
+}
+
+.stock {
+    display: flex;
+    width: 90%;
+}
+
+.limits {
+    width: 45%;
+}
+
+.checkbox-line {
+}
+
+.checkbox-line_active {
+}
+
+.checkbox-line__input {
+}
+
+.checkbox-line__label {
+    cursor: pointer;
+}
+
+.checkbox-line__product-quantity {
+}

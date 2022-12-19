@@ -1,0 +1,85 @@
+/* Common blocks styles */
+
+.box-shadow {
+    border: 1px solid rgb(125, 125, 125); /* TODO add variable */
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5), 15px 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.text-shadow {
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 1);
+}
+
+.btn {
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(180deg,#e6e6e6 0%,rgba(0, 0, 0, 0.25) 49%, rgba(38, 38, 38, 0.6) 51%,rgba(0, 0, 0, 0.25) 100%);
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+}
+
+.btn:hover {
+    color: rgb(245, 200, 70); /* TODO add variable */
+}
+
+/* Error page styles */
+
+.page-404 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 100px - 70px); /* TODO add variables 100px header height, 70px footer height */
+    background-image: url(../../../assets/img/Error/error-bg.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.page-404__content {
+    display: block;
+    height: fit-content;
+    width: 50%;
+    padding: 2rem 1rem;
+    border-radius: 0.5rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    backdrop-filter: blur(0.5rem);
+}
+
+@media screen and (max-width: 768px) {
+
+    .page-404__content {
+        width: 80%;
+    }
+
+}
+
+.page-404__title {
+    font-size: 5rem;
+    text-align: center;
+    color: rgb(255, 255, 255); /* TODO add variable */
+}
+
+.page-404__desc {
+    font-size: 2rem;
+    text-align: center;
+    color: rgb(255, 255, 255); /* TODO add variable */
+}
+
+.page-404__link {
+    display: block;
+    height: fit-content;
+    width: fit-content;
+    padding: 1rem 2rem;
+    border-radius: 0.25rem;
+    margin: auto;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: rgb(255, 255, 255); /* TODO add variable */
+    transition: all 300ms ease-in-out;
+}
+
+.page-404__link:hover {
+    color: rgb(245, 200, 70); /* TODO add variable */
+}
