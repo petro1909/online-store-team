@@ -21,6 +21,7 @@ export default class CartView {
             const cartItemTemplate = document.getElementById("cartItemTemplate")! as HTMLTemplateElement;
             const templateClone =    cartItemTemplate.content.cloneNode(true) as HTMLElement;
 
+            const cartItem =              templateClone.querySelector(".cart-item")! as HTMLElement;
             const cartItemNumber =        templateClone.querySelector(".cart-item__number")! as HTMLSpanElement
             const productImg =            templateClone.querySelector(".product__img")! as HTMLImageElement;
             const productDescTitle =      templateClone.querySelector(".product__desc-title")! as HTMLElement;
@@ -31,6 +32,7 @@ export default class CartView {
             const cartItemQuantity =      templateClone.querySelector(".cart-item__quantity")! as HTMLElement;
             const cartItemAmountControl = templateClone.querySelector(".cart-item__amount-control")! as HTMLElement;
 
+            cartItem.setAttribute("data-id", String(_product.id));
             cartItemNumber.textContent =        String(idx + 1);
             productImg.src =                    String(_product.images[0]);
             productImg.alt =                    _product.title;
@@ -59,9 +61,37 @@ export default class CartView {
 
         buyNowProducts.textContent = String(cart.cartProducts.length);
         buyNowTotal.textContent = String(cart.totalPrice);
+        this.addHandlers(cart);
+    }
+
+    private addHandlers(cart: Cart): void {
+
+        const cartItemBtns = document.querySelector("cart-item__btns")!;
+
+        cartItemBtns.addEventListener("click", event => {
+            const clickedButton = event.target as HTMLElement;
+            const idProduct = clickedButton.closest("cart-item")!.getAttribute("data-id");
+            if (clickedButton.classList.contains("cart-item__decrease-btn")) {
+                cart.decreaceCartProductCount(Number(idProduct));
+            }
+            if (clickedButton.classList.contains("cart-item__increase-btn")) {
+                cart.increaceCartProductCount(Number(idProduct));
+            }
+        })
 
         const buyNowInputCode = document.querySelector(".buy-now__input-promo")! as HTMLInputElement;
-        buyNowInputCode.addEventListener("change", () => { console.log('promo-code', buyNowInputCode.value)});
+        buyNowInputCode.addEventListener("change", (event) => {
+            const inputPromo = event.target as HTMLInputElement;
+            const value = inputPromo!.value;
+            if(value === "RS" || value === "EPM") {
+                const promoCode = {
+                    discount: 5,
+                    text: value
+                }
+                cart.setPromocode(promoCode);
+                console.log('promo-code', promoCode);
+            }
+        });
 
         const buyNowSubmit = document.querySelector(".buy-now__submit")! as HTMLButtonElement;
         buyNowSubmit.addEventListener("click", () => { console.log('buy-now pressed')});
