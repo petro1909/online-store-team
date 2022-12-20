@@ -14,11 +14,11 @@
             <h2 class="pagination__title text-shadow">Products In Cart</h2>
             <div class="pagination__controls">
                 <label class="pagination__items-limit" for="pagination-limit-input">Items on page:</label>
-                <input class="pagination__limit-input" type="text" value="0">
+                <input class="pagination__limit-input" type="text" value="0" id="pagination-limit-input">
                 <span class="pagination__page-word">Page:</span>
                 <div class="pagination__page-number">
                     <button class="pagination__page-prev btn">◄</button>
-                    <span class="pagination__page-current">0</span>
+                    <span class="pagination__page-current" id="pagination-page-current">0</span>
                     <button class="pagination__page-next btn">►</button>
                 </div>
             </div>
@@ -47,14 +47,14 @@
                     <span class="cart-item__quantity">0</span>
                     <button class="cart-item__increase-btn btn">+</button>
                 </div>
-                <span class="cart-item__amount-control">€ 00.00</span>
+                <span class="cart-item__amount-control">€00.00</span>
             </div>
         </article>
     </template>
 
     <template id="cartBuyNowTemplate">
         <aside class="cart__buy-now buy-now box-shadow">
-            <h2 class="buy-now__title  text-shadow">Summary</h2>
+            <h2 class="buy-now__title text-shadow">Summary</h2>
             <hr class="buy-now__separator">
             <div class="buy-now__products">
                 <span class="buy-now__products-text">Products: </span>0
@@ -71,4 +71,3 @@
     </template>
 
 </section>
-
