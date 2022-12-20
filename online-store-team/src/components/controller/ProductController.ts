@@ -1,7 +1,7 @@
 import { Store } from "../model/Store";
 import ProductView from "../view/Product/product";
 import BaseController from "./BaseController";
-import App from "../app/App";
+import { app } from "../..";
 
 export default class ProductController extends BaseController {
     private productView: ProductView;
@@ -9,7 +9,7 @@ export default class ProductController extends BaseController {
     constructor() {
         super();
         this.productView = new ProductView();
-        this.store = App.store;
+        this.store = app.store;
     }
     public override async init(options?: string): Promise<void> {
         let productId: number;

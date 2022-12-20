@@ -1,7 +1,6 @@
 import BaseController from "./BaseController";
 import CartController from "./CartController";
 import ErrorController from "./ErrorController";
-import OrderController from "./OrderController";
 import ProductController from "./ProductController";
 import StoreController from "./StoreController";
 
@@ -14,8 +13,6 @@ export default class ControllerFactory {
                 return new CartController();
             case "product":
                 return new ProductController();
-            case "order":
-                return new OrderController();
             default:
                 return new ErrorController();
         }

@@ -1,9 +1,11 @@
 import ControllerFactory from "../controller/ControllerFactory";
+import { IBaseOptions } from "../model/type/IFilterOptions";
 
 export default class Router {
     public static routes = {
         404: "error",
         "/": "store",
+        "/store": "store",
         "/order": "order",
         "/cart": "cart",
         "/product": "product",
@@ -40,5 +42,18 @@ export default class Router {
         console.log(path);
         console.log(queryParams);
         return [path, queryParams];
+    }
+
+    public addQueryParameters(options: IBaseOptions) {
+        if (!window.location.search) {
+            window.location.search += "?";
+        }
+        for (const key in Object.keys(options)) {
+            const value = options[key];
+            if (key && value) {
+                window.location.search += `${key}=${value}&`;
+            }
+        }
+        window.location.search.slice(-1);
     }
 }
