@@ -1,5 +1,3 @@
-import { app } from "../../..";
-import Cart from "../../model/Cart";
 import "./header.css";
 import HeaderHtml from "./header.html";
 import Cart from "../../model/Cart";

@@ -1,7 +1,6 @@
 import Cart from "../model/Cart";
 import { Store } from "../model/Store";
 import Router from "../router/router";
-import FooterView from "../view/Footer/footer";
 import HeaderView from "../view/Header/header";
 import FooterView from "../view/Footer/footer";
 
