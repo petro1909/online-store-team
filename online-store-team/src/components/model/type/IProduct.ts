@@ -1,4 +1,4 @@
-interface Product {
+export interface Product {
     id: number;
     title: string;
     description: string;
@@ -10,4 +10,10 @@ interface Product {
     category: string;
     thumbnail: string;
     images: Array<string>;
+}
+export interface ProductJsonResult {
+    products: Array<Product>;
+    total: number;
+    skip: number;
+    limit: 100;
 }

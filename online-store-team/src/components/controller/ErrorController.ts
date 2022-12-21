@@ -7,7 +7,7 @@ export default class ErrorController extends BaseController {
         super();
         this.errorView = new ErrorView();
     }
-    public override init(): void {
+    public override async init(options?: string): Promise<void> {
         this.errorView.drawError();
     }
 }
