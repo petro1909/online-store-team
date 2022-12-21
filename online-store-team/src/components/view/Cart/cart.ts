@@ -1,6 +1,7 @@
 import cartHtml from "./cart.html";
 import "./cart.css";
 import Cart from "../../model/Cart";
+import OrderView from "../../view/Order/order"
 
 export default class CartView {
     public drawCart(cart: Cart, page: number): void {
@@ -94,6 +95,10 @@ export default class CartView {
         });
 
         const buyNowSubmit = document.querySelector(".buy-now__submit")! as HTMLButtonElement;
-        buyNowSubmit.addEventListener("click", () => { console.log('buy-now pressed')});
+        buyNowSubmit.addEventListener("click", () => {
+            console.log('buy-now pressed');
+            const orderView = new OrderView();
+            orderView.drawOrder();
+        });
     }
 }
