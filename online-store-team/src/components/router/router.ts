@@ -19,11 +19,12 @@ export default class Router {
         event = event || window.event;
         event.preventDefault();
         const { pathname: path } = new URL((event!.target! as HTMLAnchorElement).href);
+        console.log(path);
         window.history.pushState({ path }, path, path);
         this.handleLocation();
     };
 
-    private handleLocation = async () => {
+    public handleLocation = async () => {
         const fullPath: [string, string] = this.getWindowPathString();
         const route = Router.routes[fullPath[0] as keyof typeof Router.routes] || Router.routes[404];
         const controller = ControllerFactory.initController(route);
@@ -39,8 +40,6 @@ export default class Router {
             path = path.substring(0, indexOfSecondSlash);
         }
         const queryParams = `${endpoint}${window.location.search}`;
-        console.log(path);
-        console.log(queryParams);
         return [path, queryParams];
     }
 

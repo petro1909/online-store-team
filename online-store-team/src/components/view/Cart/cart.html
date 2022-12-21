@@ -1,74 +1,72 @@
-
 <section class="cart">
 
-    <div class="cart__content content">
-        <!-- Place for content of paginationTemplate -->
-        <div class="content__container">
-            <!-- Place for content of cartItemTemplate -->
-        </div>
-    </div>
-    <!-- Place for content of cartBuyNowTemplate -->
+  <div class="cart__content content">
+      <!-- Place for content of paginationTemplate -->
+      <div class="content__container">
+          <!-- Place for content of cartItemTemplate -->
+      </div>
+  </div>
+  <!-- Place for content of cartBuyNowTemplate -->
 
-    <template id="paginationTemplate">
-        <div class="content__pagination pagination box-shadow">
-            <h2 class="pagination__title text-shadow">Products In Cart</h2>
-            <div class="pagination__controls">
-                <label class="pagination__items-limit" for="pagination-limit-input">Items on page:</label>
-                <input class="pagination__limit-input" type="text" value="0">
-                <span class="pagination__page-word">Page:</span>
-                <div class="pagination__page-number">
-                    <button class="pagination__page-prev btn">◄</button>
-                    <span class="pagination__page-current">0</span>
-                    <button class="pagination__page-next btn">►</button>
-                </div>
-            </div>
-        </div>
-    </template>
+  <template id="paginationTemplate">
+      <div class="content__pagination pagination box-shadow">
+          <h2 class="pagination__title text-shadow">Products In Cart</h2>
+          <div class="pagination__controls">
+              <label class="pagination__items-limit" for="pagination-limit-input">Items on page:</label>
+              <input class="pagination__limit-input" type="text" value="0">
+              <span class="pagination__page-word">Page:</span>
+              <div class="pagination__page-number">
+                  <button class="pagination__page-prev btn">◄</button>
+                  <span class="pagination__page-current">0</span>
+                  <button class="pagination__page-next btn">►</button>
+              </div>
+          </div>
+      </div>
+  </template>
 
-    <template id="cartItemTemplate">
-        <article class="cart-item box-shadow">
-            <span class="cart-item__number">0</span>
-            <figure class="cart-item__info product">
-                <img class="product__img" alt="iPhone X" src="https://i.dummyjson.com/data/products/2/thumbnail.jpg">
-                <figcaption class="product__desc">
-                    <h3 class="product__desc-title">iPhone X</h3>
-                    <hr class="product__separator">
-                    <p class="product__desc-text">SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ... </p>
-                    <p class="product__desc-other">
-                        <span class="product__desc-rating">Rating: 0.00</span>
-                        <span class="product__desc-discount">Discount: 00.00%</span>
-                    </p>
-                </figcaption>
-            </figure>
-            <div class="cart-item__controls">
-                <span class="cart-item__stock">Stock: 0</span>
-                <div class="cart-item__btns">
-                    <button class="cart-item__decrease-btn btn">-</button>
-                    <span class="cart-item__quantity">0</span>
-                    <button class="cart-item__increase-btn btn">+</button>
-                </div>
-                <span class="cart-item__amount-control">€ 00.00</span>
-            </div>
-        </article>
-    </template>
+  <template id="cartItemTemplate">
+      <article class="cart-item box-shadow">
+          <span class="cart-item__number">0</span>
+          <figure class="cart-item__info product">
+              <img class="product__img" alt="iPhone X" src="https://i.dummyjson.com/data/products/2/thumbnail.jpg">
+              <figcaption class="product__desc">
+                  <h3 class="product__desc-title">iPhone X</h3>
+                  <hr class="product__separator">
+                  <p class="product__desc-text">SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ... </p>
+                  <p class="product__desc-other">
+                      <span class="product__desc-rating">Rating: 0.00</span>
+                      <span class="product__desc-discount">Discount: 00.00%</span>
+                  </p>
+              </figcaption>
+          </figure>
+          <div class="cart-item__controls">
+              <span class="cart-item__stock">Stock: 0</span>
+              <div class="cart-item__btns">
+                  <button class="cart-item__decrease-btn btn">-</button>
+                  <span class="cart-item__quantity">0</span>
+                  <button class="cart-item__increase-btn btn">+</button>
+              </div>
+              <span class="cart-item__amount-control">€ 00.00</span>
+          </div>
+      </article>
+  </template>
 
-    <template id="cartBuyNowTemplate">
-        <aside class="cart__buy-now buy-now box-shadow">
-            <h2 class="buy-now__title  text-shadow">Summary</h2>
-            <hr class="buy-now__separator">
-            <div class="buy-now__products">
-                <span class="buy-now__products-text">Products: </span>0
-            </div>
-            <div class="buy-now__total">
-                <span class="buy-now__total-text">Total: </span>€0
-            </div>
-            <div class="buy-now__promo-code">
-                <input type="search" placeholder="Enter promo code" class="buy-now__input-promo" id="buy-now-input-code"><br>
-                <label for="buy-now-input-code">Promo for test: 'RS', 'EPM'</label>
-            </div>
-            <button class="buy-now__submit btn box-shadow">BUY NOW</button>
-        </aside>
-    </template>
+  <template id="cartBuyNowTemplate">
+      <aside class="cart__buy-now buy-now box-shadow">
+          <h2 class="buy-now__title  text-shadow">Summary</h2>
+          <hr class="buy-now__separator">
+          <div class="buy-now__products">
+              <span class="buy-now__products-text">Products: </span>0
+          </div>
+          <div class="buy-now__total">
+              <span class="buy-now__total-text">Total: </span>€0
+          </div>
+          <div class="buy-now__promo-code">
+              <input type="search" placeholder="Enter promo code" class="buy-now__input-promo" id="buy-now-input-code"><br>
+              <label for="buy-now-input-code">Promo for test: 'RS', 'EPM'</label>
+          </div>
+          <button class="buy-now__submit btn box-shadow">BUY NOW</button>
+      </aside>
+  </template>
 
 </section>
-

@@ -5,5 +5,6 @@ import Cart from "../../model/Cart";
 export default class CartView {
     public drawCart(cart: Cart, page: number): void {
         document.getElementById("root")!.innerHTML = cartHtml;
+        document.querySelector(".content__container")!.innerHTML = `${cart.totalPrice}`;
     }
 }

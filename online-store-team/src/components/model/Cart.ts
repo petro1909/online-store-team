@@ -1,3 +1,4 @@
+import { app } from "../..";
 import { CartProduct } from "./type/ICartProduct";
 import { Product } from "./type/IProduct";
 import { IPromocode } from "./type/IPromocode";
@@ -13,6 +14,10 @@ export default class Cart {
         this.totalCount = 0;
         this.cartProducts = [];
     }
+    public isProductInCart(productId: number): boolean {
+        const cartProduct = this.cartProducts.find((item) => item.product.id === productId);
+        return !!cartProduct;
+    }
 
     public putProductIntoCart(product: Product): void {
         const cartProduct: CartProduct = { product: product, count: 1, totalPrice: product.price };
@@ -20,6 +25,7 @@ export default class Cart {
         this.totalPrice += product.price;
         this.totalCount += 1;
         this.saveToLocalStorage();
+        app.header.drawHeader(this);
     }
 
     public dropProductIntoCart(productId: number): void {

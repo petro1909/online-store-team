@@ -1,10 +1,10 @@
 export interface IFilterOptions extends IBaseOptions {
-    categories: Array<string>;
-    brands: Array<string>;
-    minPrice: number;
-    maxPrice: number;
-    minStock: number;
-    maxStock: number;
+    categories?: Array<string>;
+    brands?: Array<string>;
+    minPrice?: number;
+    maxPrice?: number;
+    minStock?: number;
+    maxStock?: number;
 }
 
 export interface IPageOptions extends IBaseOptions {
@@ -25,5 +25,5 @@ export interface ISortOptions extends IBaseOptions {
 }
 
 export interface IBaseOptions {
-    [key: string]: string | number | Array<string>;
+    [key: string]: string | number | Array<string> | undefined;
 }
