@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <section class="cart">
+<section class="cart">
 
     <div class="cart__content content">
         <!-- Place for content of paginationTemplate -->
@@ -79,56 +70,3 @@
     </template>
 
 </section>
-
-<form action="#" class="order" id="order">
-        <fieldset form="order" class="personal-details">
-            <legend>Personal details</legend>
-            <input class="personal-details__input"
-                    type="text" placeholder="Name"
-                    name="name"
-                    pattern="^([А-ЯЁа-яёA-Za-z]{3,25} [А-ЯЁа-яёA-Za-z]{3,25})$"
-                    id="input-name">
-            <input class="personal-details__input"
-                    type="tel" placeholder="Phone number"
-                    name="tel"
-                    pattern="^\+{1}\d{9,15}$"
-                    id="input-tel">
-            <input class="personal-details__input"
-                    type="text"
-                    placeholder="Delivery address"
-                    name="address"
-                    pattern="^([А-ЯЁа-яёA-Za-z]{5,25} [А-ЯЁа-яёA-Za-z]{5,25} [А-ЯЁа-яёA-Za-z]{5,25})$ "
-                    id="input-address">
-            <input class="personal-details__input"
-                    type="email"
-                    placeholder="E-mail"
-                    name="email"
-                    pattern="^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$"
-                    id="input-email">
-        </fieldset>
-        <fieldset form="order" class="card-details">
-            <legend>Credit card details</legend>
-            <input class="card-details__input card-details__input_long"
-                    type="text"
-                    placeholder="Card number"
-                    name="card-number"
-                    pattern="^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$"
-                    id="input-card-number">
-            <div class="card-details__input-wrapper">
-                <input class="card-details__input"
-                        type="text"
-                        placeholder="Valid thru"
-                        name="valid-thru"
-                        id="input-valid-thru">
-                <input class="card-details__input"
-                        type="number"
-                        placeholder="CVV code"
-                        name="cvv-code"
-                        id="input-cvv-code">>
-            </div>
-        </fieldset>
-        <button type="submit" class="order__submit">Confirm</button>
-    </form>
-
-</body>
-</html>
