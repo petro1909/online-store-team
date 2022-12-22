@@ -23,23 +23,7 @@ export default class App {
         this.router.start();
         this.header.drawHeader(this.cart);
         this.footer.drawFooter();
-        document.addEventListener("click", (e) => {
-            const targetElement = e.target;
-            if (!targetElement || !(targetElement instanceof HTMLAnchorElement)) {
-                return;
-            }
-            const targetAnchorElement = targetElement as HTMLAnchorElement;
-            const anchorHref = targetAnchorElement.getAttribute("href");
-            if (!anchorHref) {
-                return;
-            }
-            console.log(anchorHref);
-            const currentSourseHrefRegexp = /^\//;
-            if (!currentSourseHrefRegexp.test(anchorHref)) {
-                return;
-            }
-            this.router.route(e);
-        });
+        document.addEventListener("click", this.router.anchorRoute);
         //document.querySelectorAll('[href^="/"]').forEach((a) => a.addEventListener("click", this.router.route));
     }
 }
