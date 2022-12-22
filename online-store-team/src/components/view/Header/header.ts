@@ -1,12 +1,11 @@
-import { app } from "../../..";
-import Cart from "../../model/Cart";
 import "./header.css";
 import HeaderHtml from "./header.html";
+import Cart from "../../model/Cart";
 
 export default class HeaderView {
     public drawHeader(cart: Cart): void {
         document.getElementById("header")!.innerHTML = HeaderHtml;
-        document.querySelector(".cart-content__quantity")!.innerHTML = `${cart.totalCount}`;
-        //document.querySelectorAll('[href^="/"]').forEach((a) => a.addEventListener("click", app.router.route));
+        document.querySelector(".cart-total__cost")!.innerHTML  = String(cart.totalPrice);
+        document.querySelector(".cart-content__quantity")!.innerHTML  = String(cart.cartProducts.length);
     }
 }

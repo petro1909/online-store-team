@@ -20,7 +20,7 @@ export default class ProductController extends BaseController {
             productId = this.getProductId(options);
         }
         const product = this.store.products.find((item) => item.id === productId);
-        this.productView.drawProduct(product, this.cart);
+        this.productView.drawProduct(product!, this.cart); // ! add ! operator to product
     }
     private getProductId(options: string): number {
         return Number.parseInt(options);

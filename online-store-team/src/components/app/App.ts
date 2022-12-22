@@ -1,8 +1,8 @@
 import Cart from "../model/Cart";
 import { Store } from "../model/Store";
 import Router from "../router/router";
-import FooterView from "../view/Footer/footer";
 import HeaderView from "../view/Header/header";
+import FooterView from "../view/Footer/footer";
 
 export default class App {
     public readonly header: HeaderView;
@@ -11,6 +11,7 @@ export default class App {
     public readonly store: Store;
     public readonly cart: Cart;
     constructor() {
+        this.footer = new FooterView();
         this.header = new HeaderView();
         this.footer = new FooterView();
         this.router = new Router();
