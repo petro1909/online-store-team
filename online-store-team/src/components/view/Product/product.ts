@@ -34,18 +34,21 @@ export default class ProductView {
         breadcrumbLinkBrand.textContent = product.brand;
         breadcrumbLinkProduct.textContent = product.title;
         productTitle.textContent = product.title;
-        productImage.src = `url(${product.images[0]})`;
+        productImage.src = `${product.images[0]}`;
+
+        const controls = document.getElementById("product-images-buttons");
 
         for (let i = 0; i < product.images.length; i++) {
             const element = document.createElement("button");
             element.classList.add("controls__btn");
             element.setAttribute("data-id", String(i));
+            controls!.append(element)
         }
 
         productImagesButtons.addEventListener("click", (event) => {
             const clickedElement = event.target! as HTMLButtonElement;
             const idx = Number(clickedElement.getAttribute("data-id"))!;
-            productImage.src = `url(${product.images[idx]})`;
+            productImage.src = `${product.images[idx]}`;
         });
 
         productDescription.textContent = product.description;

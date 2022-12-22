@@ -1,4 +1,6 @@
-.product {
+.thing {
+    display: flex;
+    flex-direction: column;
 }
 
 .breadcrumbs {
