@@ -6,13 +6,28 @@ import { IPromocode } from "./type/IPromocode";
 export default class Cart {
     public totalPrice: number;
     public totalCount: number;
-    public cartProducts: Array<CartProduct>;
+    public cartProducts: Array<CartProduct> = [];
     public promocode: IPromocode | undefined;
 
     constructor() {
-        this.totalPrice = 0;
         this.totalCount = 0;
+        this.totalPrice = 0;
         this.cartProducts = [];
+        this.getCartFromLocalStorage();
+    }
+
+    private getCartFromLocalStorage(): void {
+        const cartStr = localStorage.getItem("cart");
+        if (cartStr) {
+            const cart = JSON.parse(cartStr) as Cart;
+            this.totalCount = cart.totalCount;
+            this.totalPrice = cart.totalPrice;
+            this.cartProducts = cart.cartProducts;
+        }
+    }
+
+    public saveToLocalStorage() {
+        localStorage.setItem("cart", JSON.stringify(this));
     }
     public isProductInCart(productId: number): boolean {
         const cartProduct = this.cartProducts.find((item) => item.product.id === productId);
@@ -25,7 +40,6 @@ export default class Cart {
         this.totalPrice += product.price;
         this.totalCount += 1;
         this.saveToLocalStorage();
-        app.header.drawHeader(this);
     }
 
     public dropProductIntoCart(productId: number): void {
@@ -69,9 +83,5 @@ export default class Cart {
     public setPromocode(promocode: IPromocode) {
         this.totalPrice = this.totalPrice * (1 - promocode.discount / 100);
         this.saveToLocalStorage();
-    }
-
-    public saveToLocalStorage() {
-        localStorage.setItem("cart", JSON.stringify(this));
     }
 }
