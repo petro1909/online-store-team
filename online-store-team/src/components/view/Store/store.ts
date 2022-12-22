@@ -24,7 +24,6 @@ export default class StoreView {
         console.log("drawProducts =", products);
         document.getElementById("root")!.innerHTML = storeHtml;
         const productItemTemplate = document.getElementById("productItemTemp") as HTMLTemplateElement;
-
         const fragment: DocumentFragment = document.createDocumentFragment();
 
         products.forEach((item: Product): void => {
@@ -48,7 +47,6 @@ export default class StoreView {
         console.log(document.querySelector(".goods__output"));
         document.querySelector(".goods__output")!.addEventListener("click", this.productClickHandler);
     }
-
     private productClickHandler(event: Event): void {
         const clickedElement = event.target as HTMLElement;
         if (!clickedElement!.classList.contains("goods__output")) {
@@ -59,8 +57,7 @@ export default class StoreView {
             } else if (clickedElement.classList.contains("button-drop")) {
                 console.log("button-drop pressed, id", productId);
             } else if (clickedElement.classList.contains("button-details")) {
-                window.history.pushState({}, "", window.location.pathname + "product/" + productId);
-                app.router.handleLocation();
+                app.router.route(`/product/${productId}`);
                 //window.history.replaceState({}, "", window.location.pathname + "product/" + productId);
                 //window.location.replace
                 //window.location.href = window.location.pathname + "product/" + productId;

@@ -11,14 +11,6 @@ export class Store {
     public async initStore(): Promise<void> {
         const storeJsonResult = await this.getProducts();
         this.products = this.activeProducts = storeJsonResult.products;
-        // this.getProducts().then((res) => {
-        //     this.products = res.products;
-        //     this.activeProducts = res.products;
-        //     console.log(this.products);
-        // });
-        // this.getCategories().then((res) => {
-        //     this.categories = res;
-        // });
         this.sortMap = new Map<string, ISortOptions>([
             ["price-ASC", { sortingParameter: "price", order: 1 }],
             ["price-DESC", { sortingParameter: "price", order: -1 }],

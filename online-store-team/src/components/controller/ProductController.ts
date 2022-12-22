@@ -19,7 +19,6 @@ export default class ProductController extends BaseController {
         if (options) {
             productId = this.getProductId(options);
         }
-        
         const product = this.store.products.find((item) => item.id === productId);
         this.productView.drawProduct(product, this.cart);
     }
