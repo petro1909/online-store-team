@@ -15,12 +15,29 @@ export default class Router {
         this.handleLocation();
     }
 
-    public route = (event: Event) => {
-        event = event || window.event;
+    public anchorRoute = (event: Event) => {
         event.preventDefault();
-        const { pathname: path } = new URL((event!.target! as HTMLAnchorElement).href);
-        console.log(path);
+        const targetElement = event.target;
+        if (!targetElement || !(targetElement instanceof HTMLAnchorElement)) {
+            return;
+        }
+        const targetAnchorElement = targetElement as HTMLAnchorElement;
+        const anchorFullHref = targetAnchorElement.href;
+        const anchorInnerHref = targetAnchorElement.getAttribute("href");
+        if (!anchorInnerHref) {
+            return;
+        }
+        const currentSourseHrefRegexp = /^\//;
+        if (!currentSourseHrefRegexp.test(anchorInnerHref)) {
+            return;
+        }
+        const { pathname: path } = new URL(anchorFullHref);
         window.history.pushState({ path }, path, path);
+        this.handleLocation();
+    };
+
+    public route = (innerRoute: string) => {
+        window.history.pushState({ innerRoute }, innerRoute, innerRoute);
         this.handleLocation();
     };
 
