@@ -62,23 +62,33 @@ export default class CartView {
         const buyNowProducts = document.querySelector(".buy-now__products")! as HTMLDivElement;
         const buyNowTotal =    document.querySelector(".buy-now__total")! as HTMLSpanElement;
 
-        buyNowProducts.textContent = String(cart.cartProducts.length);
-        buyNowTotal.textContent = String(cart.totalPrice);
+        const productItemsQuantity = cart.cartProducts.reduce<number>((acc, item: CartProduct): number => {
+            return acc + item.count; }, 0);
+        app.header.drawHeader(cart);
+
+        buyNowProducts.textContent = String(productItemsQuantity);
+        buyNowTotal.textContent = "€" + cart.totalPrice;
+
         this.addHandlers(cart);
     }
 
     private addHandlers(cart: Cart): void {
 
-        const cartItemBtns = document.querySelector(".cart-item__btns")!;
+        const cartItem = document.querySelector(".content__container")!;
 
-        cartItemBtns.addEventListener("click", event => {
-            const clickedButton = event.target as HTMLElement;
-            const idProduct = clickedButton.closest(".cart-item")!.getAttribute("data-id");
-            if (clickedButton.classList.contains("cart-item__decrease-btn")) {
+        cartItem.addEventListener("click", event => {
+            const clickedElement = event.target as HTMLElement;
+            const idProduct = clickedElement.closest(".cart-item")!.getAttribute("data-id");
+            if (clickedElement.classList.contains("cart-item__decrease-btn")) {
                 app.cart.decreaceCartProductCount(Number(idProduct));
+                this.drawCart(cart, 1);
             }
-            if (clickedButton.classList.contains("cart-item__increase-btn")) {
+            if (clickedElement.classList.contains("cart-item__increase-btn")) {
                 app.cart.increaceCartProductCount(Number(idProduct));
+                this.drawCart(cart, 1);
+            }
+            if (clickedElement.classList.contains("product__img")) {
+                app.router.route("product/" + idProduct);
             }
         })
 
