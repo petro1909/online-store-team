@@ -1,7 +1,9 @@
 import cartHtml from "./cart.html";
 import "./cart.css";
 import Cart from "../../model/Cart";
-import OrderView from "../../view/Order/order"
+import OrderView from "../../view/Order/order";
+import {CartProduct} from "../../model/type/ICartProduct";
+import {app} from "../../../index";
 
 export default class CartView {
     public drawCart(cart: Cart, page: number): void {
@@ -67,16 +69,16 @@ export default class CartView {
 
     private addHandlers(cart: Cart): void {
 
-        const cartItemBtns = document.querySelector("cart-item__btns")!;
+        const cartItemBtns = document.querySelector(".cart-item__btns")!;
 
         cartItemBtns.addEventListener("click", event => {
             const clickedButton = event.target as HTMLElement;
-            const idProduct = clickedButton.closest("cart-item")!.getAttribute("data-id");
+            const idProduct = clickedButton.closest(".cart-item")!.getAttribute("data-id");
             if (clickedButton.classList.contains("cart-item__decrease-btn")) {
-                cart.decreaceCartProductCount(Number(idProduct));
+                app.cart.decreaceCartProductCount(Number(idProduct));
             }
             if (clickedButton.classList.contains("cart-item__increase-btn")) {
-                cart.increaceCartProductCount(Number(idProduct));
+                app.cart.increaceCartProductCount(Number(idProduct));
             }
         })
 
