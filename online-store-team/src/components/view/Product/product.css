@@ -105,7 +105,8 @@
     text-align: center;
 }
 
-.object__drop-from-cart {
+.object__drop-from-cart,
+.object__add-to-cart {
     width: 150px;
     height: 40px;
     margin-top: 1rem;
