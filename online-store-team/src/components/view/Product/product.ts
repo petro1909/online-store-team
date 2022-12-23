@@ -4,6 +4,8 @@ import "./product.css";
 import Cart from "../../model/Cart";
 import { Product } from "../../model/type/IProduct";
 import { app } from "../../..";
+import OrderView from "../../view/Order/order";
+import CartView from "../../view/Cart/cart";
 
 export default class ProductView {
     public drawProduct(product: Product, cart: Cart): void {
@@ -40,7 +42,7 @@ export default class ProductView {
         productCategory.textContent = product.category;
         cartCost.textContent = "€" + cart.totalPrice;
 
-        const cartItemsIds  = this.selectCartItemsIds(app.cart);
+        const cartItemsIds  = this.selectCartItemsIds(app.cart); // TODO refactor using app.cart.isProductInCart(id);
         const isId = cartItemsIds.find((id): boolean => { return id === product.id});
         if(isId) {
             const currentAddButton = document.querySelector(".object__add-to-cart")! as HTMLElement;
@@ -77,11 +79,26 @@ export default class ProductView {
         } else if (clickedElement.classList.contains("object__drop-from-cart")) {
             app.cart.dropProductIntoCart(Number(productId));
             ProductView.switchProductButton("ADD TO CART", clickedElement);
+        } else if (clickedElement.classList.contains("object__buy-now")) {
+
+            const orderView = new OrderView();
+            const cartView = new CartView();
+            const isProductInCart = app.cart.isProductInCart(Number(productId));
+
+            if(isProductInCart) {
+                cartView.drawCart(app.cart, 0);
+                orderView.drawOrder();
+            } else {
+                app.cart.putProductIntoCart(product!);
+                cartView.drawCart(app.cart, 0);
+                orderView.drawOrder();
+            }
         }
+
 
     }
 
-    private selectCartItemsIds(cart: Cart) {
+    private selectCartItemsIds(cart: Cart) { // TODO refactor using app.cart.isProductInCart(id);
         const items = cart.cartProducts;
         const itemIds: Array<number> = items.map((item): number => { return item.product.id})
         return itemIds;
