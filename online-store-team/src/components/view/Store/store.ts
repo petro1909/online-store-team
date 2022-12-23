@@ -23,7 +23,7 @@ export default class StoreView {
         document.getElementById("root")!.innerHTML = storeHtml;
         const productItemTemplate = document.getElementById("productItemTemp") as HTMLTemplateElement;
         const fragment: DocumentFragment = document.createDocumentFragment();
-        const cartItemsIds  = this.selectCartItemsIds(app.cart);
+        // const cartItemsIds  = this.selectCartItemsIds(app.cart); // TODO refactor;
 
         products.forEach((item: Product): void => {
             const templateClone = productItemTemplate.content.cloneNode(true) as HTMLElement;
@@ -39,7 +39,7 @@ export default class StoreView {
             templateClone.querySelector(".info__row-rating")!.textContent = String(item.rating);
             templateClone.querySelector(".info__row-stock")!.textContent = String(item.stock);
 
-            const isId = cartItemsIds.find((id): boolean => { return id === item.id});
+            const isId = app.cart.isProductInCart(item.id);
             if(isId) {
                 const currentAddButton = templateClone.querySelector(".button-add")! as HTMLElement;
                 StoreView.styleProductCard("DROP FROM CART", currentAddButton);
@@ -53,11 +53,11 @@ export default class StoreView {
 
     }
 
-    private selectCartItemsIds(cart: Cart) {
-        const items = cart.cartProducts;
-        const itemIds: Array<number> = items.map((item): number => { return item.product.id})
-        return itemIds;
-    }
+    // private selectCartItemsIds(cart: Cart) { // TODO refactor;
+    //     const items = cart.cartProducts;
+    //     const itemIds: Array<number> = items.map((item): number => { return item.product.id})
+    //     return itemIds;
+    // }
 
     private productClickHandler(event: Event): void {
         const clickedElement = event.target as HTMLElement;
