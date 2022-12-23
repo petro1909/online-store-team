@@ -1,27 +1,3 @@
-/* Common blocks styles */
-
-.box-shadow {
-    border: 1px solid rgb(125, 125, 125); /* TODO add variable */
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5), 15px 15px 40px rgba(0, 0, 0, 0.3);
-}
-
-.text-shadow {
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 1);
-}
-
-.btn {
-    padding: 0;
-    border: 0;
-    border-radius: 3px;
-    color: rgb(255, 255, 255);
-    background: linear-gradient(180deg,#e6e6e6 0%,rgba(0, 0, 0, 0.25) 49%, rgba(38, 38, 38, 0.6) 51%,rgba(0, 0, 0, 0.25) 100%);
-    cursor: pointer;
-    transition: all 300ms ease-in-out;
-}
-
-.btn:hover {
-    color: rgb(245, 200, 70); /* TODO add variable */
-}
 
 /* Error page styles */
 

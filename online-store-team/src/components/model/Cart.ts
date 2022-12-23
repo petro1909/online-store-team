@@ -8,6 +8,7 @@ export default class Cart {
     public totalCount: number;
     public cartProducts: Array<CartProduct> = [];
     public promocode: IPromocode | undefined;
+    private static localStorageKey: string = "CART_54013ba69c196820e56801f1ef5aad54";
 
     constructor() {
         this.totalCount = 0;
@@ -17,7 +18,7 @@ export default class Cart {
     }
 
     private getCartFromLocalStorage(): void {
-        const cartStr = localStorage.getItem("cart");
+        const cartStr = localStorage.getItem(Cart.localStorageKey);
         if (cartStr) {
             const cart = JSON.parse(cartStr) as Cart;
             this.totalCount = cart.totalCount;
@@ -27,7 +28,7 @@ export default class Cart {
     }
 
     public saveToLocalStorage() {
-        localStorage.setItem("cart", JSON.stringify(this));
+        localStorage.setItem(Cart.localStorageKey, JSON.stringify(this));
     }
     public isProductInCart(productId: number): boolean {
         const cartProduct = this.cartProducts.find((item) => item.product.id === productId);
