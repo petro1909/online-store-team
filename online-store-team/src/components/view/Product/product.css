@@ -1,9 +1,15 @@
 .thing {
     display: flex;
     flex-direction: column;
+    min-height: calc(100vh - 100px - 70px); /* TODO add variables 100px header height, 70px footer height */
+    background-image: url(../../../assets/img/Cart/cart-bg.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .breadcrumbs {
+    height: 40px;
     padding: 0;
     margin: 0;
     display: flex;
@@ -21,6 +27,8 @@
 }
 
 .product__obj {
+    
+    min-height: calc(100vh - 210px); /* TODO add variables 100px header height, 70px footer height */
 }
 
 .object {
@@ -42,9 +50,9 @@
 }
 
 .object__img {
-    width: 250px;
-    height: 200px;
-    object-fit: cover;
+    width: 30vw;
+    height: 20vw;
+    object-fit: contain;
     object-position: center;
 }
 
@@ -105,7 +113,8 @@
     text-align: center;
 }
 
-.object__drop-from-cart {
+.object__drop-from-cart,
+.object__add-to-cart {
     width: 150px;
     height: 40px;
     margin-top: 1rem;

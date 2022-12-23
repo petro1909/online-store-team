@@ -11,7 +11,6 @@ export default class App {
     public readonly store: Store;
     public readonly cart: Cart;
     constructor() {
-        this.footer = new FooterView();
         this.header = new HeaderView();
         this.footer = new FooterView();
         this.router = new Router();

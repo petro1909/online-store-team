@@ -10,6 +10,7 @@ import { IStoreFilterOptions } from "../../model/type/IFilterOptions";
 export default class StoreView {
     private filterOptions: IStoreFilterOptions = {};
 
+
     public drawStore(options: IStoreFilterOptions): void {
         this.filterOptions = options;
 
@@ -22,9 +23,9 @@ export default class StoreView {
 
     private drawProducts(products: Array<Product>) {
         //console.log("drawProducts =", products);
-
         const productItemTemplate = document.getElementById("productItemTemp") as HTMLTemplateElement;
         const fragment: DocumentFragment = document.createDocumentFragment();
+        // const cartItemsIds  = this.selectCartItemsIds(app.cart); // TODO refactor;
 
         products.forEach((item: Product): void => {
             const templateClone = productItemTemplate.content.cloneNode(true) as HTMLElement;
@@ -40,29 +41,63 @@ export default class StoreView {
             templateClone.querySelector(".info__row-rating")!.textContent = String(item.rating);
             templateClone.querySelector(".info__row-stock")!.textContent = String(item.stock);
 
+            const isId = app.cart.isProductInCart(item.id);
+            if(isId) {
+                const currentAddButton = templateClone.querySelector(".button-add")! as HTMLElement;
+                StoreView.styleProductCard("DROP FROM CART", currentAddButton);
+            }
+
             fragment.append(templateClone);
         });
 
         document.querySelector(".goods__output")!.appendChild(fragment);
-        //console.log(document.querySelector(".goods__output"));
+
         document.querySelector(".goods__output")!.addEventListener("click", this.productClickHandler);
+
     }
+
+    // private selectCartItemsIds(cart: Cart) { // TODO refactor;
+    //     const items = cart.cartProducts;
+    //     const itemIds: Array<number> = items.map((item): number => { return item.product.id})
+    //     return itemIds;
+    // }
+
     private productClickHandler(event: Event): void {
         const clickedElement = event.target as HTMLElement;
+        // const articleElem = clickedElement.closest(".product-item")!;
         if (!clickedElement!.classList.contains("goods__output")) {
+            
             const productId = clickedElement.closest(".product-item")!.getAttribute("data-id");
+            const product = app.store.products.find((item) => item.id === +productId!);
             if (clickedElement.classList.contains("button-add")) {
-                const product = app.store.products.find((item) => item.id === +productId!);
+                // clickedElement.classList.toggle("button-add");
+                // clickedElement.classList.toggle("button-drop");
+                // articleElem.classList.toggle("product-item_added");
+                // clickedElement.textContent = "DROP FROM CART";
+
+                StoreView.styleProductCard("DROP FROM CART", clickedElement);
+
                 app.cart.putProductIntoCart(product!);
+                app.header.drawHeader(app.cart);
             } else if (clickedElement.classList.contains("button-drop")) {
-                console.log("button-drop pressed, id", productId);
+                // clickedElement.classList.toggle("button-add");
+                // clickedElement.classList.toggle("button-drop");
+                // articleElem.classList.toggle("product-item_added");
+                // clickedElement.textContent = "ADD TO CART";
+
+
+                StoreView.styleProductCard("ADD TO CART", clickedElement);
+
+                app.cart.dropProductIntoCart(+productId!);
+                app.header.drawHeader(app.cart);
             } else if (clickedElement.classList.contains("button-details")) {
                 app.router.route(`/product/${productId}`);
                 //window.history.replaceState({}, "", window.location.pathname + "product/" + productId);
                 //window.location.replace
                 //window.location.href = window.location.pathname + "product/" + productId;
             } else {
-                console.log("product card pressed, id", productId);
+                app.router.route(`/product/${productId}`);
+                // console.log("product card pressed, id", productId);
             }
         }
     }
@@ -96,4 +131,12 @@ export default class StoreView {
         this.filterOptions.displayMode = displayMode;
         this.drawStore(this.filterOptions);
     }
+    public static styleProductCard(textContent: string, clickedButton: HTMLElement): void {
+        const articleElem = clickedButton.closest(".product-item")!;
+        clickedButton.classList.toggle("button-add");
+        clickedButton.classList.toggle("button-drop");
+        articleElem.classList.toggle("product-item_added");
+        clickedButton.textContent = textContent;
+    }
+
 }
