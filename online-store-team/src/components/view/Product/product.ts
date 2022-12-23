@@ -68,19 +68,14 @@ export default class ProductView {
     private productClickHandler(event: Event): void {
 
         const clickedElement = event.target as HTMLElement;
-        const cartCost = document.getElementById("cart-cost")!;
         const productId = clickedElement.closest(".product__obj")!.getAttribute("data-id")!;
         const product = app.store.products.find((item) => item.id === +productId!);
 
         if (clickedElement.classList.contains("object__add-to-cart")) {
             app.cart.putProductIntoCart(product!);
-            app.header.drawHeader(app.cart);
-            cartCost.textContent = "€" + app.cart.totalPrice;
             ProductView.switchProductButton("DROP FROM CART", clickedElement);
         } else if (clickedElement.classList.contains("object__drop-from-cart")) {
             app.cart.dropProductIntoCart(Number(productId));
-            app.header.drawHeader(app.cart);
-            cartCost.textContent = "€" + app.cart.totalPrice;
             ProductView.switchProductButton("ADD TO CART", clickedElement);
         }
 
@@ -93,9 +88,12 @@ export default class ProductView {
     }
 
     private static switchProductButton(textContent: string, clickedButton: HTMLElement): void {
+        const cartCost = document.getElementById("cart-cost")!;
+        cartCost.textContent = "€" + app.cart.totalPrice;
         clickedButton.classList.toggle("object__drop-from-cart");
         clickedButton.classList.toggle("object__add-to-cart");
         clickedButton.textContent = textContent;
+        app.header.drawHeader(app.cart);
     }
 
 }

@@ -13,6 +13,12 @@
     box-sizing: border-box;
 }
 
+body,
+html {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 .box-shadow {
     border: 1px solid rgb(125, 125, 125); /* TODO add variable */
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5), 15px 15px 40px rgba(0, 0, 0, 0.3);
@@ -180,7 +186,9 @@
 
 .product__img {
     height: 100px;
+    width: 150px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .product__desc {

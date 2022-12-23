@@ -4,21 +4,29 @@
     align-items: center;
     height: 100px;
     padding: 0.5rem 3rem;
-
+    
+    background-color: rgba(0, 0, 0, 0.5);
+    
 }
 
 .logo {
-    padding: 0.25rem;
+    padding: 0.25rem 1rem;
     margin: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.25rem;
+    text-decoration: none;
+    background-color: rgb(255, 255, 255);
     cursor: pointer;
 }
 
 .cart-total {
     font-size: 1.5rem;
+    color: rgb(255, 255, 255);
+    cursor: default;
 }
 
 .cart-total__cost {
+    color: rgb(255, 255, 255);
+    cursor: default;
 }
 
 .cart-content {
@@ -28,10 +36,12 @@
     width: 2rem;
     height: 2rem;
     cursor: pointer;
-    border: 1px solid black;
-    border-radius: 50%;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 0.25rem;
 }
 
 .cart-content__quantity {
     font-size: 1.5rem;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
 }
