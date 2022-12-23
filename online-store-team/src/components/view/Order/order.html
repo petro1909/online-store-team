@@ -1,37 +1,42 @@
-<section class="pop-up pop-up_invisivle" id="pop-up"><!-- Remove class pop-up_invisivle for visibility -->
+<section class="pop-up" id="pop-up"><!-- Remove class pop-up_invisivle for visibility -->
     <form action="#" class="order" id="order">
         <fieldset form="order" class="personal-details">
-            <legend>Personal details</legend>
+            <legend class="fieldset-title">Personal details</legend>
             <input class="personal-details__input"
                     type="text" placeholder="Name"
                     name="name"
-                    pattern="^\s?*\w{3,25}\s*\w{3,25}\s?*$"
+                    pattern="^\s*?\w{3,25}\s*\w{3,25}\s*?$"
+                    required
                     id="input-name">
             <input class="personal-details__input"
                     type="tel" placeholder="Phone number"
                     name="tel"
                     pattern="^\+{1}\d{9,15}$"
+                    required
                     id="input-tel">
             <input class="personal-details__input"
                     type="text"
                     placeholder="Delivery address"
                     name="address"
-                    pattern="^\s?*\w{5,25}\s*\w{5,25}\s*\w{5,25}\s?*$"
+                    pattern="^\s*?\w{5,25}\s*\w{5,25}\s*\w{5,25}\s*?$"
+                    required
                     id="input-address">
             <input class="personal-details__input"
                     type="email"
                     placeholder="E-mail"
                     name="email"
                     pattern="^[A-Za-z0-9.-]+@[A-Za-z]+.[A-Za-z]{2,4}$"
+                    required
                     id="input-email">
         </fieldset>
         <fieldset form="order" class="card-details">
-            <legend>Credit card details</legend>
+            <legend class="fieldset-title">Credit card details</legend>
             <input class="card-details__input card-details__input_long"
                     type="text"
                     placeholder="Card number"
                     name="card-number"
-                    pattern="^\s?*\d{4}\s*\d{4}\s*\d{4}\s*\d{4}\s?*$"
+                    pattern="^\s*?\d{4}\s*\d{4}\s*\d{4}\s*\d{4}\s*?$"
+                    required
                     id="input-card-number">
             <div class="card-details__input-wrapper">
                 <input class="card-details__input"
@@ -39,15 +44,17 @@
                         placeholder="Valid thru"
                         name="valid-thru"
                         pattern="^\d{2}\/\d{2}$"
+                        required
                         id="input-valid-thru">
                 <input class="card-details__input"
-                        type="number"
+                        type="text"
                         placeholder="CVV code"
                         name="cvv-code"
                         pattern="^\d{3}$"
-                        id="input-cvv-code">>
+                        required
+                        id="input-cvv-code">
             </div>
         </fieldset>
-        <button type="submit" class="order__submit">Confirm</button>
+        <button type="submit" class="order__submit">CONFIRM</button>
     </form>
 </section>
