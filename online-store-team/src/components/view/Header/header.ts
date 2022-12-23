@@ -6,6 +6,7 @@ import {CartProduct} from "../../model/type/ICartProduct";
 export default class HeaderView {
     public drawHeader(cart: Cart): void {
         document.getElementById("header")!.innerHTML = HeaderHtml;
+
         document.querySelector(".cart-total__cost")!.innerHTML  = String(cart.totalPrice);
         const productItemsQuantity = cart.cartProducts.reduce<number>((acc, item: CartProduct): number => {
             return acc + item.count;

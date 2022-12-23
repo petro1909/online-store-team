@@ -9,7 +9,6 @@ import CartView from "../../view/Cart/cart";
 
 export default class ProductView {
     public drawProduct(product: Product, cart: Cart): void {
-
         document.getElementById("root")!.innerHTML = productHtml;
 
         const productId = document.getElementById("product-id")!;
@@ -54,6 +53,7 @@ export default class ProductView {
             const element = document.createElement("button");
             element.classList.add("controls__btn");
             element.setAttribute("data-id", String(i));
+
             controlsOfImages!.append(element)
         }
 
@@ -66,6 +66,7 @@ export default class ProductView {
         document.querySelector(".object__buttons")!.addEventListener("click", this.productClickHandler);
 
     }
+
 
     private productClickHandler(event: Event): void {
 
@@ -114,3 +115,4 @@ export default class ProductView {
     }
 
 }
+

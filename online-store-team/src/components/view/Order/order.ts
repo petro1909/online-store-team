@@ -9,6 +9,7 @@ export default class OrderView {
     private static cart: Cart;
     private static cartView: CartView;
     public drawOrder(): void {
+
         const isPopUp = document.getElementById("pop-up");
         if(!isPopUp) {
             document.getElementById("root")!.insertAdjacentHTML("beforeend", orderHtml);
