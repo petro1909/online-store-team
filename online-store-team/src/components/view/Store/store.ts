@@ -2,27 +2,27 @@
 import storeHtml from "./store.html";
 import filterHtml from "./filter.html";
 import "./store.css";
-import { Product, ProductJsonResult } from "../../model/type/IProduct";
-import Cart from "../../model/Cart";
+import { Product } from "../../model/type/IProduct";
 import { app } from "../../..";
-import { Store } from "../../model/Store";
-import { IBaseOptions, IFilterOptions } from "../../model/type/IFilterOptions";
-import Router from "../../router/router";
-import router from "../../router/router";
+import StoreFilter from "../../model/StoreFilter";
+import { IStoreFilterOptions } from "../../model/type/IFilterOptions";
 
 export default class StoreView {
-    // constructor() {
+    private filterOptions: IStoreFilterOptions = {};
 
-    // }
-    public drawStore(store: Store, cart: Cart): void {
-        this.drawProducts(store.products);
-        console.log(store);
-        //this.drawFilter(cart);
+    public drawStore(options: IStoreFilterOptions): void {
+        this.filterOptions = options;
+
+        document.getElementById("root")!.innerHTML = storeHtml;
+        const activeProducts = app.store.updateFilterProducts(options);
+        this.drawProducts(activeProducts);
+        const filter = app.store.getFilter();
+        this.drawFilter(filter);
     }
 
     private drawProducts(products: Array<Product>) {
-        console.log("drawProducts =", products);
-        document.getElementById("root")!.innerHTML = storeHtml;
+        //console.log("drawProducts =", products);
+
         const productItemTemplate = document.getElementById("productItemTemp") as HTMLTemplateElement;
         const fragment: DocumentFragment = document.createDocumentFragment();
 
@@ -44,7 +44,7 @@ export default class StoreView {
         });
 
         document.querySelector(".goods__output")!.appendChild(fragment);
-        console.log(document.querySelector(".goods__output"));
+        //console.log(document.querySelector(".goods__output"));
         document.querySelector(".goods__output")!.addEventListener("click", this.productClickHandler);
     }
     private productClickHandler(event: Event): void {
@@ -67,7 +67,33 @@ export default class StoreView {
         }
     }
 
-    // private drawFilter(storeOptions) {
-    //     document.querySelector(".store")!.innerHTML = filterHtml;
-    // }
+    private drawFilter(filter: StoreFilter) {
+        const filterSection = document.querySelector(".filter");
+        filterSection!.innerHTML = filterHtml;
+        console.log(filter);
+        filterSection!.addEventListener("click", this.updateFilter);
+        //fill filter section with filter object
+    }
+
+    private updateFilter() {
+        const categoriesCheckboxesValues: Array<string> = []; //get all active category checkboxes
+        const brandCheckboxesValues: Array<string> = []; //get add active checkboxes values
+        const minPrice = 0;
+        const maxPrice = 0;
+        const minStock = 0;
+        const maxStock = 0;
+        const searchString = "";
+        const sortString = "";
+        const displayMode = "";
+        this.filterOptions.brands = brandCheckboxesValues;
+        this.filterOptions.categories = categoriesCheckboxesValues;
+        this.filterOptions.maxPrice = maxPrice;
+        this.filterOptions.minPrice = minPrice;
+        this.filterOptions.minStock = minStock;
+        this.filterOptions.maxStock = maxStock;
+        this.filterOptions.searchString = searchString;
+        this.filterOptions.sortingString = sortString;
+        this.filterOptions.displayMode = displayMode;
+        this.drawStore(this.filterOptions);
+    }
 }

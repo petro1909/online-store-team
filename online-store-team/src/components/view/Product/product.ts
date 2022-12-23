@@ -6,7 +6,6 @@ import { Product } from "../../model/type/IProduct";
 
 export default class ProductView {
     public drawProduct(product: Product, cart: Cart): void {
-
         document.getElementById("root")!.innerHTML = productHtml;
 
         const productId = document.getElementById("product-id")!;
@@ -42,7 +41,7 @@ export default class ProductView {
             const element = document.createElement("button");
             element.classList.add("controls__btn");
             element.setAttribute("data-id", String(i));
-            controls!.append(element)
+            controls!.append(element);
         }
 
         productImagesButtons.addEventListener("click", (event) => {
