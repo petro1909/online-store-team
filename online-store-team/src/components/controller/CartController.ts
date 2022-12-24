@@ -1,5 +1,3 @@
-import { app } from "../..";
-import Cart from "../model/Cart";
 import { ICartOptions } from "../model/type/IFilterOptions";
 import CartView from "../view/Cart/cart";
 import BaseController from "./BaseController";
@@ -11,22 +9,24 @@ export default class CartController extends BaseController {
         this.cartView = new CartView();
     }
     public override async init(options?: string): Promise<void> {
-        let page: number;
+        let cartOptions: ICartOptions = { page: 1, limit: 3 };
         if (options) {
-            page = this.getCartPage(options);
-        } else {
-            page = 1;
+            cartOptions = this.getCartPage(options);
         }
-        this.cartView.drawCart(app.cart, page);
+        this.cartView.drawCart(cartOptions);
     }
 
     private getCartPage(options: string): ICartOptions {
-        const cartOptions: ICartOptions = { page: 1, limit: 3 };
+        const cartOptions: ICartOptions = {};
         options = options.slice(1);
-        console.log(options);
 
         const optionsArr = options.split("&");
-        console.log(options);
-        //const cartOptions;
+        for (const option of optionsArr) {
+            const [key, value] = option.split("=");
+            if (key && value) {
+                cartOptions[key as keyof ICartOptions] = Number.parseInt(value);
+            }
+        }
+        return cartOptions;
     }
 }
