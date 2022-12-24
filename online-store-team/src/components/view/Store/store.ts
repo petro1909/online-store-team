@@ -8,12 +8,11 @@ import StoreFilter from "../../model/StoreFilter";
 import { IStoreFilterOptions } from "../../model/type/IFilterOptions";
 
 export default class StoreView {
-    private filterOptions: IStoreFilterOptions = {};
-
+    private filterOptions: IStoreFilterOptions = new IStoreFilterOptions();
 
     public drawStore(options: IStoreFilterOptions): void {
         this.filterOptions = options;
-
+        console.log(this.filterOptions);
         document.getElementById("root")!.innerHTML = storeHtml;
         const activeProducts = app.store.updateFilterProducts(options);
         this.drawProducts(activeProducts);
@@ -26,7 +25,7 @@ export default class StoreView {
         const productItemTemplate = document.getElementById("productItemTemp") as HTMLTemplateElement;
         const fragment: DocumentFragment = document.createDocumentFragment();
         // const cartItemsIds  = this.selectCartItemsIds(app.cart); // TODO refactor;
-
+        document.querySelector(".found__value")!.innerHTML = `${products.length}`;
         products.forEach((item: Product): void => {
             const templateClone = productItemTemplate.content.cloneNode(true) as HTMLElement;
 
@@ -42,7 +41,7 @@ export default class StoreView {
             templateClone.querySelector(".info__row-stock")!.textContent = String(item.stock);
 
             const isId = app.cart.isProductInCart(item.id);
-            if(isId) {
+            if (isId) {
                 const currentAddButton = templateClone.querySelector(".button-add")! as HTMLElement;
                 StoreView.styleProductCard("DROP FROM CART", currentAddButton);
             }
@@ -53,7 +52,6 @@ export default class StoreView {
         document.querySelector(".goods__output")!.appendChild(fragment);
 
         document.querySelector(".goods__output")!.addEventListener("click", this.productClickHandler);
-
     }
 
     // private selectCartItemsIds(cart: Cart) { // TODO refactor;
@@ -66,7 +64,6 @@ export default class StoreView {
         const clickedElement = event.target as HTMLElement;
         // const articleElem = clickedElement.closest(".product-item")!;
         if (!clickedElement!.classList.contains("goods__output")) {
-            
             const productId = clickedElement.closest(".product-item")!.getAttribute("data-id");
             const product = app.store.products.find((item) => item.id === +productId!);
             if (clickedElement.classList.contains("button-add")) {
@@ -84,7 +81,6 @@ export default class StoreView {
                 // clickedElement.classList.toggle("button-drop");
                 // articleElem.classList.toggle("product-item_added");
                 // clickedElement.textContent = "ADD TO CART";
-
 
                 StoreView.styleProductCard("ADD TO CART", clickedElement);
 
@@ -105,7 +101,6 @@ export default class StoreView {
     private drawFilter(filter: StoreFilter) {
         const filterSection = document.querySelector(".filter");
         filterSection!.innerHTML = filterHtml;
-        console.log(filter);
         filterSection!.addEventListener("click", this.updateFilter);
         //fill filter section with filter object
     }
@@ -138,5 +133,4 @@ export default class StoreView {
         articleElem.classList.toggle("product-item_added");
         clickedButton.textContent = textContent;
     }
-
 }

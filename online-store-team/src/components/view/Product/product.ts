@@ -41,9 +41,11 @@ export default class ProductView {
         productCategory.textContent = product.category;
         cartCost.textContent = "€" + cart.totalPrice;
 
-        const cartItemsIds  = this.selectCartItemsIds(app.cart); // TODO refactor using app.cart.isProductInCart(id);
-        const isId = cartItemsIds.find((id): boolean => { return id === product.id});
-        if(isId) {
+        const cartItemsIds = this.selectCartItemsIds(app.cart); // TODO refactor using app.cart.isProductInCart(id);
+        const isId = cartItemsIds.find((id): boolean => {
+            return id === product.id;
+        });
+        if (isId) {
             const currentAddButton = document.querySelector(".object__add-to-cart")! as HTMLElement;
             ProductView.switchProductButton("DROP FROM CART", currentAddButton);
         }
@@ -54,7 +56,7 @@ export default class ProductView {
             element.classList.add("controls__btn");
             element.setAttribute("data-id", String(i));
 
-            controlsOfImages!.append(element)
+            controlsOfImages!.append(element);
         }
 
         controlsOfImages.addEventListener("click", (event) => {
@@ -64,12 +66,9 @@ export default class ProductView {
         });
 
         document.querySelector(".object__buttons")!.addEventListener("click", this.productClickHandler);
-
     }
 
-
     private productClickHandler(event: Event): void {
-
         const clickedElement = event.target as HTMLElement;
         const productId = clickedElement.closest(".product__obj")!.getAttribute("data-id")!;
         const product = app.store.products.find((item) => item.id === +productId!);
@@ -81,12 +80,11 @@ export default class ProductView {
             app.cart.dropProductIntoCart(Number(productId));
             ProductView.switchProductButton("ADD TO CART", clickedElement);
         } else if (clickedElement.classList.contains("object__buy-now")) {
-
             const orderView = new OrderView();
             const cartView = new CartView();
             const isProductInCart = app.cart.isProductInCart(Number(productId));
 
-            if(isProductInCart) {
+            if (isProductInCart) {
                 cartView.drawCart(app.cart, 0);
                 orderView.drawOrder();
             } else {
@@ -95,13 +93,14 @@ export default class ProductView {
                 orderView.drawOrder();
             }
         }
-
-
     }
 
-    private selectCartItemsIds(cart: Cart) { // TODO refactor using app.cart.isProductInCart(id);
+    private selectCartItemsIds(cart: Cart) {
+        // TODO refactor using app.cart.isProductInCart(id);
         const items = cart.cartProducts;
-        const itemIds: Array<number> = items.map((item): number => { return item.product.id})
+        const itemIds: Array<number> = items.map((item): number => {
+            return item.product.id;
+        });
         return itemIds;
     }
 
@@ -113,6 +112,4 @@ export default class ProductView {
         clickedButton.textContent = textContent;
         app.header.drawHeader(app.cart);
     }
-
 }
-

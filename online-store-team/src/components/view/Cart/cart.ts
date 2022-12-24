@@ -4,9 +4,12 @@ import Cart from "../../model/Cart";
 import OrderView from "../../view/Order/order";
 import { CartProduct } from "../../model/type/ICartProduct";
 import { app } from "../../../index";
+import { ICartOptions } from "../../model/type/IFilterOptions";
 
 export default class CartView {
-    public drawCart(cart: Cart, page: number): void {
+    private cartOptions: ICartOptions = {};
+    public drawCart(cartOptions: ICartOptions): void {
+        this.cartOptions = cartOptions;
         document.getElementById("root")!.innerHTML = cartHtml;
 
         const paginationTemplate = document.getElementById("paginationTemplate")! as HTMLTemplateElement;
@@ -15,11 +18,11 @@ export default class CartView {
         content.prepend(clonePaginationTemp);
 
         const paginationPageCurrent = document.getElementById("pagination-page-current")! as HTMLInputElement;
-        paginationPageCurrent.textContent = String(page);
+        paginationPageCurrent.textContent = String(cartOptions.page!);
 
         const fragment: DocumentFragment = document.createDocumentFragment();
 
-        cart.cartProducts.forEach((product: CartProduct, idx: number): void => {
+        app.cart.cartProducts.forEach((product: CartProduct, idx: number): void => {
             const _product = product.product;
             const cartItemTemplate = document.getElementById("cartItemTemplate")! as HTMLTemplateElement;
             const templateClone = cartItemTemplate.content.cloneNode(true) as HTMLElement;
@@ -61,31 +64,30 @@ export default class CartView {
         const buyNowProducts = document.querySelector(".buy-now__products")! as HTMLDivElement;
         const buyNowTotal = document.querySelector(".buy-now__total")! as HTMLSpanElement;
 
-        const productItemsQuantity = cart.cartProducts.reduce<number>((acc, item: CartProduct): number => {
-            return acc + item.count; }, 0);
-        app.header.drawHeader(cart);
+        const productItemsQuantity = app.cart.cartProducts.reduce<number>((acc, item: CartProduct): number => {
+            return acc + item.count;
+        }, 0);
+        app.header.drawHeader(app.cart);
 
         buyNowProducts.textContent = String(productItemsQuantity);
-        buyNowTotal.textContent = "€" + cart.totalPrice;
+        buyNowTotal.textContent = "€" + app.cart.totalPrice;
 
-        this.addHandlers(cart);
+        this.addHandlers(app.cart);
     }
 
     private addHandlers(cart: Cart): void {
-
-
         const cartItem = document.querySelector(".content__container")!;
 
-        cartItem.addEventListener("click", event => {
+        cartItem.addEventListener("click", (event) => {
             const clickedElement = event.target as HTMLElement;
             const idProduct = clickedElement.closest(".cart-item")!.getAttribute("data-id");
             if (clickedElement.classList.contains("cart-item__decrease-btn")) {
                 app.cart.decreaceCartProductCount(Number(idProduct));
-                this.drawCart(cart, 1);
+                this.drawCart(this.cartOptions);
             }
             if (clickedElement.classList.contains("cart-item__increase-btn")) {
                 app.cart.increaceCartProductCount(Number(idProduct));
-                this.drawCart(cart, 1);
+                this.drawCart(this.cartOptions);
             }
             if (clickedElement.classList.contains("product__img")) {
                 app.router.route("product/" + idProduct);
