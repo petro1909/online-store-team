@@ -11,12 +11,12 @@ export default class CartController extends BaseController {
     public override async init(options?: string): Promise<void> {
         let cartOptions: ICartOptions = { page: 1, limit: 3 };
         if (options) {
-            cartOptions = this.getCartPage(options);
+            cartOptions = this.getCartOptions(options);
         }
         this.cartView.drawCart(cartOptions);
     }
 
-    private getCartPage(options: string): ICartOptions {
+    private getCartOptions(options: string): ICartOptions {
         const cartOptions: ICartOptions = {};
         options = options.slice(1);
 
