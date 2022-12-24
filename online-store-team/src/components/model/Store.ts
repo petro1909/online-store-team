@@ -5,19 +5,18 @@ import { Product, ProductJsonResult } from "./type/IProduct";
 export class Store {
     public products: Array<Product> = [];
     public categories: Array<string> = [];
-    private filter: StoreFilter;
-    constructor() {
-        this.filter = new StoreFilter();
-    }
+    private filter!: StoreFilter;
+
     public async initStore(): Promise<void> {
         const storeJsonResult = await this.getProducts();
         this.products = storeJsonResult.products;
+        this.filter = new StoreFilter(this.products);
     }
     private async getProducts(): Promise<ProductJsonResult> {
         const res = await fetch("https://dummyjson.com/products?limit=100");
         return await (res.json() as Promise<ProductJsonResult>);
     }
-    public updateFilterProducts(options: IStoreFilterOptions = {}): Array<Product> {
+    public updateFilterProducts(options: IStoreFilterOptions = new IStoreFilterOptions()): Array<Product> {
         return this.filter.updateFilter(this.products, options);
     }
     public getFilter(): StoreFilter {
