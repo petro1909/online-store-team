@@ -2,39 +2,42 @@ import BaseController from "./BaseController";
 import StoreView from "../view/Store/store";
 import { Store } from "../model/Store";
 import { app } from "../..";
-import { IFilterOptions } from "../model/type/IFilterOptions";
+import { IStoreFilterOptions } from "../model/type/IFilterOptions";
 import Cart from "../model/Cart";
 
 export default class StoreController extends BaseController {
     private storeView: StoreView;
-    private store: Store;
-    private cart: Cart;
     constructor() {
         super();
-        this.store = app.store;
-        this.cart = app.cart;
         this.storeView = new StoreView();
     }
     public override async init(options?: string): Promise<void> {
-        // let storeOptions: StoreOptions;
-        // if (options) {
-        //     storeOptions = this.getStoreOptions(options);
-        // }
-        this.storeView.drawStore(this.store, this.cart);
+        let storeOptions: IStoreFilterOptions = new IStoreFilterOptions();
+        if (options) {
+            storeOptions = this.getStoreOptions(options);
+        }
+        this.storeView.drawStore(storeOptions);
     }
 
-    // private getStoreOptions(options: string): IFilterOptions {
-    //     const storeOptions: IFilterOptions = {};
-    //     const optionsArr = options.split("&");
-    //     for (const option of optionsArr) {
-    //         const [key, value] = option.split("=");
-    //         if (key && value) {
-    //             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    //             const keyType: IFilterOptions[typeof key] = key;
+    private getStoreOptions(options: string): IStoreFilterOptions {
+        const storeFilterOptions: IStoreFilterOptions = new IStoreFilterOptions();
+        options = options.slice(1);
 
-    //             storeOptions[key as keyof IFilterOptions] = value;
-    //         }
-    //     }
-    //     return storeOptions;
-    // }
+        const optionsArr = options.split("&");
+        for (const option of optionsArr) {
+            const [key, value] = option.split("=");
+            if (key && value) {
+                if (Object.prototype.hasOwnProperty.call(storeFilterOptions, key)) {
+                    const k = storeFilterOptions[key as keyof typeof storeFilterOptions];
+                    if (Array.isArray(k)) {
+                        storeFilterOptions[key as keyof IStoreFilterOptions] = value.split("+");
+                    } else {
+                        storeFilterOptions[key as keyof IStoreFilterOptions] = value;
+                    }
+                }
+            }
+        }
+        console.log(storeFilterOptions);
+        return storeFilterOptions;
+    }
 }

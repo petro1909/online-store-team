@@ -1,5 +1,5 @@
 import ControllerFactory from "../controller/ControllerFactory";
-import { IBaseOptions } from "../model/type/IFilterOptions";
+import { ICartOptions, IStoreFilterOptions } from "../model/type/IFilterOptions";
 
 export default class Router {
     public static routes = {
@@ -60,16 +60,18 @@ export default class Router {
         return [path, queryParams];
     }
 
-    public addQueryParameters(options: IBaseOptions) {
-        if (!window.location.search) {
-            window.location.search += "?";
-        }
-        for (const key in Object.keys(options)) {
-            const value = options[key];
+    public addQueryParameters(options: ICartOptions | IStoreFilterOptions) {
+        let path = window.location.pathname + "?";
+        for (const key in options) {
+            let value = options[key as keyof typeof options];
+            if (Array.isArray(value)) {
+                value = value.join("+");
+            }
             if (key && value) {
-                window.location.search += `${key}=${value}&`;
+                path += `${key}=${value}&`;
             }
         }
-        window.location.search.slice(-1);
+        path = path.slice(0, -1);
+        window.history.pushState({ path }, path, path);
     }
 }
