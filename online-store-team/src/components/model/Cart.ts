@@ -8,7 +8,7 @@ export default class Cart {
     public totalCount: number;
     public cartProducts: Array<CartProduct> = [];
     public promocode: IPromocode | undefined;
-    private static localStorageKey: string = "CART_54013ba69c196820e56801f1ef5aad54";
+    private static localStorageKey = "CART_54013ba69c196820e56801f1ef5aad54";
 
     constructor() {
         this.totalCount = 0;
