@@ -2,6 +2,12 @@
     <form action="#" class="filters" id="filters">
         <button type="reset">RESET</button>
         <button id="copy-link">COPY LINK</button>
+        <fieldset class="display-mode" form="filters" id="display-mode">
+            <label for="size-4">col 4: </label>
+            <input type="radio" name="display-mode" value="4" id="size-4" checked>
+            <label for="size-6">col 6: </label>
+            <input type="radio" name="display-mode" value="6" id="size-6">
+        </fieldset>
         <fieldset class="sort" form="filters" id="sort">
             <input class="search" type="text" name="search" id="search" placeholder="Search product">
             <select class="select" name="select" id="select">
