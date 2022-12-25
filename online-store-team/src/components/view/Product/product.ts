@@ -90,14 +90,14 @@ export default class ProductView {
             const isProductInCart = app.cart.isProductInCart(Number(productId));
 
             if (isProductInCart) {
+                app.router.route(`/cart`);
                 cartView.drawCart(app.cart, 0);
                 orderView.drawOrder();
-                app.router.route(`/cart`);
             } else {
+                app.router.route(`/cart`);
                 app.cart.putProductIntoCart(product!);
                 cartView.drawCart(app.cart, 0);
                 orderView.drawOrder();
-                app.router.route(`/cart`);
             }
         }
     }
