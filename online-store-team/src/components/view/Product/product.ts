@@ -55,14 +55,19 @@ export default class ProductView {
             const element = document.createElement("button");
             element.classList.add("controls__btn");
             element.setAttribute("data-id", String(i));
-
+            if(i === 0) element.classList.add("controls__btn_active");
             controlsOfImages!.append(element);
         }
 
         controlsOfImages.addEventListener("click", (event) => {
+            const controls = document.querySelectorAll(".controls__btn");
             const clickedElement = event.target! as HTMLButtonElement;
             const idx = Number(clickedElement.getAttribute("data-id"))!;
-            productImage.src = `${product.images[idx]}`;
+            controls.forEach(element => element.classList.remove("controls__btn_active"));
+            if(clickedElement.classList.contains("controls__btn")) {
+                clickedElement.classList.add("controls__btn_active");
+                productImage.src = `${product.images[idx]}`;
+            }
         });
 
         document.querySelector(".object__buttons")!.addEventListener("click", this.productClickHandler);
