@@ -1,10 +1,10 @@
 <aside class="filters-block">
-    <button type="reset" form="filters">RESET</button>
-    <button id="copy-link">COPY LINK</button>
-    <form class="filters" action="#" id="filters">
-        <fieldset class="sort" form="filters">
-            <input class="search" type="search" name="search" id="search" placeholder="Search product">
-            <select class="" name="select">
+    <form action="#" class="filters" id="filters">
+        <button type="reset">RESET</button>
+        <button id="copy-link">COPY LINK</button>
+        <fieldset class="sort" form="filters" id="sort">
+            <input class="search" type="text" name="search" id="search" placeholder="Search product">
+            <select class="select" name="select" id="select">
                 <option value="sort-title" disabled="" selected="" class="sort-name">Sort options:</option>
                 <option value="price-ASC">Sort by price ASC</option>
                 <option value="price-DESC">Sort by price DESC</option>
@@ -14,18 +14,18 @@
                 <option value="discount-DESC">Sort by discount DESC</option>
             </select>
         </fieldset>
-        <fieldset class="category" form="filters" name="category">
+        <fieldset class="category" form="filters" name="category" id="category">
             <legend>Category</legend>
         </fieldset>
-        <fieldset class="brand" form="filters" name="brand">
+        <fieldset class="brand" form="filters" name="brand" id="brand">
             <legend>Brand</legend>
         </fieldset>
-        <fieldset class="price" form="filters" name="price">
+        <fieldset class="price" form="filters" name="price" id="price">
             <legend>Price</legend>
             <input class="limits" type="number" name="price" id="min-price" placeholder="From">
             <input class="limits" type="number" name="price" id="max-price"  placeholder="To">
         </fieldset>
-        <fieldset class="stock" form="filters" name="stock">
+        <fieldset class="stock" form="filters" name="stock" id="stock">
             <legend>Stock</legend>
             <input class="limits" type="number" name="stock" id="min-stock" placeholder="From">
             <input class="limits" type="number" name="stock" id="max-stock"  placeholder="To">
