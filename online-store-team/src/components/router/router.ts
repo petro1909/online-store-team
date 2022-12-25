@@ -16,7 +16,6 @@ export default class Router {
     }
 
     public anchorRoute = (event: Event) => {
-        event.preventDefault();
         const targetElement = event.target;
         if (!targetElement || !(targetElement instanceof HTMLAnchorElement)) {
             return;
@@ -31,6 +30,7 @@ export default class Router {
         if (!currentSourseHrefRegexp.test(anchorInnerHref)) {
             return;
         }
+        event.preventDefault();
         const { pathname: path } = new URL(anchorFullHref);
         window.history.pushState({ path }, path, path);
         this.handleLocation();
