@@ -39,7 +39,7 @@ export default class ProductView {
         productStock.textContent = String(product.stock);
         productBrand.textContent = product.brand;
         productCategory.textContent = product.category;
-        cartCost.textContent = "€" + cart.totalPrice;
+        cartCost.textContent = "€" + product.price;
 
         const cartItemsIds = this.selectCartItemsIds(app.cart); // TODO refactor using app.cart.isProductInCart(id);
         const isId = cartItemsIds.find((id): boolean => {
