@@ -17,6 +17,7 @@
 .goods__output {
     display: flex;
     flex-wrap: wrap;
+    min-height: calc(100vh - 190px);
 }
 
 /*

@@ -2,21 +2,24 @@
 import storeHtml from "./store.html";
 import filterHtml from "./filter.html";
 import "./store.css";
+import "./filter.css";
 import { Product } from "../../model/type/IProduct";
 import { app } from "../../..";
 import StoreFilter from "../../model/StoreFilter";
 import { IStoreFilterOptions } from "../../model/type/IFilterOptions";
 
 export default class StoreView {
-    private filterOptions: IStoreFilterOptions = new IStoreFilterOptions();
+    private  static filterOptions: IStoreFilterOptions = new IStoreFilterOptions();
 
     public drawStore(options: IStoreFilterOptions): void {
-        this.filterOptions = options;
-        console.log(this.filterOptions);
+        StoreView.filterOptions = options;
+        // console.log("this.filterOptions =", StoreView.filterOptions);
         document.getElementById("root")!.innerHTML = storeHtml;
         const activeProducts = app.store.updateFilterProducts(options);
+        console.log("activeProducts =", activeProducts);
         this.drawProducts(activeProducts);
         const filter = app.store.getFilter();
+        console.log("filter =", filter);
         this.drawFilter(filter);
     }
 
@@ -24,12 +27,13 @@ export default class StoreView {
         //console.log("drawProducts =", products);
         const productItemTemplate = document.getElementById("productItemTemp") as HTMLTemplateElement;
         const fragment: DocumentFragment = document.createDocumentFragment();
-        // const cartItemsIds  = this.selectCartItemsIds(app.cart); // TODO refactor;
+
         document.querySelector(".found__value")!.innerHTML = `${products.length}`;
+        document.querySelector(".goods__output")!.innerHTML = "";
         products.forEach((item: Product): void => {
             const templateClone = productItemTemplate.content.cloneNode(true) as HTMLElement;
-
             const articleElem = templateClone.querySelector(".product-item")! as HTMLDivElement;
+
             articleElem.style.background = `url(${item.thumbnail})`;
             articleElem.setAttribute("data-id", String(item.id)); // Set tag article attribute "data-id" as product ID
             templateClone.querySelector(".product-item__title")!.textContent = item.title;
@@ -45,87 +49,128 @@ export default class StoreView {
                 const currentAddButton = templateClone.querySelector(".button-add")! as HTMLElement;
                 StoreView.styleProductCard("DROP FROM CART", currentAddButton);
             }
-
             fragment.append(templateClone);
         });
 
         document.querySelector(".goods__output")!.appendChild(fragment);
-
         document.querySelector(".goods__output")!.addEventListener("click", this.productClickHandler);
     }
 
-    // private selectCartItemsIds(cart: Cart) { // TODO refactor;
-    //     const items = cart.cartProducts;
-    //     const itemIds: Array<number> = items.map((item): number => { return item.product.id})
-    //     return itemIds;
-    // }
-
     private productClickHandler(event: Event): void {
         const clickedElement = event.target as HTMLElement;
-        // const articleElem = clickedElement.closest(".product-item")!;
         if (!clickedElement!.classList.contains("goods__output")) {
             const productId = clickedElement.closest(".product-item")!.getAttribute("data-id");
             const product = app.store.products.find((item) => item.id === +productId!);
             if (clickedElement.classList.contains("button-add")) {
-                // clickedElement.classList.toggle("button-add");
-                // clickedElement.classList.toggle("button-drop");
-                // articleElem.classList.toggle("product-item_added");
-                // clickedElement.textContent = "DROP FROM CART";
-
                 StoreView.styleProductCard("DROP FROM CART", clickedElement);
-
                 app.cart.putProductIntoCart(product!);
                 app.header.drawHeader(app.cart);
             } else if (clickedElement.classList.contains("button-drop")) {
-                // clickedElement.classList.toggle("button-add");
-                // clickedElement.classList.toggle("button-drop");
-                // articleElem.classList.toggle("product-item_added");
-                // clickedElement.textContent = "ADD TO CART";
-
                 StoreView.styleProductCard("ADD TO CART", clickedElement);
-
                 app.cart.dropProductIntoCart(+productId!);
                 app.header.drawHeader(app.cart);
             } else if (clickedElement.classList.contains("button-details")) {
                 app.router.route(`/product/${productId}`);
-                //window.history.replaceState({}, "", window.location.pathname + "product/" + productId);
-                //window.location.replace
-                //window.location.href = window.location.pathname + "product/" + productId;
             } else {
                 app.router.route(`/product/${productId}`);
-                // console.log("product card pressed, id", productId);
             }
         }
     }
 
     private drawFilter(filter: StoreFilter) {
+         // console.log("filter =", filter);
         const filterSection = document.querySelector(".filter");
-        filterSection!.innerHTML = filterHtml;
-        filterSection!.addEventListener("click", this.updateFilter);
-        //fill filter section with filter object
+        filterSection!.insertAdjacentHTML("beforeend", filterHtml);
+        const category = document.getElementById("category")!;
+        const brand = document.getElementById("brand")!;
+        const minPrice = document.getElementById("min-price")! as HTMLInputElement;
+        const maxPrice = document.getElementById("max-price")! as HTMLInputElement;
+        const minStock = document.getElementById("min-stock")! as HTMLInputElement;
+        const maxStock = document.getElementById("max-stock")! as HTMLInputElement;
+
+        filter.categoryProducts.forEach(item => {
+            category.innerHTML += `<div class="checkbox-line checkbox-active">
+                                    <input class="checkbox"
+                                    type="checkbox" id="${item.category}"
+                                    value="${item.category}"
+                                    name="category">
+                                    <label for="${item.category}">${item.category}</label>
+                                    <span>${item.activeProducts}/${item.totalProducts}</span>
+                                </div>`;
+        });
+        filter.brandProducts.forEach(item => {
+            brand.innerHTML += `<div class="checkbox-line checkbox-active">
+                                    <input class="checkbox"
+                                    type="checkbox"
+                                    id="${item.brand}"
+                                    value="${item.brand}"
+                                    name="brand">
+                                    <label for="${item.brand}">${item.brand}</label>
+                                    <span>${item.activeProducts}/${item.totalProducts}</span>
+                                </div>`
+        });
+
+        minPrice.value = String(filter.minPrice);
+        minPrice.min = String(filter.minPrice);
+        maxPrice.value = String(filter.maxPrice);
+        maxPrice.max = String(filter.maxPrice);
+        minStock.value = String(filter.minStock);
+        minStock.min = String(filter.minStock);
+        maxStock.value = String(filter.maxStock);
+        maxStock.max = String(filter.maxStock);
+
+        filterSection!.addEventListener("input", this.updateFilter);
     }
 
-    private updateFilter() {
-        const categoriesCheckboxesValues: Array<string> = []; //get all active category checkboxes
-        const brandCheckboxesValues: Array<string> = []; //get add active checkboxes values
-        const minPrice = 0;
-        const maxPrice = 0;
-        const minStock = 0;
-        const maxStock = 0;
-        const searchString = "";
-        const sortString = "";
-        const displayMode = "";
-        this.filterOptions.brands = brandCheckboxesValues;
-        this.filterOptions.categories = categoriesCheckboxesValues;
-        this.filterOptions.maxPrice = maxPrice;
-        this.filterOptions.minPrice = minPrice;
-        this.filterOptions.minStock = minStock;
-        this.filterOptions.maxStock = maxStock;
-        this.filterOptions.searchString = searchString;
-        this.filterOptions.sortingString = sortString;
-        this.filterOptions.displayMode = displayMode;
-        this.drawStore(this.filterOptions);
+    private updateFilter(event: Event) {
+        const formElement = document.getElementById("filters")! as HTMLFormElement;
+        const formData = new FormData(formElement);
+        const filterOptions = StoreView.filterOptions;
+        const element = event.target as HTMLInputElement;
+        const name = element.name;
+
+        switch(name) {
+            case "category":
+                filterOptions.categories = formData.getAll(name) as Array<string>;
+                console.log("filterOptions.categories =", filterOptions.categories);
+                break;
+            case "brand":
+                filterOptions.brands = formData.getAll(name) as Array<string>;
+                console.log("filterOptions.brands =", filterOptions.categories);
+                break;
+            case "search":
+                filterOptions.searchString = element.value;
+                console.log("search =", element.value);
+                break;
+            case "select":
+                filterOptions.sortingString = element.value;
+                console.log("sort =", element.value);
+                break;
+            case "display-mode":
+                filterOptions.displayMode = element.value;
+                console.log("display-mode =", element.value);
+                break;
+            default:
+                break;
+        }
+
+        // const minPrice = document.getElementById("min-price")! as HTMLInputElement;
+        // const maxPrice = document.getElementById("max-price")! as HTMLInputElement;
+        // const minStock = document.getElementById("min-stock")! as HTMLInputElement;
+        // const maxStock = document.getElementById("max-stock")! as HTMLInputElement;
+
+        // filterOptions.minPrice = Number(minPrice.value);
+        // filterOptions.maxPrice = Number(maxPrice.value);
+        // filterOptions.minStock = Number(minStock.value);
+        // filterOptions.maxStock = Number(maxStock.value);
+
+        const newView = new StoreView();
+        console.log(StoreView.filterOptions);
+        const activeProducts = app.store.updateFilterProducts(StoreView.filterOptions);
+        newView.drawProducts(activeProducts);
+
     }
+
     public static styleProductCard(textContent: string, clickedButton: HTMLElement): void {
         const articleElem = clickedButton.closest(".product-item")!;
         clickedButton.classList.toggle("button-add");
