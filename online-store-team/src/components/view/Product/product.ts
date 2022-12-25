@@ -87,10 +87,12 @@ export default class ProductView {
             if (isProductInCart) {
                 cartView.drawCart(app.cart, 0);
                 orderView.drawOrder();
+                app.router.route(`/cart`);
             } else {
                 app.cart.putProductIntoCart(product!);
                 cartView.drawCart(app.cart, 0);
                 orderView.drawOrder();
+                app.router.route(`/cart`);
             }
         }
     }
