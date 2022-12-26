@@ -2,15 +2,16 @@
 import storeHtml from "./store.html";
 import filterHtml from "./filter.html";
 import "./store.css";
+import "./filter.css";
 import { Product } from "../../model/type/IProduct";
 import { app } from "../../..";
 import StoreFilter from "../../model/StoreFilter";
-import { IStoreFilterOptions } from "../../model/type/IFilterOptions";
+import { StoreFilterOptions } from "../../model/type/IFilterOptions";
 
 export default class StoreView {
-    private filterOptions: IStoreFilterOptions = new IStoreFilterOptions();
+    private filterOptions: StoreFilterOptions = new StoreFilterOptions();
 
-    public drawStore(options: IStoreFilterOptions): void {
+    public drawStore(options: StoreFilterOptions): void {
         this.filterOptions = options;
         console.log(this.filterOptions);
         document.getElementById("root")!.innerHTML = storeHtml;
@@ -30,7 +31,7 @@ export default class StoreView {
             const templateClone = productItemTemplate.content.cloneNode(true) as HTMLElement;
 
             const articleElem = templateClone.querySelector(".product-item")! as HTMLDivElement;
-            articleElem.style.background = `url(${item.thumbnail})`;
+            articleElem.style.backgroundImage = `url(${item.thumbnail})`;
             articleElem.setAttribute("data-id", String(item.id)); // Set tag article attribute "data-id" as product ID
             templateClone.querySelector(".product-item__title")!.textContent = item.title;
             templateClone.querySelector(".info__row-category")!.textContent = item.category;
