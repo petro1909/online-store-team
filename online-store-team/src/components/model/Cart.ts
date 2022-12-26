@@ -1,4 +1,3 @@
-import { Router } from "express";
 import { app } from "../..";
 import { CartProduct } from "./type/ICartProduct";
 import { CartOptions } from "./type/IFilterOptions";
