@@ -6,6 +6,7 @@ import { Product } from "../../model/type/IProduct";
 import { app } from "../../..";
 import OrderView from "../../view/Order/order";
 import CartView from "../../view/Cart/cart";
+import { CartOptions } from "../../model/type/IFilterOptions";
 
 export default class ProductView {
     public drawProduct(product: Product, cart: Cart): void {
@@ -85,11 +86,11 @@ export default class ProductView {
             const isProductInCart = app.cart.isProductInCart(Number(productId));
 
             if (isProductInCart) {
-                cartView.drawCart(app.cart, 0);
+                cartView.drawCart(new CartOptions());
                 orderView.drawOrder();
             } else {
                 app.cart.putProductIntoCart(product!);
-                cartView.drawCart(app.cart, 0);
+                cartView.drawCart(new CartOptions());
                 orderView.drawOrder();
             }
         }
