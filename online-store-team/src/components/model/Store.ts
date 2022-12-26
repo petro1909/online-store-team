@@ -1,5 +1,5 @@
 import StoreFilter from "./StoreFilter";
-import { ISortOptions, IStoreFilterOptions } from "./type/IFilterOptions";
+import { StoreFilterOptions } from "./type/IFilterOptions";
 import { Product, ProductJsonResult } from "./type/IProduct";
 
 export class Store {
@@ -16,7 +16,7 @@ export class Store {
         const res = await fetch("https://dummyjson.com/products?limit=100");
         return await (res.json() as Promise<ProductJsonResult>);
     }
-    public updateFilterProducts(options: IStoreFilterOptions = new IStoreFilterOptions()): Array<Product> {
+    public updateFilterProducts(options: StoreFilterOptions = new StoreFilterOptions()): Array<Product> {
         return this.filter.updateFilter(this.products, options);
     }
     public getFilter(): StoreFilter {
