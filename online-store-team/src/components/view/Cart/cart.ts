@@ -4,11 +4,11 @@ import Cart from "../../model/Cart";
 import OrderView from "../../view/Order/order";
 import { CartProduct } from "../../model/type/ICartProduct";
 import { app } from "../../../index";
-import { ICartOptions } from "../../model/type/IFilterOptions";
+import { CartOptions } from "../../model/type/IFilterOptions";
 
 export default class CartView {
-    private cartOptions: ICartOptions = {};
-    public drawCart(cartOptions: ICartOptions): void {
+    private cartOptions: CartOptions = new CartOptions();
+    public drawCart(cartOptions: CartOptions): void {
         this.cartOptions = cartOptions;
         document.getElementById("root")!.innerHTML = cartHtml;
 
