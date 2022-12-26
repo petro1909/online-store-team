@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { app } from "../..";
-import { ISortOptions, IStoreFilterOptions } from "./type/IFilterOptions";
+import { ISortOptions, StoreFilterOptions } from "./type/IFilterOptions";
 import { Product } from "./type/IProduct";
 
 interface ICategoryProducts {
@@ -73,7 +73,7 @@ export default class StoreFilter {
         }
     }
 
-    public updateFilter(products: Array<Product>, options: IStoreFilterOptions): Array<Product> {
+    public updateFilter(products: Array<Product>, options: StoreFilterOptions): Array<Product> {
         const activeProducts: Array<Product> = [];
         for (const product of products) {
             if (this.filterProduct(product, options) && this.searchProduct(product, options)) {
@@ -88,7 +88,6 @@ export default class StoreFilter {
         for (const product of activeProducts) {
             this.updateFilterFields(product, options);
         }
-        console.log(this);
         app.router.addQueryParameters(options);
         return this.sortProducts(activeProducts, options);
     }
@@ -96,23 +95,17 @@ export default class StoreFilter {
         this.categoryProducts.map((item) => (item.activeProducts = 0));
         this.brandProducts.map((item) => (item.activeProducts = 0));
     }
-    private updateFilterFields(product: Product, options: IStoreFilterOptions) {
+    private updateFilterFields(product: Product, options: StoreFilterOptions) {
         //fill products count by category
-        //const categories = options.categories;
-        // if (categories && categories.length > 0) {
         const categoryProduct = this.categoryProducts.find((item) => item.category === product.category);
         if (categoryProduct) {
             categoryProduct.activeProducts += 1;
         }
-        // }
-
-        // const brands = options.brands;
-        // if (brands && brands.length > 0) {
+        //fill products count by brand
         const brandProduct = this.brandProducts.find((item) => item.brand === product.brand);
         if (brandProduct) {
             brandProduct.activeProducts += 1;
         }
-        // }
         //fill minPrice
         const minPrice = options.minPrice;
         if (minPrice) {
@@ -147,7 +140,7 @@ export default class StoreFilter {
             }
         }
     }
-    private filterProduct(item: Product, filterOptions: IStoreFilterOptions): boolean {
+    private filterProduct(item: Product, filterOptions: StoreFilterOptions): boolean {
         //app.router.addQueryParameters(filterOptions);
         const categories = filterOptions.categories;
         if (categories && categories.length > 0) {
@@ -182,7 +175,7 @@ export default class StoreFilter {
         return true;
     }
 
-    private searchProduct(item: Product, filterOptions: IStoreFilterOptions): boolean {
+    private searchProduct(item: Product, filterOptions: StoreFilterOptions): boolean {
         const searchString = filterOptions.searchString;
         if (!searchString) {
             return true;
@@ -191,14 +184,14 @@ export default class StoreFilter {
         return item.title.includes(searchString) || item.description.includes(searchString);
     }
 
-    public getActiveProducts(products: Array<Product>, options: IStoreFilterOptions) {
+    public getActiveProducts(products: Array<Product>, options: StoreFilterOptions) {
         let activeProducts = this.filterProducts(products, options);
         activeProducts = this.searchProducts(products, options);
         activeProducts = this.sortProducts(products, options);
         return activeProducts;
     }
 
-    private filterProducts(products: Array<Product>, filterOptions: IStoreFilterOptions): Array<Product> {
+    private filterProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
         //app.router.addQueryParameters(filterOptions);
         return products.filter((item) => {
             const categories = filterOptions.categories;
@@ -235,7 +228,7 @@ export default class StoreFilter {
         });
     }
 
-    private sortProducts(products: Array<Product>, filterOptions: IStoreFilterOptions): Array<Product> {
+    private sortProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
         const sortingString = filterOptions.sortingString;
         if (!sortingString) {
             return products;
@@ -268,7 +261,7 @@ export default class StoreFilter {
         });
     }
 
-    private searchProducts(products: Array<Product>, filterOptions: IStoreFilterOptions): Array<Product> {
+    private searchProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
         const searchString = filterOptions.searchString;
         if (!searchString) {
             return products;
