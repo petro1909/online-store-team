@@ -1,5 +1,8 @@
+import { stringify } from "json5";
+import { BaseOptions } from "vm";
 import ControllerFactory from "../controller/ControllerFactory";
-import { ICartOptions, IStoreFilterOptions } from "../model/type/IFilterOptions";
+import { CartOptions, StoreFilterOptions } from "../model/type/IFilterOptions";
+//import { CartOptions, StoreFilterOptions } from "../model/type/IFilterOptions";
 
 export default class Router {
     public static routes = {
@@ -60,18 +63,24 @@ export default class Router {
         return [path, queryParams];
     }
 
-    public addQueryParameters(options: ICartOptions | IStoreFilterOptions) {
-        let path = window.location.pathname + "?";
-        for (const key in options) {
-            let value = options[key as keyof typeof options];
-            if (Array.isArray(value)) {
-                value = value.join("+");
-            }
+    public addQueryParameters(options: StoreFilterOptions | CartOptions) {
+        let queryString = window.location.pathname + "?";
+        Object.keys(options).forEach((key: string) => {
+            const value = options[key as keyof typeof options];
+            let strValue = "";
             if (key && value) {
-                path += `${key}=${value}&`;
+                if (Array.isArray(value)) {
+                    if ((value as string[]).length > 0) {
+                        strValue = (value as string[]).join("+");
+                        queryString += `${key}=${strValue}&`;
+                    }
+                } else {
+                    strValue = `${value}`;
+                    queryString += `${key}=${strValue}&`;
+                }
             }
-        }
-        path = path.slice(0, -1);
-        window.history.pushState({ path }, path, path);
+        });
+        queryString = queryString.slice(0, -1);
+        window.history.pushState({ queryString }, queryString, queryString);
     }
 }
