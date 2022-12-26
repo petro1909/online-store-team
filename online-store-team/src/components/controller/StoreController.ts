@@ -1,9 +1,6 @@
 import BaseController from "./BaseController";
 import StoreView from "../view/Store/store";
-import { Store } from "../model/Store";
-import { app } from "../..";
-import { IStoreFilterOptions } from "../model/type/IFilterOptions";
-import Cart from "../model/Cart";
+import { StoreFilterOptions } from "../model/type/IFilterOptions";
 
 export default class StoreController extends BaseController {
     private storeView: StoreView;
@@ -12,32 +9,37 @@ export default class StoreController extends BaseController {
         this.storeView = new StoreView();
     }
     public override async init(options?: string): Promise<void> {
-        let storeOptions: IStoreFilterOptions = new IStoreFilterOptions();
+        let storeOptions: StoreFilterOptions = new StoreFilterOptions();
         if (options) {
             storeOptions = this.getStoreOptions(options);
         }
         this.storeView.drawStore(storeOptions);
     }
 
-    private getStoreOptions(options: string): IStoreFilterOptions {
-        const storeFilterOptions: IStoreFilterOptions = new IStoreFilterOptions();
-        options = options.slice(1);
-
-        const optionsArr = options.split("&");
+    public getStoreOptions(queryString: string): StoreFilterOptions {
+        const storeOptions: StoreFilterOptions = new StoreFilterOptions();
+        console.log(queryString);
+        queryString = queryString.slice(1);
+        const optionsArr = queryString.split("&");
         for (const option of optionsArr) {
             const [key, value] = option.split("=");
             if (key && value) {
-                if (Object.prototype.hasOwnProperty.call(storeFilterOptions, key)) {
-                    const k = storeFilterOptions[key as keyof typeof storeFilterOptions];
-                    if (Array.isArray(k)) {
-                        storeFilterOptions[key as keyof IStoreFilterOptions] = value.split("+");
+                if (
+                    Object.prototype.hasOwnProperty.call(storeOptions, key) &&
+                    typeof storeOptions[key as keyof typeof storeOptions] !== "function"
+                ) {
+                    const keyType = storeOptions[key as keyof typeof storeOptions];
+                    if (Array.isArray(keyType)) {
+                        storeOptions[key as keyof typeof storeOptions] = value.split("+") as never;
+                    } else if (typeof keyType === "number") {
+                        storeOptions[key as keyof StoreFilterOptions] = Number(value) as never;
                     } else {
-                        storeFilterOptions[key as keyof IStoreFilterOptions] = value;
+                        storeOptions[key as keyof StoreFilterOptions] = value as never;
                     }
                 }
             }
         }
-        console.log(storeFilterOptions);
-        return storeFilterOptions;
+        console.log(storeOptions);
+        return storeOptions;
     }
 }
