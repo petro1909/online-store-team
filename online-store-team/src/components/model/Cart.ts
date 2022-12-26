@@ -89,6 +89,13 @@ export default class Cart {
         return this.cartProducts.slice(options.limit * (options.page - 1));
     }
 
+    public resetCart() {
+        this.totalCount = 0;
+        this.totalPrice = 0;
+        this.cartProducts = [];
+        localStorage.removeItem(Cart.localStorageKey);
+    }
+
     public setPromocode(promocode: IPromocode) {
         this.totalPrice = this.totalPrice * (1 - promocode.discount / 100);
         this.saveToLocalStorage();
