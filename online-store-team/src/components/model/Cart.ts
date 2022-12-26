@@ -1,5 +1,7 @@
+import { Router } from "express";
 import { app } from "../..";
 import { CartProduct } from "./type/ICartProduct";
+import { CartOptions } from "./type/IFilterOptions";
 import { Product } from "./type/IProduct";
 import { IPromocode } from "./type/IPromocode";
 
@@ -79,6 +81,13 @@ export default class Cart {
             }
             this.saveToLocalStorage();
         }
+    }
+
+    public updateCartProducts(options: CartOptions): Array<CartProduct> {
+        if (options.limit < 1) options.limit = 3;
+        if (options.page < 1) options.page = 1;
+        app.router.addQueryParameters(options);
+        return this.cartProducts.slice(options.limit * (options.page - 1));
     }
 
     public setPromocode(promocode: IPromocode) {
