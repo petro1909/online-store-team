@@ -88,7 +88,7 @@ export default class StoreView {
         const minStock = document.getElementById("min-stock")! as HTMLInputElement;
         const maxStock = document.getElementById("max-stock")! as HTMLInputElement;
 
-        filter.categoryProducts.forEach(item => {
+        filter.categoryProducts.forEach(item => {  // TODO refactor put in a separate function 
             category.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox" id="${item.category}"
@@ -150,19 +150,25 @@ export default class StoreView {
                 filterOptions.displayMode = element.value;
                 console.log("display-mode =", element.value);
                 break;
+            case "min-price":
+                filterOptions.minPrice = Number(element.value);
+                console.log("minPrice =", element.value);
+                break;
+            case "max-price":
+                filterOptions.maxPrice = Number(element.value);
+                console.log("maxPrice =", element.value);
+                break;
+            case "min-stock":
+                filterOptions.minStock = Number(element.value);
+                console.log("minStock =", element.value);
+                break;
+            case "max-stock":
+                filterOptions.maxStock = Number(element.value);
+                console.log("maxStock =", element.value);
+                break;
             default:
                 break;
         }
-
-        // const minPrice = document.getElementById("min-price")! as HTMLInputElement;
-        // const maxPrice = document.getElementById("max-price")! as HTMLInputElement;
-        // const minStock = document.getElementById("min-stock")! as HTMLInputElement;
-        // const maxStock = document.getElementById("max-stock")! as HTMLInputElement;
-
-        // filterOptions.minPrice = Number(minPrice.value);
-        // filterOptions.maxPrice = Number(maxPrice.value);
-        // filterOptions.minStock = Number(minStock.value);
-        // filterOptions.maxStock = Number(maxStock.value);
 
         const newView = new StoreView();
         console.log(StoreView.filterOptions);
