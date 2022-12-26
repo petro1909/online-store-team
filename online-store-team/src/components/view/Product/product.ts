@@ -12,10 +12,6 @@ export default class ProductView {
         document.getElementById("root")!.innerHTML = productHtml;
 
         const productId = document.getElementById("product-id")!;
-        const breadcrumbLinkStore = document.getElementById("breadcrumb-link-store")!;
-        const breadcrumbLinkCategory = document.getElementById("breadcrumb-link-category")!;
-        const breadcrumbLinkBrand = document.getElementById("breadcrumb-link-brand")!;
-        const breadcrumbLinkProduct = document.getElementById("breadcrumb-link-product")!;
         const productTitle = document.getElementById("product-title")!;
         const productImage = document.getElementById("product-image")! as HTMLImageElement;
         const productDescription = document.getElementById("product-description")!;
@@ -27,10 +23,6 @@ export default class ProductView {
         const cartCost = document.getElementById("cart-cost")!;
 
         productId.setAttribute("data-id", String(product.id));
-        breadcrumbLinkStore.textContent = "Store";
-        breadcrumbLinkCategory.textContent = product.category;
-        breadcrumbLinkBrand.textContent = product.brand;
-        breadcrumbLinkProduct.textContent = product.title;
         productTitle.textContent = product.title;
         productImage.src = `${product.images[0]}`;
         productDescription.textContent = product.description;
@@ -41,10 +33,31 @@ export default class ProductView {
         productCategory.textContent = product.category;
         cartCost.textContent = "€" + product.price;
 
-        const cartItemsIds = this.selectCartItemsIds(app.cart); // TODO refactor using app.cart.isProductInCart(id);
-        const isId = cartItemsIds.find((id): boolean => {
-            return id === product.id;
-        });
+        const breadcrumbs = document.getElementById("breadcrumbs") as HTMLUListElement
+        const breadcrumbLinkStore = document.getElementById("breadcrumb-link-store")! as HTMLAnchorElement;
+        const breadcrumbLinkCategory = document.getElementById("breadcrumb-link-category")! as HTMLAnchorElement;
+        const breadcrumbLinkBrand = document.getElementById("breadcrumb-link-brand")! as HTMLAnchorElement;
+        const breadcrumbLinkProduct = document.getElementById("breadcrumb-link-product")! as HTMLAnchorElement;
+
+        breadcrumbLinkStore.href = "/";
+        breadcrumbLinkCategory.href = `/?categories=${product.category}`;
+        breadcrumbLinkBrand.href = `/?categories=${product.category}&brands=${product.brand}`;
+        breadcrumbLinkProduct.href = `/product/${product.id}`;
+        breadcrumbLinkStore.textContent = `Store`;
+        breadcrumbLinkCategory.textContent = `${product.category}`;
+        breadcrumbLinkBrand.textContent = `${product.brand}`;
+        breadcrumbLinkProduct.textContent = `${product.title}`;
+
+        breadcrumbs.addEventListener("click", (event: Event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const element = event.target as HTMLAnchorElement;
+            if (element.classList.contains("breadcrumbs__link")) {
+                app.router.route(element.href);
+            }
+        })
+
+        const isId = app.cart.isProductInCart(product.id);
         if (isId) {
             const currentAddButton = document.querySelector(".object__add-to-cart")! as HTMLElement;
             ProductView.switchProductButton("DROP FROM CART", currentAddButton);
@@ -100,15 +113,6 @@ export default class ProductView {
                 orderView.drawOrder();
             }
         }
-    }
-
-    private selectCartItemsIds(cart: Cart) {
-        // TODO refactor using app.cart.isProductInCart(id);
-        const items = cart.cartProducts;
-        const itemIds: Array<number> = items.map((item): number => {
-            return item.product.id;
-        });
-        return itemIds;
     }
 
     private static switchProductButton(textContent: string, clickedButton: HTMLElement): void {
