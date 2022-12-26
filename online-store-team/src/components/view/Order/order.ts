@@ -4,6 +4,7 @@ import Cart from "../../model/Cart";
 import CartView from "../../view/Cart/cart";
 import "./order.css";
 import App from "../../app/App";
+import { CartOptions } from "../../model/type/IFilterOptions";
 
 export default class OrderView {
     private static cart: Cart;
@@ -32,7 +33,7 @@ export default class OrderView {
                 app.cart.totalPrice = 0;
                 app.cart.cartProducts.length = 0;
                 const view = new CartView();
-                view.drawCart(app.cart, 0);
+                view.drawCart(new CartOptions());
                 app.header.drawHeader(app.cart);
                 app.cart.saveToLocalStorage();
             });
