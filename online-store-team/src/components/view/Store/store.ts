@@ -102,7 +102,8 @@ export default class StoreView {
     private drawFilter(filter: StoreFilter) {
         const filterSection = document.querySelector(".filter");
         filterSection!.innerHTML = filterHtml;
-        filterSection!.addEventListener("click", this.updateFilter);
+        //filterSection!.addEventListener("click", this.updateFilter);
+        document.querySelector("#copy-link")?.addEventListener("click", app.router.copyQueryParametersToClipBoard);
         //fill filter section with filter object
     }
 
