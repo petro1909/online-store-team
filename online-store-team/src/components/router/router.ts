@@ -80,4 +80,8 @@ export default class Router {
         queryString = queryString.slice(0, -1);
         window.history.pushState({ queryString }, queryString, queryString);
     }
+
+    public copyQueryParametersToClipBoard() {
+        navigator.clipboard.writeText(window.location.href);
+    }
 }
