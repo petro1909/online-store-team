@@ -9,7 +9,7 @@ import CartView from "../../view/Cart/cart";
 import { CartOptions } from "../../model/type/IFilterOptions";
 
 export default class ProductView {
-    public drawProduct(product: Product, cart: Cart): void {
+    public async drawProduct(product: Product, cart: Cart): Promise<void> {
         document.getElementById("root")!.innerHTML = productHtml;
 
         const productId = document.getElementById("product-id")!;
@@ -33,6 +33,7 @@ export default class ProductView {
         breadcrumbLinkBrand.textContent = product.brand;
         breadcrumbLinkProduct.textContent = product.title;
         productTitle.textContent = product.title;
+        await app.store.removeDuplicatesFromProductImages(product);
         productImage.src = `${product.images[0]}`;
         productDescription.textContent = product.description;
         productDiscount.textContent = product.discountPercentage + "%";
