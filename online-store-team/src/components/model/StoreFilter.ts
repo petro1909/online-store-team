@@ -180,8 +180,19 @@ export default class StoreFilter {
         if (!searchString) {
             return true;
         }
+        const lowerSearchString = searchString.toLowerCase();
         //app.router.addQueryParameters(searchOptions);
-        return item.title.includes(searchString) || item.description.includes(searchString);
+        return (
+            item.title.toLowerCase().includes(lowerSearchString) ||
+            item.description.toLowerCase().includes(lowerSearchString) ||
+            item.price.toString().includes(lowerSearchString) ||
+            item.discountPercentage.toString().includes(lowerSearchString) ||
+            item.rating.toString().includes(lowerSearchString) ||
+            item.stock.toString().includes(lowerSearchString) ||
+            item.brand.toLowerCase().includes(lowerSearchString) ||
+            item.category.toLowerCase().includes(lowerSearchString) ||
+            item.thumbnail.toLowerCase().includes(lowerSearchString)
+        );
     }
 
     public getActiveProducts(products: Array<Product>, options: StoreFilterOptions) {
