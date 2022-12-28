@@ -61,12 +61,25 @@
           <div class="buy-now__total">
               <span class="buy-now__total-text">Total: </span>€0
           </div>
+          <div class="buy-now__actual-total">
+            <span class="buy-now__actual-total-text">Actual: </span>€0
+          </div>
+          <div class="buy-now__used-promo-codes"></div>
           <div class="buy-now__promo-code">
               <input type="search" placeholder="Enter promo code" class="buy-now__input-promo" id="buy-now-input-code"><br>
-              <label for="buy-now-input-code">Promo for test: 'RS', 'EPM'</label>
           </div>
+          <div class="buy-now__proposed-promo-codes"></div>
+          <div class="buy-now__all-promo-codes"></div>
           <button class="buy-now__submit btn box-shadow">BUY NOW</button>
       </aside>
+  </template>
+
+  <template id="promocodeTemplate">
+    <section class="promocode">
+      <p class="promocode__name"></p>
+      <p class="promocode__discount"></p>
+      <button class="promocode__action"></button>
+    </section>
   </template>
 
 </section>
