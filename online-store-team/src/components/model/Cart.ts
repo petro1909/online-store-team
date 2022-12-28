@@ -1,18 +1,29 @@
 import { app } from "../..";
 import { CartProduct } from "./type/ICartProduct";
+import { CartOptions } from "./type/IFilterOptions";
 import { Product } from "./type/IProduct";
 import { IPromocode } from "./type/IPromocode";
 
 export default class Cart {
     public totalPrice: number;
+    public actualPrice: number;
     public totalCount: number;
+    public totalDiscount: number;
     public cartProducts: Array<CartProduct> = [];
-    public promocode: IPromocode | undefined;
+    public usedPromocodes: Array<IPromocode> = [];
     private static localStorageKey = "CART_54013ba69c196820e56801f1ef5aad54";
+    public static promocodes: Array<IPromocode> = [
+        { text: "rss_1", discount: 10 },
+        { text: "rss_2", discount: 20 },
+        { text: "rss_3", discount: 5 },
+        { text: "rss_4", discount: 55 },
+    ];
 
     constructor() {
         this.totalCount = 0;
         this.totalPrice = 0;
+        this.actualPrice = 0;
+        this.totalDiscount = 0;
         this.cartProducts = [];
         this.getCartFromLocalStorage();
     }
@@ -23,6 +34,8 @@ export default class Cart {
             const cart = JSON.parse(cartStr) as Cart;
             this.totalCount = cart.totalCount;
             this.totalPrice = cart.totalPrice;
+            this.actualPrice = cart.totalPrice;
+            this.totalDiscount = cart.totalDiscount;
             this.cartProducts = cart.cartProducts;
         }
     }
@@ -40,6 +53,7 @@ export default class Cart {
         this.cartProducts.push(cartProduct);
         this.totalPrice += product.price;
         this.totalCount += 1;
+        this.updateActualPrice();
         this.saveToLocalStorage();
     }
 
@@ -51,6 +65,7 @@ export default class Cart {
             cartProduct.count = 0;
             const cartProductIndex = this.cartProducts.indexOf(cartProduct);
             this.cartProducts.splice(cartProductIndex, 1);
+            this.updateActualPrice();
             this.saveToLocalStorage();
         }
     }
@@ -62,6 +77,7 @@ export default class Cart {
             cartProduct.totalPrice += cartProduct.product.price;
             this.totalPrice += cartProduct.product.price;
             this.totalCount += 1;
+            this.updateActualPrice();
             this.saveToLocalStorage();
         }
     }
@@ -77,12 +93,45 @@ export default class Cart {
                 const cartProductIndex = this.cartProducts.indexOf(cartProduct);
                 this.cartProducts.splice(cartProductIndex, 1);
             }
+            this.updateActualPrice();
             this.saveToLocalStorage();
         }
     }
 
-    public setPromocode(promocode: IPromocode) {
-        this.totalPrice = this.totalPrice * (1 - promocode.discount / 100);
+    public updateCartProducts(options: CartOptions): Array<CartProduct> {
+        if (options.limit < 1) options.limit = 3;
+        if (options.page < 1) options.page = 1;
+        app.router.addQueryParameters(options);
+        return this.cartProducts.slice(options.limit * (options.page - 1));
+    }
+
+    public resetCart(): void {
+        this.totalCount = 0;
+        this.totalPrice = 0;
+        this.cartProducts = [];
+        localStorage.removeItem(Cart.localStorageKey);
+    }
+
+    public setPromocode(promocode: IPromocode): void {
+        this.usedPromocodes.push(promocode);
+        this.totalDiscount = this.usedPromocodes.reduce((sum, promocode) => sum + promocode.discount, 0);
+        this.updateActualPrice();
         this.saveToLocalStorage();
+    }
+
+    public removePromocode(promocodeText: string): void {
+        const findedPromocode = this.usedPromocodes.find((item) => item.text === promocodeText);
+        if (findedPromocode) {
+            const findexPromocodeIndex = this.usedPromocodes.indexOf(findedPromocode);
+            this.usedPromocodes.slice(findexPromocodeIndex, 1);
+            this.totalDiscount = this.usedPromocodes.reduce((sum, promocode) => sum + promocode.discount, 0);
+            this.updateActualPrice();
+            this.saveToLocalStorage();
+        }
+    }
+
+    private updateActualPrice() {
+        console.log(this.actualPrice);
+        this.actualPrice = this.totalPrice * (1 - this.totalDiscount / 100);
     }
 }
