@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import cartHtml from "./cart.html";
 import "./cart.css";
 import Cart from "../../model/Cart";
@@ -5,6 +6,7 @@ import OrderView from "../../view/Order/order";
 import { CartProduct } from "../../model/type/ICartProduct";
 import { app } from "../../../index";
 import { CartOptions } from "../../model/type/IFilterOptions";
+import { IPromocode } from "../../model/type/IPromocode";
 
 export default class CartView {
     private cartOptions: CartOptions = new CartOptions();
@@ -72,6 +74,10 @@ export default class CartView {
         buyNowProducts.textContent = String(productItemsQuantity);
         buyNowTotal.textContent = "€" + app.cart.totalPrice;
 
+        const allPromocodes = document.querySelector(".buy-now__all-promo-codes")! as HTMLDivElement;
+        allPromocodes.innerHTML =
+            "Promocodes for test <br>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
+
         this.addHandlers(app.cart);
     }
 
@@ -95,17 +101,10 @@ export default class CartView {
         });
 
         const buyNowInputCode = document.querySelector(".buy-now__input-promo")! as HTMLInputElement;
-        buyNowInputCode.addEventListener("change", (event) => {
+        buyNowInputCode.addEventListener("input", (event) => {
             const inputPromo = event.target as HTMLInputElement;
             const value = inputPromo!.value;
-            if (value === "RS" || value === "EPM") {
-                const promoCode = {
-                    discount: 5,
-                    text: value,
-                };
-                cart.setPromocode(promoCode);
-                console.log("promo-code", promoCode);
-            }
+            this.findPromocode(value);
         });
 
         const buyNowSubmit = document.querySelector(".buy-now__submit")! as HTMLButtonElement;
@@ -114,5 +113,59 @@ export default class CartView {
             const orderView = new OrderView();
             orderView.drawOrder();
         });
+    }
+
+    private findPromocode(value: string) {
+        const proposedPromocodesSection = document.querySelector(".buy-now__proposed-promo-codes") as HTMLElement;
+        proposedPromocodesSection!.innerHTML = "";
+        const findedPromocode = Cart.promocodes.find((promocode) => value === promocode.text);
+        if (!findedPromocode) {
+            return;
+        }
+        this.createPromocodeSection(
+            findedPromocode,
+            "ADD",
+            () => this.setPromocode(findedPromocode),
+            proposedPromocodesSection
+        );
+    }
+
+    private createPromocodeSection(
+        promocode: IPromocode,
+        buttonText: string,
+        promocodeAction: () => void,
+        sectionToAdd: HTMLElement
+    ): void {
+        const proposedPromocodeTemplate = document.getElementById("promocodeTemplate") as HTMLTemplateElement;
+        const proposedPromocodeSection = proposedPromocodeTemplate.content.children[0]!.cloneNode(true) as HTMLElement;
+        console.log(proposedPromocodeTemplate.content.firstChild);
+        sectionToAdd.append(proposedPromocodeSection);
+        proposedPromocodeSection.id = promocode.text;
+
+        const proposedPromocodeName = proposedPromocodeSection.querySelector(".promocode__name");
+        proposedPromocodeName!.innerHTML = promocode.text;
+
+        const proposedPromocodeDiscount = proposedPromocodeSection.querySelector(".promocode__discount");
+        proposedPromocodeDiscount!.innerHTML = promocode.discount.toString() + "%";
+
+        const addPromocodeButton = proposedPromocodeSection.querySelector(".promocode__action");
+        addPromocodeButton!.innerHTML = buttonText;
+        addPromocodeButton!.addEventListener("click", promocodeAction);
+    }
+
+    private setPromocode(promocode: IPromocode) {
+        app.cart.setPromocode(promocode);
+        const usedPromoCodesSection = document.querySelector(".buy-now__used-promo-codes") as HTMLElement;
+        this.createPromocodeSection(promocode, "DROP", () => this.removePromocode(promocode), usedPromoCodesSection);
+
+        const cartActualTotalPrice = document.querySelector(".buy-now__actual-total-text");
+        cartActualTotalPrice!.innerHTML = app.cart.actualPrice.toString();
+    }
+
+    private removePromocode(promocode: IPromocode) {
+        const usedPromoCodesSection = document.querySelector(".buy-now__used-promo-codes") as HTMLElement;
+        const usedPromoCodeSection = document.getElementById(promocode.text);
+        usedPromoCodeSection!.remove();
+        app.cart.removePromocode(promocode.text);
     }
 }
