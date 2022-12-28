@@ -34,6 +34,7 @@ export default class StoreView {
             const templateClone = productItemTemplate.content.cloneNode(true) as HTMLElement;
             const articleElem = templateClone.querySelector(".product-item")! as HTMLDivElement;
 
+            
             articleElem.style.background = `url(${item.thumbnail})`;
             articleElem.setAttribute("data-id", String(item.id)); // Set tag article attribute "data-id" as product ID
             templateClone.querySelector(".product-item__title")!.textContent = item.title;
@@ -49,6 +50,7 @@ export default class StoreView {
                 const currentAddButton = templateClone.querySelector(".button-add")! as HTMLElement;
                 StoreView.styleProductCard("DROP FROM CART", currentAddButton);
             }
+            if (StoreView.filterOptions.displayMode === "6") articleElem.classList.add("product-item_small")
             fragment.append(templateClone);
         });
 
@@ -88,7 +90,7 @@ export default class StoreView {
         const minStock = document.getElementById("min-stock")! as HTMLInputElement;
         const maxStock = document.getElementById("max-stock")! as HTMLInputElement;
 
-        filter.categoryProducts.forEach(item => {  // TODO refactor put in a separate function 
+        filter.categoryProducts.forEach(item => {  // TODO refactor put in a separate function
             category.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox" id="${item.category}"
@@ -120,6 +122,12 @@ export default class StoreView {
         maxStock.max = String(filter.maxStock);
 
         filterSection!.addEventListener("input", this.updateFilter);
+        filterSection!.addEventListener("reset", this.resetHandler);
+    }
+
+    private resetHandler() {
+        app.router.route("/");
+        console.log("reset form");
     }
 
     private updateFilter(event: Event) {
@@ -165,6 +173,10 @@ export default class StoreView {
             case "max-stock":
                 filterOptions.maxStock = Number(element.value);
                 console.log("maxStock =", element.value);
+                break;
+            case "display-mode":
+                filterOptions.displayMode = String(element.value);
+                console.log("display-mode =", element.value);
                 break;
             default:
                 break;
