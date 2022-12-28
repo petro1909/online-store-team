@@ -73,6 +73,10 @@
     cursor: pointer;
 }
 
+.controls__btn_active {
+    background-color: rgb(255, 0, 0);
+}
+
 .object__info {
     width: 30%;
 }
