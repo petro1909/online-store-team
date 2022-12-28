@@ -23,7 +23,7 @@ export default class App {
         this.router.start();
         this.header.drawHeader(this.cart);
         this.footer.drawFooter();
-        //document.addEventListener("click", this.router.anchorRoute);
+        document.addEventListener("click", this.router.anchorRoute);
         //document.querySelectorAll('[href^="/"]').forEach((a) => a.addEventListener("click", this.router.route));
     }
 }
