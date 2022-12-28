@@ -6,7 +6,7 @@
   "scripts": {
     "test": "test",
     "start": "webpack server --open --config ./webpack.config.js --env mode=dev",
-    "build": "webpack --config ./webpack.config.js --env mode=dev",
+    "build": "webpack --config ./webpack.config.js --env mode=prod",
     "lint": "eslint . --ext .ts --ext .js",
     "lint_fix": "eslint --fix --ext .js --ext .ts ."
   },

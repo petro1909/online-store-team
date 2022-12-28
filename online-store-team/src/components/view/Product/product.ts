@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import productHtml from "./product.html";
 import "./product.css";
-import Cart from "../../model/Cart";
 import { Product } from "../../model/type/IProduct";
 import { app } from "../../..";
 import OrderView from "../../view/Order/order";
@@ -9,7 +8,7 @@ import CartView from "../../view/Cart/cart";
 import { CartOptions } from "../../model/type/IFilterOptions";
 
 export default class ProductView {
-    public async drawProduct(product: Product, cart: Cart): Promise<void> {
+    public async drawProduct(product: Product): Promise<void> {
         document.getElementById("root")!.innerHTML = productHtml;
 
         const productId = document.getElementById("product-id")!;
@@ -35,7 +34,7 @@ export default class ProductView {
         productCategory.textContent = product.category;
         cartCost.textContent = "€" + product.price;
 
-        const breadcrumbs = document.getElementById("breadcrumbs") as HTMLUListElement
+        const breadcrumbs = document.getElementById("breadcrumbs") as HTMLUListElement;
         const breadcrumbLinkStore = document.getElementById("breadcrumb-link-store")! as HTMLAnchorElement;
         const breadcrumbLinkCategory = document.getElementById("breadcrumb-link-category")! as HTMLAnchorElement;
         const breadcrumbLinkBrand = document.getElementById("breadcrumb-link-brand")! as HTMLAnchorElement;
@@ -57,7 +56,7 @@ export default class ProductView {
             if (element.classList.contains("breadcrumbs__link")) {
                 app.router.route(element.href);
             }
-        })
+        });
 
         const isId = app.cart.isProductInCart(product.id);
         if (isId) {
@@ -70,7 +69,7 @@ export default class ProductView {
             const element = document.createElement("button");
             element.classList.add("controls__btn");
             element.setAttribute("data-id", String(i));
-            if(i === 0) element.classList.add("controls__btn_active");
+            if (i === 0) element.classList.add("controls__btn_active");
             controlsOfImages!.append(element);
         }
 
@@ -78,8 +77,8 @@ export default class ProductView {
             const controls = document.querySelectorAll(".controls__btn");
             const clickedElement = event.target! as HTMLButtonElement;
             const idx = Number(clickedElement.getAttribute("data-id"))!;
-            controls.forEach(element => element.classList.remove("controls__btn_active"));
-            if(clickedElement.classList.contains("controls__btn")) {
+            controls.forEach((element) => element.classList.remove("controls__btn_active"));
+            if (clickedElement.classList.contains("controls__btn")) {
                 clickedElement.classList.add("controls__btn_active");
                 productImage.src = `${product.images[idx]}`;
             }

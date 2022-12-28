@@ -78,10 +78,10 @@ export default class CartView {
         allPromocodes.innerHTML =
             "Promocodes for test <br>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
 
-        this.addHandlers(app.cart);
+        this.addHandlers();
     }
 
-    private addHandlers(cart: Cart): void {
+    private addHandlers(): void {
         const cartItem = document.querySelector(".content__container")!;
 
         cartItem.addEventListener("click", (event) => {
@@ -163,7 +163,7 @@ export default class CartView {
     }
 
     private removePromocode(promocode: IPromocode) {
-        const usedPromoCodesSection = document.querySelector(".buy-now__used-promo-codes") as HTMLElement;
+        //const usedPromoCodesSection = document.querySelector(".buy-now__used-promo-codes") as HTMLElement;
         const usedPromoCodeSection = document.getElementById(promocode.text);
         usedPromoCodeSection!.remove();
         app.cart.removePromocode(promocode.text);

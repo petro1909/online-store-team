@@ -79,9 +79,6 @@
     background-color: rgb(24, 145, 0);
 }
 
-.product-item__desc {
-}
-
 .product-item__title {
     padding: 0.25rem;
     margin: 0;
@@ -99,8 +96,7 @@
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.info {
-}
+
 
 .info__row {
     padding: 0.15rem 1rem;

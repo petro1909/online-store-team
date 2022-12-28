@@ -23,8 +23,6 @@
     transition: left 1s;
   }
 }
-.sort {
-}
 
 .category {
     display: block;
@@ -53,18 +51,7 @@
     width: 45%;
 }
 
-.checkbox-line {
-}
-
-.checkbox-line_active {
-}
-
-.checkbox-line__input {
-}
 
 .checkbox-line__label {
     cursor: pointer;
-}
-
-.checkbox-line__product-quantity {
 }

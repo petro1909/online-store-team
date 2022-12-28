@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import "./header.css";
 import HeaderHtml from "./header.html";
 import Cart from "../../model/Cart";
@@ -11,7 +12,7 @@ export default class HeaderView {
 
         const burgerMenuImage = document.querySelector(".burger-menu__img")! as HTMLImageElement;
         burgerMenuImage.src = BurgerMenuImage;
-        burgerMenuImage.addEventListener("click", (e) => {
+        burgerMenuImage.addEventListener("click", () => {
             const filter = document.querySelector(".filter") as HTMLElement;
             filter!.classList.add("filter-show");
         });

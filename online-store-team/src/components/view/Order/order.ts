@@ -1,14 +1,11 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import orderHtml from "./order.html";
 import { app } from "../../../index";
-import Cart from "../../model/Cart";
 import CartView from "../../view/Cart/cart";
 import "./order.css";
-import App from "../../app/App";
 import { CartOptions } from "../../model/type/IFilterOptions";
 
 export default class OrderView {
-    private static cart: Cart;
-    private static cartView: CartView;
     public drawOrder(): void {
         const isPopUp = document.getElementById("pop-up");
         if (!isPopUp) {

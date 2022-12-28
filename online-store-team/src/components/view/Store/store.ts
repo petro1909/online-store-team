@@ -51,7 +51,7 @@ export default class StoreView {
                 const currentAddButton = templateClone.querySelector(".button-add")! as HTMLElement;
                 StoreView.styleProductCard("DROP FROM CART", currentAddButton);
             }
-            if (StoreView.filterOptions.displayMode === "6") articleElem.classList.add("product-item_small")
+            if (this.filterOptions.displayMode === "6") articleElem.classList.add("product-item_small");
             fragment.append(templateClone);
         });
 
@@ -81,7 +81,7 @@ export default class StoreView {
     }
 
     private drawFilter(filter: StoreFilter) {
-         // console.log("filter =", filter);
+        // console.log("filter =", filter);
         const filterSection = document.querySelector(".filter");
         filterSection!.insertAdjacentHTML("beforeend", filterHtml);
         const category = document.getElementById("category")!;
@@ -91,7 +91,8 @@ export default class StoreView {
         const minStock = document.getElementById("min-stock")! as HTMLInputElement;
         const maxStock = document.getElementById("max-stock")! as HTMLInputElement;
 
-        filter.categoryProducts.forEach(item => {  // TODO refactor put in a separate function
+        filter.categoryProducts.forEach((item) => {
+            // TODO refactor put in a separate function
             category.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox" id="${item.category}"
@@ -101,7 +102,7 @@ export default class StoreView {
                                     <span>${item.activeProducts}/${item.totalProducts}</span>
                                 </div>`;
         });
-        filter.brandProducts.forEach(item => {
+        filter.brandProducts.forEach((item) => {
             brand.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox"
@@ -110,7 +111,7 @@ export default class StoreView {
                                     name="brand">
                                     <label for="${item.brand}">${item.brand}</label>
                                     <span>${item.activeProducts}/${item.totalProducts}</span>
-                                </div>`
+                                </div>`;
         });
 
         minPrice.value = String(filter.minPrice);
@@ -124,7 +125,6 @@ export default class StoreView {
 
         filterSection!.addEventListener("input", this.updateFilter);
         filterSection!.addEventListener("reset", this.resetHandler);
-
     }
 
     private resetHandler() {
@@ -132,14 +132,14 @@ export default class StoreView {
         console.log("reset form");
     }
 
-    private updateFilter(event: Event) {
+    private updateFilter = (event: Event) => {
         const formElement = document.getElementById("filters")! as HTMLFormElement;
         const formData = new FormData(formElement);
-        const filterOptions = StoreView.filterOptions;
+        const filterOptions = this.filterOptions;
         const element = event.target as HTMLInputElement;
         const name = element.name;
 
-        switch(name) {
+        switch (name) {
             case "category":
                 filterOptions.categories = formData.getAll(name) as Array<string>;
                 console.log("filterOptions.categories =", filterOptions.categories);
@@ -155,10 +155,6 @@ export default class StoreView {
             case "select":
                 filterOptions.sortingString = element.value;
                 console.log("sort =", element.value);
-                break;
-            case "display-mode":
-                filterOptions.displayMode = element.value;
-                console.log("display-mode =", element.value);
                 break;
             case "min-price":
                 filterOptions.minPrice = Number(element.value);
@@ -183,13 +179,12 @@ export default class StoreView {
             default:
                 break;
         }
-
-        const newView = new StoreView();
-        console.log(StoreView.filterOptions);
-        const activeProducts = app.store.updateFilterProducts(StoreView.filterOptions);
-        newView.drawProducts(activeProducts);
-
-    }
+        this.drawStore(this.filterOptions);
+        // const newView = new StoreView();
+        // console.log(this.filterOptions);
+        // const activeProducts = app.store.updateFilterProducts(this.filterOptions);
+        // newView.drawProducts(activeProducts);
+    };
 
     public static styleProductCard(textContent: string, clickedButton: HTMLElement): void {
         const articleElem = clickedButton.closest(".product-item")!;
