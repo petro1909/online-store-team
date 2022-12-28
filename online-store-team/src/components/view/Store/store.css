@@ -1,3 +1,6 @@
+:root {
+  --product-color: #2c2d33;
+}
 .store {
     display: flex;
     width: 100%;
@@ -8,7 +11,12 @@
     flex-direction: column;
     width: 80%;
 }
-
+@media (max-width: 900px) {
+  .goods {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
 .goods__header {
     display: flex;
     justify-content: space-around;
@@ -34,14 +42,21 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-width: 200px;
-    width: 15vw;
-    min-height: 200px;
-    height: 15vw;
+    min-width: 260px;
+    width: 17vw;
+    min-height: 260px;
+    height: 17vw;
     border-radius: 0.5rem;
-    border: 1px solid rgb(128, 128, 128);
+    border: 1px solid #fff;
     margin: 1rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
 }
+
 
 .product-item_small {
     min-width: 150px;
@@ -50,6 +65,16 @@
     height: 11vw;
 }
 
+
+@media (max-width: 900px) {
+  .product-item {
+    min-width: 220px;
+    min-height: 220px;
+  }
+  .product-item__info {
+    display: none;
+  } 
+}
 .product-item_added .product-item__title{
     background-color: rgb(24, 145, 0);
 }
@@ -59,14 +84,13 @@
 
 .product-item__title {
     padding: 0.25rem;
-    border-radius: 0.5rem 0.5rem 0 0;
     margin: 0;
-    background-color: rgb(193, 0, 0);
+    background-color: var(--product-color);
     color: rgb(255, 255, 255);
 }
 
 .product-item__info {
-    width: 60%;
+    width: 90%;
     margin: 0;
     padding: 0;
     font-size: 0.7rem;
@@ -84,7 +108,29 @@
 }
 
 .product-item__buttons {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.25rem;
+    align-self: center;
+    display: grid;
+    width: 102%;
+    grid-template-columns: 67% 33%;
+}
+
+.product-item__buttons button {
+    border: none;
+    border-right: 2px solid;
+    background-color: var(--product-color);
+    color: #fff;
+    height: 35px;
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .product-item__buttons {
+    display: block;
+  }
+  .product-item__buttons button {
+    width: 100%;
+    border: none;
+  }
 }

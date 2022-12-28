@@ -6,9 +6,10 @@ import { Product } from "../../model/type/IProduct";
 import { app } from "../../..";
 import OrderView from "../../view/Order/order";
 import CartView from "../../view/Cart/cart";
+import { CartOptions } from "../../model/type/IFilterOptions";
 
 export default class ProductView {
-    public drawProduct(product: Product, cart: Cart): void {
+    public async drawProduct(product: Product, cart: Cart): Promise<void> {
         document.getElementById("root")!.innerHTML = productHtml;
 
         const productId = document.getElementById("product-id")!;
@@ -24,6 +25,7 @@ export default class ProductView {
 
         productId.setAttribute("data-id", String(product.id));
         productTitle.textContent = product.title;
+        await app.store.removeDuplicatesFromProductImages(product);
         productImage.src = `${product.images[0]}`;
         productDescription.textContent = product.description;
         productDiscount.textContent = product.discountPercentage + "%";
@@ -104,12 +106,12 @@ export default class ProductView {
 
             if (isProductInCart) {
                 app.router.route(`/cart`);
-                cartView.drawCart(app.cart, 0);
+                cartView.drawCart(new CartOptions());
                 orderView.drawOrder();
             } else {
                 app.router.route(`/cart`);
                 app.cart.putProductIntoCart(product!);
-                cartView.drawCart(app.cart, 0);
+                cartView.drawCart(new CartOptions());
                 orderView.drawOrder();
             }
         }

@@ -1,31 +1,23 @@
-export class IStoreFilterOptions {
+export class StoreFilterOptions {
     categories: Array<string> = [];
     brands: Array<string> = [];
-    minPrice!: number;
-    maxPrice?: number;
-    minStock?: number;
-    maxStock?: number;
-    searchString?: string;
-    displayMode?: string;
-    sortingString?: string;
-    constructor() {
-        this.categories = [];
-        this.brands = [];
-        this.minPrice = 0;
-        this.maxPrice = 0;
-        this.minStock = 0;
-        this.maxStock = 0;
-        this.searchString = "";
-        this.displayMode = "";
-        this.sortingString = "";
-    }
+    minPrice = 0;
+    maxPrice = 0;
+    minStock = 0;
+    maxStock = 0;
+    searchString = "";
+    displayMode = "";
+    sortingString = "";
 }
 
-export type ICartOptions = {
-    page?: number;
-    limit?: number;
-};
-
+export class CartOptions {
+    page = 0;
+    limit = 0;
+    constructor(page = 1, limit = 3) {
+        this.page = page;
+        this.limit = limit;
+    }
+}
 // export interface ISearchOptions extends IBaseOptions {
 //     searchString: string;
 // }
@@ -38,7 +30,3 @@ export interface ISortOptions {
     sortingParameter: string;
     order: number;
 }
-
-// export interface IBaseOptions {
-//     [key: string]: string | number | Array<string> | undefined;
-// }
