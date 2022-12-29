@@ -80,6 +80,10 @@ export default class StoreView {
         // console.log("filter =", filter);
         const filterSection = document.querySelector(".filter");
         filterSection!.insertAdjacentHTML("beforeend", filterHtml);
+
+        const closeFilterButton = filterSection?.querySelector(".close-filter-button") as HTMLElement;
+        closeFilterButton.addEventListener("click", this.hideFilter);
+        window.addEventListener("resize", this.hideFilterByResizeWindow);
         const category = document.getElementById("category")!;
         const brand = document.getElementById("brand")!;
         const minPrice = document.getElementById("min-price")! as HTMLInputElement;
@@ -190,5 +194,16 @@ export default class StoreView {
         clickedButton.classList.toggle("button-drop");
         articleElem.classList.toggle("product-item_added");
         clickedButton.textContent = textContent;
+    }
+
+    private hideFilterByResizeWindow() {
+        const filter = document.querySelector(".filter") as HTMLElement;
+        if (document.body.clientWidth > 900 && filter.classList.contains("filter-show")) {
+            filter.classList.remove("filter-show");
+        }
+    }
+    private hideFilter() {
+        const filter = document.querySelector(".filter") as HTMLElement;
+        filter.classList.remove("filter-show");
     }
 }
