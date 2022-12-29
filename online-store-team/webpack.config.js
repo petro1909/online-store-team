@@ -60,14 +60,6 @@ const baseConfig = {
           failOnError: false,
           failOnWarning: false
         }),
-      //   new CopyWebpackPlugin({
-      //     patterns:[
-      //         {
-      //             from: './src/components/view/*/*.html',
-      //             to: path.resolve(__dirname, 'dist/view/[name].html')
-      //         }
-      //     ]
-      // })
     ],
 };
 
