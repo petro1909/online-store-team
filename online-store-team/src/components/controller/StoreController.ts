@@ -18,7 +18,7 @@ export default class StoreController extends BaseController {
 
     public getStoreOptions(queryString: string): StoreFilterOptions {
         const storeOptions: StoreFilterOptions = new StoreFilterOptions();
-        console.log(queryString);
+        // console.log(queryString);
         queryString = queryString.slice(1);
         const optionsArr = queryString.split("&");
         for (const option of optionsArr) {
@@ -39,7 +39,7 @@ export default class StoreController extends BaseController {
                 }
             }
         }
-        console.log(storeOptions);
+        // console.log(storeOptions);
         return storeOptions;
     }
 }
