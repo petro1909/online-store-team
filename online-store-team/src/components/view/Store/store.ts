@@ -13,14 +13,10 @@ export default class StoreView {
 
     public drawStore(options: StoreFilterOptions): void {
         this.filterOptions = options;
-        console.log(this.filterOptions);
-
         document.getElementById("root")!.innerHTML = storeHtml;
         const activeProducts = app.store.updateFilterProducts(options);
-        console.log("activeProducts =", activeProducts);
         this.drawProducts(activeProducts);
         const filter = app.store.getFilter();
-        console.log("filter =", filter);
         this.drawFilter(filter);
     }
 
@@ -97,7 +93,8 @@ export default class StoreView {
                                     <input class="checkbox"
                                     type="checkbox" id="${item.category}"
                                     value="${item.category}"
-                                    name="category">
+                                    name="category"
+                                    >
                                     <label for="${item.category}">${item.category}</label>
                                     <span>${item.activeProducts}/${item.totalProducts}</span>
                                 </div>`;
@@ -179,6 +176,7 @@ export default class StoreView {
             default:
                 break;
         }
+        app.router.addQueryParameters(this.filterOptions);
         this.drawStore(this.filterOptions);
         // const newView = new StoreView();
         // console.log(this.filterOptions);
