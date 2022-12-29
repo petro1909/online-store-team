@@ -348,3 +348,13 @@ html {
     margin-top: 1rem;
     background: linear-gradient(180deg,#e6e6e6 0%,rgba(255, 20, 20, 0.5) 49%, rgba(170, 60, 60, 0.7) 51%,rgba(255, 20, 20, 0.5) 100%);
 }
+.buy-now__proposed-promo-codes {
+    width: 100%;
+}
+
+.promo-code {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+}
