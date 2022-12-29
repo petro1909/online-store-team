@@ -20,7 +20,7 @@
 .filter {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 100%;
 }
 .filter-show {
   left:0 !important;
@@ -28,7 +28,6 @@
 @media (max-width: 900px) {
   .filter {
     position: fixed;
-    top: 0;
     left: -800px;
     z-index: 10;
     background-color: #fff;
