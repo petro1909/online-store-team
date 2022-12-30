@@ -93,23 +93,27 @@ export default class StoreView {
 
         filter.categoryProducts.forEach((item) => {
             // TODO refactor put in a separate function
+            const isChecked = this.filterOptions.categories.includes(item.category) ? "checked" : "";
             category.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox" id="${item.category}"
                                     value="${item.category}"
                                     name="category"
+                                    ${isChecked}
                                     >
                                     <label for="${item.category}">${item.category}</label>
                                     <span>${item.activeProducts}/${item.totalProducts}</span>
                                 </div>`;
         });
         filter.brandProducts.forEach((item) => {
+            const isChecked = this.filterOptions.brands.includes(item.brand) ? "checked" : "";
             brand.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox"
                                     id="${item.brand}"
                                     value="${item.brand}"
-                                    name="brand">
+                                    name="brand"
+                                    ${isChecked}>
                                     <label for="${item.brand}">${item.brand}</label>
                                     <span>${item.activeProducts}/${item.totalProducts}</span>
                                 </div>`;
