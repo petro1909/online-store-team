@@ -100,9 +100,10 @@ export default class Cart {
     }
 
     public updateCartProducts(options: CartOptions): Array<CartProduct> {
-        const rightPagesLimit = Math.ceil(this.cartProducts.length / options.limit);
         if (options.limit < 1) options.limit = 1;
         if (options.page < 1) options.page = 1;
+        console.log(options);
+        const rightPagesLimit = Math.ceil(this.cartProducts.length / options.limit);
         if (options.page > rightPagesLimit) options.page = rightPagesLimit;
         app.router.addQueryParameters(options);
         return this.cartProducts.slice(options.limit * (options.page - 1));
