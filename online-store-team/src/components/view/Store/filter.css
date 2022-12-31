@@ -17,14 +17,17 @@
 .filters {
     width: 100%;
 }
+
 .filter {
   position: sticky;
   top: 0;
   height: 100%;
 }
+
 .filter-show {
-  left:0 !important;
+    left:0 !important;
 }
+
 @media (max-width: 900px) {
   .filter {
     position: fixed;
@@ -36,36 +39,209 @@
   .close-filter-button {
     display: block;
   }
+
+.buttons {
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	margin: 5px;
+	padding: 5px;
+}
+
+.display-mode {
+	width: 90%;
+	margin: 5px;
+	padding: 5px;
+}
+
+.sort {
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	margin: 5px;
+}
+
+.search {
+	width: 45%
+}
+
+.select {
+	width: 45%
 }
 
 .category {
     display: block;
     width: 90%;
     height: 30vh;
+	margin: 5px;
     overflow-y: scroll;
 }
 
 .brand {
     height: 30vh;
     width: 90%;
+	margin: 5px;
     overflow-y: scroll;
 }
 
 .price {
     display: flex;
     width: 90%;
+	margin: 5px;
 }
 
 .stock {
     display: flex;
     width: 90%;
+	margin: 5px;
 }
 
 .limits {
     width: 45%;
+	text-align: center;
 }
 
 
 .checkbox-line__label {
     cursor: pointer;
+}
+
+/*
+.##.....##.##.....##.##.......########.####.........########.....###....##....##..######...########
+.###...###.##.....##.##..........##.....##..........##.....##...##.##...###...##.##....##..##......
+.####.####.##.....##.##..........##.....##..........##.....##..##...##..####..##.##........##......
+.##.###.##.##.....##.##..........##.....##..#######.########..##.....##.##.##.##.##...####.######..
+.##.....##.##.....##.##..........##.....##..........##...##...#########.##..####.##....##..##......
+.##.....##.##.....##.##..........##.....##..........##....##..##.....##.##...###.##....##..##......
+.##.....##..#######..########....##....####.........##.....##.##.....##.##....##..######...########
+*/
+
+.range-slider {
+	width: 90%;
+	margin: 5px;
+	text-align: center;
+	position: relative;
+	height: 4.2em;
+}
+
+.range-slider input[type=range] {
+	position: absolute;
+	left: 15px;
+	bottom: 5px;
+}
+
+input[type=number] {
+	border: 1px solid #ddd;
+	font-size: 1.6em;
+	text-align: center;
+	-moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+input[type=number]:invalid,
+input[type=number]:out-of-range {
+	border: 2px solid #ff6347;
+}
+
+input[type=range] {
+	-webkit-appearance: none;
+	width: 90%;
+}
+
+input[type=range]:focus {
+	outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+	background: #2497e3;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+	background: #2497e3;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+	background: #2497e3;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 5px;
+	cursor: pointer;
+	animate: 0.2s;
+	background: #2497e3;
+	border-radius: 1px;
+	box-shadow: none;
+	border: 0;
+}
+
+input[type=range]::-webkit-slider-thumb {
+	z-index: 2;
+	position: relative;
+	box-shadow: 0px 0px 0px #000;
+	border: 1px solid #2497e3;
+	height: 18px;
+	width: 18px;
+	border-radius: 25px;
+	background: #a1d0ff;
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -7px;
+}
+
+input[type=range]::-moz-range-track {
+	width: 100%;
+	height: 5px;
+	cursor: pointer;
+	animate: 0.2s;
+	background: #2497e3;
+	border-radius: 1px;
+	box-shadow: none;
+	border: 0;
+}
+
+input[type=range]::-moz-range-thumb {
+	z-index: 2;
+	position: relative;
+	box-shadow: 0px 0px 0px #000;
+	border: 1px solid #2497e3;
+	height: 18px;
+	width: 18px;
+	border-radius: 25px;
+	background: #a1d0ff;
+	cursor: pointer;
+}
+
+input[type=range]::-ms-track {
+	width: 100%;
+	height: 5px;
+	cursor: pointer;
+	animate: 0.2s;
+	background: transparent;
+	border-color: transparent;
+	color: transparent;
+}
+
+input[type=range]::-ms-fill-lower,
+input[type=range]::-ms-fill-upper {
+	background: #2497e3;
+	border-radius: 1px;
+	box-shadow: none;
+	border: 0;
+}
+
+input[type=range]::-ms-thumb {
+	z-index: 2;
+	position: relative;
+	box-shadow: 0px 0px 0px #000;
+	border: 1px solid #2497e3;
+	height: 18px;
+	width: 18px;
+	border-radius: 25px;
+	background: #a1d0ff;
+	cursor: pointer;
 }

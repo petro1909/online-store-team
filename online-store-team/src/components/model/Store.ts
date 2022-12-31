@@ -10,7 +10,6 @@ export class Store {
     public async initStore(): Promise<void> {
         const storeJsonResult = await this.getProducts();
         this.products = storeJsonResult.products;
-
         this.filter = new StoreFilter(this.products);
     }
     private async getProducts(): Promise<ProductJsonResult> {

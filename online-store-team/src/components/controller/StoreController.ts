@@ -38,7 +38,7 @@ export default class StoreController extends BaseController {
                 }
             }
         }
-        console.log(storeOptions);
+        // console.log(storeOptions);
         return storeOptions;
     }
 }

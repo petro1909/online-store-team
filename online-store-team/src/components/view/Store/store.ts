@@ -128,13 +128,17 @@ export default class StoreView {
         maxStock.value = String(filter.maxStock);
         maxStock.max = String(filter.maxStock);
 
+        const priceFieldSet = document.getElementById("price");
+        const stockFieldSet = document.getElementById("stock");
+
+        stockFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "stock", 8));
+        priceFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "price", 100));
         filterSection!.addEventListener("input", this.updateFilter);
         filterSection!.addEventListener("reset", this.resetHandler);
     }
 
     private resetHandler() {
         app.router.route("/");
-        console.log("reset form");
     }
 
     private updateFilter = (event: Event) => {
@@ -143,47 +147,46 @@ export default class StoreView {
         const filterOptions = this.filterOptions;
         const element = event.target as HTMLInputElement;
         const name = element.name;
-
+        const minPrice = document.getElementById("min-price") as HTMLInputElement;
+        const maxPrice = document.getElementById("max-price") as HTMLInputElement;
+        const minStock = document.getElementById("min-stock") as HTMLInputElement;
+        const maxStock = document.getElementById("max-stock") as HTMLInputElement;
         switch (name) {
             case "category":
                 filterOptions.categories = formData.getAll(name) as Array<string>;
-                console.log("filterOptions.categories =", filterOptions.categories);
                 break;
             case "brand":
                 filterOptions.brands = formData.getAll(name) as Array<string>;
-                console.log("filterOptions.brands =", filterOptions.categories);
                 break;
             case "search":
                 filterOptions.searchString = element.value;
-                console.log("search =", element.value);
                 break;
             case "select":
                 filterOptions.sortingString = element.value;
-                console.log("sort =", element.value);
                 break;
             case "min-price":
-                filterOptions.minPrice = Number(element.value);
-                console.log("minPrice =", element.value);
+                filterOptions.minPrice = Number(minPrice!.value);
+                filterOptions.maxPrice = Number(maxPrice!.value);
                 break;
             case "max-price":
-                filterOptions.maxPrice = Number(element.value);
-                console.log("maxPrice =", element.value);
+                filterOptions.minPrice = Number(minPrice!.value);
+                filterOptions.maxPrice = Number(maxPrice!.value);
                 break;
             case "min-stock":
-                filterOptions.minStock = Number(element.value);
-                console.log("minStock =", element.value);
+                filterOptions.minStock = Number(minStock!.value);
+                filterOptions.maxStock = Number(maxStock!.value);
                 break;
             case "max-stock":
-                filterOptions.maxStock = Number(element.value);
-                console.log("maxStock =", element.value);
+                filterOptions.minStock = Number(minStock!.value);
+                filterOptions.maxStock = Number(maxStock!.value);
                 break;
             case "display-mode":
                 filterOptions.displayMode = String(element.value);
-                console.log("display-mode =", element.value);
                 break;
             default:
                 break;
         }
+
         app.router.addQueryParameters(this.filterOptions);
         this.drawStore(this.filterOptions);
         // const newView = new StoreView();
@@ -200,6 +203,52 @@ export default class StoreView {
         clickedButton.textContent = textContent;
     }
 
+    private workRangeInput(partOfId: string, minScope: number) {
+        const lowerSlider = document.getElementById(`lower-${partOfId}`) as HTMLInputElement;
+        const upperSlider = document.getElementById(`upper-${partOfId}`) as HTMLInputElement;
+        const maxValue = document.getElementById(`max-${partOfId}`) as HTMLInputElement;
+        const minValue = document.getElementById(`min-${partOfId}`) as HTMLInputElement;
+        let lowerValue = parseInt(lowerSlider!.value);
+        let upperValue = parseInt(upperSlider!.value);
+
+        upperSlider.oninput = function() {
+            lowerValue = parseInt(lowerSlider.value);
+            upperValue = parseInt(upperSlider.value);
+
+            if (upperValue < lowerValue + minScope) {
+                lowerSlider.value = String(upperValue - minScope);
+                maxValue.value = upperSlider.value;
+                minValue.value = lowerSlider.value;
+                if (lowerValue === Number(lowerSlider.min)) {
+                    upperSlider.value = String(minScope);
+                    maxValue.value = upperSlider.value;
+                    minValue.value = lowerSlider.value;
+                }
+            }
+            maxValue.value = upperSlider.value;
+            minValue.value = lowerSlider.value;
+        };
+
+
+        lowerSlider.oninput = function() {
+            lowerValue = parseInt(lowerSlider.value);
+            upperValue = parseInt(upperSlider.value);
+
+            if (lowerValue > upperValue - minScope) {
+                upperSlider.value = String(lowerValue + minScope);
+                maxValue.value = upperSlider.value;
+                minValue.value = lowerSlider.value;
+                if (upperValue === Number(upperSlider.max)) {
+                    lowerSlider.value = String(parseInt(upperSlider.max) - minScope);
+                    maxValue.value = upperSlider.value;
+                    minValue.value = lowerSlider.value;
+                }
+            }
+            maxValue.value = upperSlider.value;
+            minValue.value = lowerSlider.value;
+        };
+    };
+
     private hideFilterByResizeWindow() {
         const filter = document.querySelector(".filter") as HTMLElement;
         if (document.body.clientWidth > 900 && filter.classList.contains("filter-show")) {
@@ -210,4 +259,5 @@ export default class StoreView {
         const filter = document.querySelector(".filter") as HTMLElement;
         filter.classList.remove("filter-show");
     }
+
 }

@@ -14,17 +14,21 @@ export default class CartView {
         this.cartOptions = cartOptions;
         document.getElementById("root")!.innerHTML = cartHtml;
 
+        const fragment: DocumentFragment = document.createDocumentFragment();
         const paginationTemplate = document.getElementById("paginationTemplate")! as HTMLTemplateElement;
         const clonePaginationTemp = paginationTemplate.content.cloneNode(true) as HTMLElement;
         const content = document.querySelector(".content")! as HTMLDivElement;
         content.prepend(clonePaginationTemp);
 
         const paginationPageCurrent = document.getElementById("pagination-page-current")! as HTMLInputElement;
+        const paginationLimitInput = document.getElementById("pagination-limit-input")! as HTMLInputElement;
+        
+        paginationLimitInput.value = String(cartOptions.limit!);
         paginationPageCurrent.textContent = String(cartOptions.page!);
 
-        const fragment: DocumentFragment = document.createDocumentFragment();
+        const currentPageProductsList = app.cart.cartProducts.slice((cartOptions.page  - 1) * cartOptions.limit, (cartOptions.page  - 1) * cartOptions.limit + cartOptions.limit)
 
-        app.cart.cartProducts.forEach((product: CartProduct, idx: number): void => {
+        currentPageProductsList.forEach((product: CartProduct, idx: number): void => {
             const _product = product.product;
             const cartItemTemplate = document.getElementById("cartItemTemplate")! as HTMLTemplateElement;
             const templateClone = cartItemTemplate.content.cloneNode(true) as HTMLElement;
@@ -41,7 +45,7 @@ export default class CartView {
             const cartItemAmountControl = templateClone.querySelector(".cart-item__amount-control")! as HTMLElement;
 
             cartItem.setAttribute("data-id", String(_product.id));
-            cartItemNumber.textContent = String(idx + 1);
+            cartItemNumber.textContent = String((cartOptions.page - 1) * cartOptions.limit + idx + 1);
             productImg.src = String(_product.images[0]);
             productImg.alt = _product.title;
             productDescTitle.textContent = _product.title;
@@ -104,7 +108,14 @@ export default class CartView {
         allPromocodes.innerHTML =
             "Promocodes for test <br>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
 
-        this.addHandlers();
+        if(currentPageProductsList.length === 0 && app.cart.cartProducts.length > 0) {
+            app.router.route("error");
+        } else if (app.cart.cartProducts.length === 0){
+            cartOptions = { page: 1, limit: 3 };
+            _cart.innerHTML = "<h2>Cart is Empty</h2>";
+        } else {
+            this.addHandlers();
+        }
     }
 
     private addHandlers(): void {
@@ -115,10 +126,12 @@ export default class CartView {
             const idProduct = clickedElement.closest(".cart-item")!.getAttribute("data-id");
             if (clickedElement.classList.contains("cart-item__decrease-btn")) {
                 app.cart.decreaceCartProductCount(Number(idProduct));
+                app.cart.updateCartProducts(this.cartOptions);
                 this.drawCart(this.cartOptions);
             }
             if (clickedElement.classList.contains("cart-item__increase-btn")) {
                 app.cart.increaceCartProductCount(Number(idProduct));
+                app.cart.updateCartProducts(this.cartOptions);
                 this.drawCart(this.cartOptions);
             }
             if (clickedElement.classList.contains("product__img")) {
@@ -139,6 +152,28 @@ export default class CartView {
             const orderView = new OrderView();
             orderView.drawOrder();
         });
+
+        const paginationCurrentPageNumber = document.querySelector(".pagination__page-number")! as HTMLElement;
+        paginationCurrentPageNumber.addEventListener("click", (event) => {
+            const clickedButton = event.target! as HTMLButtonElement;
+            if(clickedButton.classList.contains("pagination__page-prev")) {
+                this.cartOptions.page = this.cartOptions.page - 1;
+                app.cart.updateCartProducts(this.cartOptions);
+                this.drawCart(this.cartOptions);
+            } else if(clickedButton.classList.contains("pagination__page-next")) {
+                this.cartOptions.page = this.cartOptions.page + 1;
+                app.cart.updateCartProducts(this.cartOptions);
+                this.drawCart(this.cartOptions);
+            }
+        })
+
+        const paginationLimitInput = document.getElementById("pagination-limit-input")! as HTMLInputElement;
+        paginationLimitInput.addEventListener("change", (event: Event) => {
+            const inputLimit = event.target! as HTMLInputElement;
+            this.cartOptions.limit = Number(inputLimit.value);
+            app.cart.updateCartProducts(this.cartOptions);
+            this.drawCart(this.cartOptions);
+        })
     }
 
     //input promocode text
