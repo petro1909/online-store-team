@@ -13,14 +13,10 @@ export default class StoreView {
 
     public drawStore(options: StoreFilterOptions): void {
         this.filterOptions = options;
-        // console.log(this.filterOptions);
-
         document.getElementById("root")!.innerHTML = storeHtml;
         const activeProducts = app.store.updateFilterProducts(options);
-        // console.log("activeProducts =", activeProducts);
         this.drawProducts(activeProducts);
         const filter = app.store.getFilter();
-        // console.log("filter =", filter);
         this.drawFilter(filter);
     }
 
@@ -84,6 +80,10 @@ export default class StoreView {
         // console.log("filter =", filter);
         const filterSection = document.querySelector(".filter");
         filterSection!.insertAdjacentHTML("beforeend", filterHtml);
+
+        const closeFilterButton = filterSection?.querySelector(".close-filter-button") as HTMLElement;
+        closeFilterButton.addEventListener("click", this.hideFilter);
+        window.addEventListener("resize", this.hideFilterByResizeWindow);
         const category = document.getElementById("category")!;
         const brand = document.getElementById("brand")!;
         const minPrice = document.getElementById("min-price")! as HTMLInputElement;
@@ -93,22 +93,27 @@ export default class StoreView {
 
         filter.categoryProducts.forEach((item) => {
             // TODO refactor put in a separate function
+            const isChecked = this.filterOptions.categories.includes(item.category) ? "checked" : "";
             category.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox" id="${item.category}"
                                     value="${item.category}"
-                                    name="category">
+                                    name="category"
+                                    ${isChecked}
+                                    >
                                     <label for="${item.category}">${item.category}</label>
                                     <span>${item.activeProducts}/${item.totalProducts}</span>
                                 </div>`;
         });
         filter.brandProducts.forEach((item) => {
+            const isChecked = this.filterOptions.brands.includes(item.brand) ? "checked" : "";
             brand.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox"
                                     id="${item.brand}"
                                     value="${item.brand}"
-                                    name="brand">
+                                    name="brand"
+                                    ${isChecked}>
                                     <label for="${item.brand}">${item.brand}</label>
                                     <span>${item.activeProducts}/${item.totalProducts}</span>
                                 </div>`;
@@ -182,10 +187,12 @@ export default class StoreView {
                 break;
         }
 
-        // this.drawStore(this.filterOptions);
-        const newView = new StoreView();
-        const activeProducts = app.store.updateFilterProducts(this.filterOptions);
-        newView.drawProducts(activeProducts);
+        app.router.addQueryParameters(this.filterOptions);
+        this.drawStore(this.filterOptions);
+        // const newView = new StoreView();
+        // console.log(this.filterOptions);
+        // const activeProducts = app.store.updateFilterProducts(this.filterOptions);
+        // newView.drawProducts(activeProducts);
     };
 
     public static styleProductCard(textContent: string, clickedButton: HTMLElement): void {
@@ -241,4 +248,16 @@ export default class StoreView {
             minValue.value = lowerSlider.value;
         };
     };
+
+    private hideFilterByResizeWindow() {
+        const filter = document.querySelector(".filter") as HTMLElement;
+        if (document.body.clientWidth > 900 && filter.classList.contains("filter-show")) {
+            filter.classList.remove("filter-show");
+        }
+    }
+    private hideFilter() {
+        const filter = document.querySelector(".filter") as HTMLElement;
+        filter.classList.remove("filter-show");
+    }
+
 }

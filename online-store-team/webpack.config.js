@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
 const baseConfig = {
     entry: path.resolve(__dirname, './src/index'),
@@ -38,6 +39,15 @@ const baseConfig = {
         publicPath: "/"
     },
     plugins: [
+        new NetlifyPlugin({
+          redirects: [
+            {
+              from: "/*",
+              to: "/index.html",
+              status: 200
+            }
+          ]
+        }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
@@ -50,14 +60,6 @@ const baseConfig = {
           failOnError: false,
           failOnWarning: false
         }),
-      //   new CopyWebpackPlugin({
-      //     patterns:[
-      //         {
-      //             from: './src/components/view/*/*.html',
-      //             to: path.resolve(__dirname, 'dist/view/[name].html')
-      //         }
-      //     ]
-      // })
     ],
 };
 

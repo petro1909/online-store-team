@@ -1,15 +1,27 @@
 .filters-block {
     width: 400px;
+    position: relative;
 }
-
+.close-filter-button {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    background-image: url(../../../assets/img/Header/close_burger_menu.svg);
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .filters {
     width: 100%;
 }
 
 .filter {
-	position: sticky;
-	top: 0;
-	height: 100vh;
+  position: sticky;
+  top: 0;
+  height: 100%;
 }
 
 .filter-show {
@@ -17,15 +29,16 @@
 }
 
 @media (max-width: 900px) {
-	.filter {
-		position: fixed;
-		top: 0;
-		left: -800px;
-		z-index: 10;
-		background-color: #fff;
-		transition: left 1s;
-	}
-}
+  .filter {
+    position: fixed;
+    left: -800px;
+    z-index: 10;
+    background-color: #fff;
+    transition: left 1s;
+  }
+  .close-filter-button {
+    display: block;
+  }
 
 .buttons {
 	display: flex;
