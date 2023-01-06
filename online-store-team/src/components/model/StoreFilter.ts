@@ -80,10 +80,12 @@ export default class StoreFilter {
                 activeProducts.push(product);
             }
         }
-        this.minPrice = activeProducts[0]!.price;
-        this.maxPrice = activeProducts[0]!.price;
-        this.minStock = activeProducts[0]!.stock;
-        this.maxStock = activeProducts[0]!.stock;
+        if (activeProducts[0] !== undefined) {
+            this.minPrice = activeProducts[0].price;
+            this.maxPrice = activeProducts[0].price;
+            this.minStock = activeProducts[0].stock;
+            this.maxStock = activeProducts[0].stock;
+        }
         this.resetBrandAndCaterory();
         for (const product of activeProducts) {
             this.updateFilterFields(product, options);
