@@ -7,6 +7,7 @@ import { Product } from "../../model/type/IProduct";
 import { app } from "../../..";
 import StoreFilter from "../../model/StoreFilter";
 import { StoreFilterOptions } from "../../model/type/IFilterOptions";
+import BurgerMenuImage from "../../../assets/img/Header/burger_menu.svg";
 
 export default class StoreView {
     private filterOptions: StoreFilterOptions = new StoreFilterOptions();
@@ -146,6 +147,10 @@ export default class StoreView {
 
         const stockFieldSet = document.getElementById("stock");
         const priceFieldSet = document.getElementById("price");
+        const burgerMenuImage = document.querySelector(".burger-menu__img")! as HTMLImageElement;
+        burgerMenuImage.src = BurgerMenuImage;
+
+        burgerMenuImage.addEventListener("click", this.drawBurgerMenuFilter);
         stockFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "stock", 8));
         priceFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "price", 100));
         console.log("\n");
@@ -162,7 +167,7 @@ export default class StoreView {
         const formElement = document.getElementById("filters")! as HTMLFormElement;
         const formData = new FormData(formElement);
         const filterOptions = this.filterOptions;
-        
+
         const element = event.target as HTMLInputElement;
         const name = element.name;
 
@@ -322,5 +327,19 @@ export default class StoreView {
         clickedButton.classList.toggle("button-drop");
         articleElem.classList.toggle("product-item_added");
         clickedButton.textContent = textContent;
+    }
+
+    private drawBurgerMenuFilter() {
+        const filter = document.querySelector(".filter") as HTMLElement;
+        const spaBody = document.getElementById("spa-body") as HTMLBodyElement;
+        const popupBg = document.getElementById("popup-bg")! as HTMLDivElement;
+        popupBg.onclick = () => {
+            popupBg!.classList.remove("popup-bg_active");
+            spaBody!.classList.remove("spa-body_active");
+            filter!.classList.remove("filter-show");
+        };
+        popupBg.classList.add("popup-bg_active");
+        spaBody.classList.add("spa-body_active");
+        filter!.classList.add("filter-show");
     }
 }

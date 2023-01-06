@@ -22,8 +22,13 @@
 }
 
 .burger-menu {
+  position: absolute;
+  left: 170px;
+  top: 25px;
   display: none;
+
 }
+
 .burger-menu__img {
   transform: scale(1.7);
 }
