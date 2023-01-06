@@ -19,7 +19,7 @@ export default class StoreController extends BaseController {
     public getStoreOptions(queryString: string): StoreFilterOptions {
         const storeOptions: StoreFilterOptions = new StoreFilterOptions();
         // console.log(queryString);
-        queryString = queryString.slice(1);
+        queryString = queryString.slice(1).replace(/%20/g, " ");
         const optionsArr = queryString.split("&");
         for (const option of optionsArr) {
             const [key, value] = option.split("=");
