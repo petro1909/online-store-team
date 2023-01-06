@@ -232,3 +232,8 @@ input[type=range]::-ms-thumb {
 	background: #a1d0ff;
 	cursor: pointer;
 }
+
+#lower-price::-webkit-slider-thumb,
+#lower-stock::-webkit-slider-thumb {
+	background-color: #83a9cf;
+}
