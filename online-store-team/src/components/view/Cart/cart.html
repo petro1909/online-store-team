@@ -56,16 +56,18 @@
           <h2 class="buy-now__title  text-shadow">Summary</h2>
           <hr class="buy-now__separator">
           <div class="buy-now__products">
-              <span class="buy-now__products-text">Products: </span>0
+              <span class="buy-now__products-text">Total count:</span>
+              <span class="buy-now__products-value">0</span>
           </div>
           <div class="buy-now__total">
-              <span class="buy-now__total-text">Total: </span>€0
+              <p class="buy-now__total-text">Total: €<span class="buy-now__total-value">0</span></p>
+              <p class="buy-now__actual-total-text">Actual Total: €<span class="buy-now__actual-total-value">0</span></p>
           </div>
-          <div class="buy-now__actual-total">
-            <span class="buy-now__actual-total-text">Actual: </span>€0
+          <div class="buy-now__used-promo-codes">
+            <h2 class="buy-now__used-promo-codes-header">Used promocodes</h2>
+            <div class="buy-now__used-promo-codes-list"></div>
           </div>
-          <div class="buy-now__used-promo-codes"></div>
-          <div class="buy-now__promo-code">
+          <div class="buy-now__promo-code-input">
               <input type="search" placeholder="Enter promo code" class="buy-now__input-promo" id="buy-now-input-code"><br>
           </div>
           <div class="buy-now__proposed-promo-codes"></div>
@@ -74,11 +76,11 @@
       </aside>
   </template>
 
-  <template id="promocodeTemplate">
-    <section class="promocode">
-      <p class="promocode__name"></p>
-      <p class="promocode__discount"></p>
-      <button class="promocode__action"></button>
+  <template id="promo-codeTemplate">
+    <section class="promo-code">
+      <p class="promo-code__name"></p>
+      <p class="promo-code__discount"></p>
+      <button class="promo-code__action"></button>
     </section>
   </template>
 

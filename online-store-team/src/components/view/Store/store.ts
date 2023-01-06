@@ -17,7 +17,6 @@ export default class StoreView {
         document.getElementById("root")!.innerHTML = storeHtml;
 
         const activeProducts = app.store.updateFilterProducts(options);
-        // console.log("activeProducts =", activeProducts);
         this.drawProducts(activeProducts);
 
         const filter = app.store.getFilter();
@@ -90,6 +89,10 @@ export default class StoreView {
         // console.log("filter =", filter);
         const filterSection = document.querySelector(".filter");
         filterSection!.insertAdjacentHTML("beforeend", filterHtml);
+
+        const closeFilterButton = filterSection?.querySelector(".close-filter-button") as HTMLElement;
+        closeFilterButton.addEventListener("click", this.hideFilter);
+        window.addEventListener("resize", this.hideFilterByResizeWindow);
         const category = document.getElementById("category")!;
         const brand = document.getElementById("brand")!;
 
@@ -233,6 +236,12 @@ export default class StoreView {
         this.drawProducts(activeProducts);
         this.makeFilterActual(filter, filterOptions);
         console.log("\n");
+        app.router.addQueryParameters(this.filterOptions);
+        this.drawStore(this.filterOptions);
+        // const newView = new StoreView();
+        // console.log(this.filterOptions);
+        // const activeProducts = app.store.updateFilterProducts(this.filterOptions);
+        // newView.drawProducts(activeProducts);
     };
 
     private workRangeInput(partOfId: string, minScope: number, event: Event) {
@@ -342,4 +351,15 @@ export default class StoreView {
         spaBody.classList.add("spa-body_active");
         filter!.classList.add("filter-show");
     }
+    private hideFilterByResizeWindow() {
+        const filter = document.querySelector(".filter") as HTMLElement;
+        if (document.body.clientWidth > 900 && filter.classList.contains("filter-show")) {
+            filter.classList.remove("filter-show");
+        }
+    }
+    private hideFilter() {
+        const filter = document.querySelector(".filter") as HTMLElement;
+        filter.classList.remove("filter-show");
+    }
+
 }

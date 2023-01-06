@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { app } from "../..";
 import { ISortOptions, StoreFilterOptions } from "./type/IFilterOptions";
 import { Product } from "./type/IProduct";
 
@@ -90,7 +89,6 @@ export default class StoreFilter {
         for (const product of activeProducts) {
             this.updateFilterFields(product, options);
         }
-        app.router.addQueryParameters(options);
         return this.sortProducts(activeProducts, options);
     }
     private resetBrandAndCaterory() {
