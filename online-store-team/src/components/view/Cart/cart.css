@@ -282,14 +282,14 @@ html {
 .########...#######.....##.......##....##..#######...###..###.
 */
 
-.cart__buy-now {
+.cart__summary {
     width: 25%;
     height: fit-content;
     backdrop-filter: blur(0.5rem);
     background: rgba(0, 0, 0, 0.25); /* TODO add variable */
 }
 
-.buy-now {
+.summary {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -298,30 +298,30 @@ html {
     border-radius: 0.25rem;
 }
 
-.buy-now__separator {
+.summary__separator {
     width: 100%;
     margin: 0;
     margin-top: 1rem;
 }
 
-.buy-now__title {
+.summary__title {
     text-transform: uppercase;
     margin: 0;
 }
 
-.buy-now__products {
+.summary__products {
     margin-top: 1rem;
     font-size: 2rem;
     text-transform: uppercase;
 }
 
-.buy-now__total {
+.summary__total {
     margin-top: 1rem;
     font-size: 2rem;
     text-transform: uppercase;
 }
 
-.buy-now__input-promo {
+.summary__input-promo {
     width: 100%;
     height: 2.5rem;
     padding: 0.5rem;
@@ -333,22 +333,22 @@ html {
     background: rgba(40, 40, 40, 0.7); /* TODO add variable */
 }
 
-.buy-now__input-promo::placeholder {
+.summary__input-promo::placeholder {
     color: rgba(255, 255, 255, 0.7); /* TODO add variable */
     text-align: center;
 }
 
-.buy-now__promo-code {
+.summary__promo-code {
     text-align: center;
 }
 
-.buy-now__submit {
+.summary__submit {
     width: fit-content;
     padding: 1rem 3rem;
     margin-top: 1rem;
     background: linear-gradient(180deg,#e6e6e6 0%,rgba(255, 20, 20, 0.5) 49%, rgba(170, 60, 60, 0.7) 51%,rgba(255, 20, 20, 0.5) 100%);
 }
-.buy-now__proposed-promo-codes {
+.summary__proposed-promo-codes {
     width: 100%;
 }
 
