@@ -1,6 +1,6 @@
 import { Product } from "../src/components/model/type/product";
 
-export const products: Array<Product> = [
+export const testProducts: Array<Product> = [
     {
         id: 1,
         title: "iPhone 9",
