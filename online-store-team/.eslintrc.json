@@ -29,6 +29,7 @@
             "singleQuote": false
           }
         ],
+        "max-len":"off",
         "@typescript-eslint/no-explicit-any": 2
     }
 }
