@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: calc(100vh - 100px - 70px); /* TODO add variables 100px header height, 70px footer height */
+    min-height: inherit;
     background-image: url(../../../assets/img/Error/error-bg.jpg);
     background-position: center;
     background-repeat: no-repeat;
