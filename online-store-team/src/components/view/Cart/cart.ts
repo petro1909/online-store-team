@@ -16,16 +16,19 @@ export default class CartView {
         this.cartHtmlTemplate = document.createRange().createContextualFragment(cartHtml);
     }
     public drawCart(cartOptions: CartOptions): void {
-        this.cartOptions = cartOptions;
+        this.cartOptions = app.cart.validateCartOptions(cartOptions);
+        app.router.replaceQueryParameters(this.cartOptions);
+
         const documentRoot = document.getElementById("root");
         if (!documentRoot) {
             return;
         }
         documentRoot.innerHTML = "";
-        const cartWrapperSection = this.cartHtmlTemplate.querySelector(".cart") as HTMLElement;
-        if (cartWrapperSection) {
-            documentRoot.append(cartWrapperSection);
+        const cartWrapperSection = this.cartHtmlTemplate.querySelector(".cart") as HTMLElement | null;
+        if (!cartWrapperSection) {
+            return;
         }
+        documentRoot.append(cartWrapperSection);
         this.drawCartHeader();
         this.drawCartProducts();
         this.drawSummary();
@@ -48,8 +51,6 @@ export default class CartView {
     }
 
     private updateCartHeader() {
-        this.cartOptions = app.cart.validateCartOptions(this.cartOptions);
-        app.router.addQueryParameters(this.cartOptions);
         const currentPage = document.getElementById("pagination-page-current") as HTMLElement | null;
         if (currentPage) {
             currentPage.innerHTML = `${this.cartOptions.page}`;
@@ -62,15 +63,25 @@ export default class CartView {
 
     private updateCartProductLimit = (e: Event) => {
         const productLimitInput = e.target as HTMLInputElement;
-        const limit = Number.parseInt(productLimitInput.value);
+        const productPageLimit = Number.parseInt(productLimitInput.value);
 
-        if (!limit) {
+        if (!productPageLimit) {
             productLimitInput.value = `${this.cartOptions.limit}`;
             return;
         }
-        this.cartOptions.limit = limit;
+        if (productPageLimit === this.cartOptions.limit) {
+            return;
+        }
+        if (productPageLimit < 1) {
+            this.cartOptions.limit = 1;
+        } else if (productPageLimit > app.cart.cartProducts.length) {
+            this.cartOptions.limit = app.cart.cartProducts.length;
+        } else {
+            this.cartOptions.limit = productPageLimit;
+        }
         this.updateCartHeader();
         this.updateCartProducts();
+        app.router.addQueryParameters(this.cartOptions);
     };
 
     private changeCartPage = (e: Event) => {
@@ -78,13 +89,20 @@ export default class CartView {
         if (!clickedButton) {
             return;
         }
+        let currPage = this.cartOptions.page;
         if (clickedButton.classList.contains("pagination__page-prev")) {
-            this.cartOptions.page = this.cartOptions.page - 1;
+            currPage--;
         } else if (clickedButton.classList.contains("pagination__page-next")) {
-            this.cartOptions.page = this.cartOptions.page + 1;
+            currPage++;
         }
+        const pagesCount = Math.ceil(app.cart.cartProducts.length / this.cartOptions.limit);
+        if (currPage < 1 || currPage > pagesCount) {
+            return;
+        }
+        this.cartOptions.page = currPage;
         this.updateCartHeader();
         this.updateCartProducts();
+        app.router.addQueryParameters(this.cartOptions);
     };
 
     private drawCartProducts() {
@@ -125,6 +143,7 @@ export default class CartView {
         if (productImg) {
             productImg.src = String(product.images[0]);
             productImg.alt = product.title;
+            productImg.loading = "lazy";
         }
         this.SetElementInnerHtml(cartProductSection, ".cart-item__number", `${cartProduct.cartIndex}`);
         this.SetElementInnerHtml(cartProductSection, ".product__desc-title", product.title);
@@ -158,7 +177,12 @@ export default class CartView {
             if (!app.cart.decreaceCartProductCount(productId)) {
                 return;
             }
-            this.updateCartHeader();
+            const tempCartOptions = app.cart.validateCartOptions(this.cartOptions);
+            if (tempCartOptions.page !== this.cartOptions.page) {
+                this.cartOptions.page = tempCartOptions.page;
+                this.updateCartHeader();
+                app.router.replaceQueryParameters(this.cartOptions);
+            }
         }
         if (eventTarget.classList.contains("cart-item__increase-btn")) {
             if (!app.cart.increaceCartProductCount(productId)) {
