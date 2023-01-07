@@ -237,11 +237,6 @@ export default class StoreView {
         this.makeFilterActual(filter, filterOptions);
         console.log("\n");
         app.router.addQueryParameters(this.filterOptions);
-        this.drawStore(this.filterOptions);
-        // const newView = new StoreView();
-        // console.log(this.filterOptions);
-        // const activeProducts = app.store.updateFilterProducts(this.filterOptions);
-        // newView.drawProducts(activeProducts);
     };
 
     private workRangeInput(partOfId: string, minScope: number, event: Event) {
