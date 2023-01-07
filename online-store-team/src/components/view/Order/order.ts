@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import orderHtml from "./order.html";
 import { app } from "../../../index";
-import CartView from "../../view/Cart/cart";
+import CartView from "../Cart/cart";
 import "./order.css";
-import { CartOptions } from "../../model/type/IFilterOptions";
+import { CartOptions } from "../../model/storeOptions";
 
 export default class OrderView {
     public drawOrder(): void {

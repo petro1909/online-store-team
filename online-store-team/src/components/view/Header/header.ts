@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import "./header.css";
 import HeaderHtml from "./header.html";
-import Cart from "../../model/Cart";
+import Cart from "../../model/cartModel";
 import BurgerMenuImage from "../../../assets/img/Header/burger_menu.svg";
 
 export default class HeaderView {

@@ -3,10 +3,10 @@ import storeHtml from "./store.html";
 import filterHtml from "./filter.html";
 import "./store.css";
 import "./filter.css";
-import { Product } from "../../model/type/IProduct";
+import { Product } from "../../model/type/product";
 import { app } from "../../..";
-import StoreFilter from "../../model/StoreFilter";
-import { StoreFilterOptions } from "../../model/type/IFilterOptions";
+import StoreFilter from "../../model/storeFilterModel";
+import { StoreFilterOptions } from "../../model/storeOptions";
 
 export default class StoreView {
     private filterOptions: StoreFilterOptions = new StoreFilterOptions();
@@ -66,7 +66,7 @@ export default class StoreView {
                 app.header.drawHeader(app.cart);
             } else if (clickedElement.classList.contains("button-drop")) {
                 StoreView.styleProductCard("ADD TO CART", clickedElement);
-                app.cart.dropProductIntoCart(+productId!);
+                app.cart.dropProductFromCart(+productId!);
                 app.header.drawHeader(app.cart);
             } else if (clickedElement.classList.contains("button-details")) {
                 app.router.route(`/product/${productId}`);
@@ -75,7 +75,6 @@ export default class StoreView {
             }
         }
     }
-
     private drawFilter(filter: StoreFilter) {
         // console.log("filter =", filter);
         const filterSection = document.querySelector(".filter");
