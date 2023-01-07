@@ -5,7 +5,7 @@ import { Product, ProductJsonResult } from "./type/product";
 export default class Store {
     public products: Array<Product> = [];
     public categories: Array<string> = [];
-    private filter!: StoreFilter;
+    public filter!: StoreFilter;
 
     public async initStore(): Promise<void> {
         const storeJsonResult = await this.getProducts();
