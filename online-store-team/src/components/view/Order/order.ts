@@ -3,6 +3,10 @@ import orderHtml from "./order.html";
 import { app } from "../../../index";
 import "./order.css"
 import {regEx} from "../../model/type/OrderEnum";
+const _default = require("../../../assets/img/Order/default.jpg");
+const visa = require("../../../assets/img/Order/visa.jpg");
+const mastercard = require("../../../assets/img/Order/mastercard.jpg");
+const maestro = require("../../../assets/img/Order/maestro.jpg");
 
 export default class OrderView {
     private static regEx = Object(regEx);
@@ -42,6 +46,7 @@ export default class OrderView {
         orderForm.addEventListener("focusout", this.checkInputValueValidity);
         fieldsetCardDetails.addEventListener("keydown", this.addSpacesAfterCardDigitBlocks);
         fieldsetCardDetails.addEventListener("input", this.forbidNotDigitalInput);
+        fieldsetCardDetails.addEventListener("input", this.choosePaymentSystem);
         inputValidThru.addEventListener("keydown", this.addSlashAfterDigitBlocks);
         inputValidThru.addEventListener("input", this.correctMonthAndDate);
         inputValidThru.addEventListener("input", this.forbidNotDigitalInput);
@@ -54,7 +59,6 @@ export default class OrderView {
         const targetElementId = targetElement.id;
         if(targetElementId !== "order-submit") {
             const tempRegEx = new RegExp(OrderView.regEx[targetElementId]);
-            console.log(tempRegEx);
             const inputFieldValue = targetElement!.value.trim();
             const isValueValid = tempRegEx.test(inputFieldValue);
             if(isValueValid) {
@@ -90,6 +94,33 @@ export default class OrderView {
         if(!/^\d{1}$/.test(lastChar)) {
             inputFieldValue = inputFieldValue.slice(0, -1);
             targetElement.value = inputFieldValue;
+        }
+    }
+
+    private choosePaymentSystem(event: Event) {
+        const targetElement = event.target as HTMLInputElement;
+        let inputFieldValue = targetElement!.value;
+        if(inputFieldValue.length === 0) {
+            const paycardImage = document.getElementById("paycard-image") as HTMLImageElement;
+            paycardImage.src = _default;
+        } else if (inputFieldValue.length === 1) {
+            const paycardImage = document.getElementById("paycard-image") as HTMLImageElement;
+            switch (+inputFieldValue[0]!) {
+                case 4:
+                    paycardImage.src = visa;
+                    break;
+                case 5:
+                    paycardImage.src = mastercard;
+                    break;
+                case 6:
+                    paycardImage.src = maestro;
+                    break;
+                default:
+                    paycardImage.src = _default;
+                    inputFieldValue = inputFieldValue.slice(0, -1);
+                    targetElement.value = inputFieldValue;
+                    break;
+            }
         }
     }
 
@@ -153,7 +184,7 @@ export default class OrderView {
         event.preventDefault();
         const inputFields = Array.from(document.querySelectorAll(".input-field")) as HTMLInputElement[];
         const isAllFieldsValid = inputFields.every(item => item.dataset["validity"] === "true");
-        const isAllFieldsInvalid = inputFields.every(item => item.dataset["validity"] === "false");
+        const isAllFieldsInvalid = inputFields.some(item => item.dataset["validity"] === "false");
         if(isAllFieldsValid) {
             const order = document.getElementById("order") as HTMLFormElement;
             const popUp = document.getElementById("pop-up") as HTMLDivElement;
@@ -173,8 +204,10 @@ export default class OrderView {
                 app.router.route("/");
             }, 3000)
         } else if (isAllFieldsInvalid){
-            inputFields.forEach(item =>{
-                item.classList.add("input-field_invalid");
+            inputFields.forEach(item => {
+                if(item.dataset["validity"] === "false") {
+                    item.classList.add("input-field_invalid");
+                }
             });
         }
     }

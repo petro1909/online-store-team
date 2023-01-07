@@ -3,24 +3,28 @@
     <form action="#" class="order" id="order">
         <fieldset form="order" class="personal-details" id="personal-details">
             <legend class="fieldset-title">Personal details</legend>
+            <label for="" class="tooltip">Two words, no less than three letters each.</label>
             <input class="personal-details__input input-field"
                     type="text"
                     placeholder="Name"
                     name="name"
                     id="input-name"
                     data-validity="false">
+            <label for="" class="tooltip">The first character must be '+''. At least 9 digits.</label>
             <input class="personal-details__input input-field"
                     type="text"
                     placeholder="Phone number"
                     name="tel"
                     id="input-tel"
                     data-validity="false">
+            <label for="" class="tooltip">Three words, no less than five letters each.</label>
             <input class="personal-details__input input-field"
                     type="text"
                     placeholder="Delivery address"
                     name="address"
                     id="input-address"
                     data-validity="false">
+            <label for="" class="tooltip">Must be the symbol '@' and the correct name of the mail server</label>
             <input class="personal-details__input input-field"
                     type="text"
                     placeholder="E-mail"
@@ -30,6 +34,8 @@
         </fieldset>
         <fieldset form="order" class="card-details" id="card-details">
             <legend class="fieldset-title">Credit card details</legend>
+            <img class="paycard-image" src="../../../assets/img/Order/default.jpg" id="paycard-image">
+            <label for="" class="tooltip">The first digit must be 4,5 or 6</label>
             <input class="card-details__input card-details__input_long input-field"
                     type="text"
                     placeholder="Card number"
@@ -38,20 +44,24 @@
                     maxlength="19"
                     data-validity="false">
             <div class="card-details__input-wrapper">
-                <input class="card-details__input input-field"
+                <label for="" class="tooltip">Month 01-12/Year 23-29
+                    <input class="card-details__input input-field"
                         type="text"
                         placeholder="Valid thru"
                         name="valid-thru"
                         id="input-valid-thru"
                         maxlength="5"
                         data-validity="false">
-                <input class="card-details__input input-field"
+                </label>
+                <label for="" class="tooltip">Three digits
+                    <input class="card-details__input input-field"
                         type="text"
                         placeholder="CVV code"
                         name="cvv-code"
                         id="input-cvv-code"
                         maxlength="3"
                         data-validity="false">
+                </label>
             </div>
         </fieldset>
         <button type="submit" class="order__submit" id="order-submit">CONFIRM</button>
