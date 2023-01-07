@@ -104,19 +104,27 @@ export default class Cart {
         if (!cartProduct) {
             return false;
         }
-        cartProduct.count -= 1;
-        cartProduct.totalPrice -= cartProduct.product.price;
-        this.totalPrice -= cartProduct.product.price;
-        this.totalCount -= 1;
-        if (cartProduct.count === 0) {
-            const cartProductIndex = this.cartProducts.indexOf(cartProduct);
-            this.cartProducts.splice(cartProductIndex, 1);
-            this.cartProducts.map((cartProduct, index) => {
-                if (index >= cartProductIndex) {
-                    cartProduct.cartIndex--;
-                }
-            });
+        if (cartProduct.count === 1) {
+            this.dropProductFromCart(cartProductId);
+        } else {
+            cartProduct.count -= 1;
+            cartProduct.totalPrice -= cartProduct.product.price;
+            this.totalPrice -= cartProduct.product.price;
+            this.totalCount -= 1;
         }
+        // cartProduct.count -= 1;
+        // cartProduct.totalPrice -= cartProduct.product.price;
+        // this.totalPrice -= cartProduct.product.price;
+        // this.totalCount -= 1;
+        // if (cartProduct.count === 0) {
+        //     const cartProductIndex = this.cartProducts.indexOf(cartProduct);
+        //     this.cartProducts.splice(cartProductIndex, 1);
+        //     this.cartProducts.map((cartProduct, index) => {
+        //         if (index >= cartProductIndex) {
+        //             cartProduct.cartIndex--;
+        //         }
+        //     });
+        // }
         this.updateActualPrice();
         this.saveToLocalStorage();
         return true;
@@ -130,12 +138,18 @@ export default class Cart {
     }
 
     public validateCartOptions(options: CartOptions): CartOptions {
-        if (options.limit < 1 || options.page < 1) {
-            options = new CartOptions();
+        const newOptions = Object.assign({}, options);
+        if (newOptions.limit < 1 || newOptions.page < 1) {
+            return new CartOptions();
         }
-        const pagesCount = Math.ceil(this.cartProducts.length / options.limit);
-        if (options.page > pagesCount) options.page = pagesCount;
-        return options;
+        const pagesCount = Math.ceil(this.cartProducts.length / newOptions.limit);
+        if (newOptions.page > pagesCount) {
+            newOptions.page = pagesCount;
+        }
+        if (newOptions.limit > this.cartProducts.length) {
+            newOptions.limit = this.cartProducts.length;
+        }
+        return newOptions;
     }
 
     public resetCart(): void {
