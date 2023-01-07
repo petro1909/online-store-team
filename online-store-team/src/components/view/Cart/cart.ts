@@ -95,7 +95,10 @@ export default class CartView {
         } else if (clickedButton.classList.contains("pagination__page-next")) {
             currPage++;
         }
-        const pagesCount = Math.ceil(app.cart.cartProducts.length / this.cartOptions.limit);
+        let pagesCount = Math.ceil(app.cart.cartProducts.length / this.cartOptions.limit);
+        if (Number.isNaN(pagesCount)) {
+            pagesCount = 0;
+        }
         if (currPage < 1 || currPage > pagesCount) {
             return;
         }
@@ -125,6 +128,11 @@ export default class CartView {
         cartProductsSection.innerHTML = "";
 
         const activeCartProducts = app.cart.updateCartProducts(this.cartOptions);
+        if (activeCartProducts.length === 0) {
+            const noCartItemPlaceholder = document.createElement("div");
+            noCartItemPlaceholder.innerHTML = "There is no products in cart";
+            cartProductsSection.append(noCartItemPlaceholder);
+        }
 
         activeCartProducts.forEach((cartProduct) => {
             cartProductsSection.append(this.drawCartProcuct(cartProduct, productItemWrapperSection));
@@ -180,6 +188,7 @@ export default class CartView {
             const tempCartOptions = app.cart.validateCartOptions(this.cartOptions);
             if (tempCartOptions.page !== this.cartOptions.page) {
                 this.cartOptions.page = tempCartOptions.page;
+                this.cartOptions.limit = tempCartOptions.limit;
                 this.updateCartHeader();
                 app.router.replaceQueryParameters(this.cartOptions);
             }
