@@ -1,5 +1,5 @@
-import Cart from "../model/Cart";
-import { Store } from "../model/Store";
+import Cart from "../model/cartModel";
+import Store from "../model/storeModel";
 import Router from "../router/router";
 import HeaderView from "../view/Header/header";
 import FooterView from "../view/Footer/footer";

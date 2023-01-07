@@ -1,8 +1,8 @@
-import BaseController from "./BaseController";
-import CartController from "./CartController";
-import ErrorController from "./ErrorController";
-import ProductController from "./ProductController";
-import StoreController from "./StoreController";
+import BaseController from "./baseController";
+import CartController from "./cartController";
+import ErrorController from "./errorController";
+import ProductController from "./productController";
+import StoreController from "./storeController";
 
 export default class ControllerFactory {
     public static initController(route: string): BaseController {
