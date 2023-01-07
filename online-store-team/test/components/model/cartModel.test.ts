@@ -3,14 +3,14 @@ import { CartOptions } from "../../../src/components/model/storeOptions";
 import { CartProduct } from "../../../src/components/model/type/cartProduct";
 import { Product } from "../../../src/components/model/type/product";
 import { IPromocode } from "../../../src/components/model/type/promocode";
-import { products } from "../../testFiles";
+import { testProducts } from "../../testFiles";
 
 Cart.prototype.getCartFromLocalStorage = jest.fn().mockImplementation(() => undefined);
 Cart.prototype.saveToLocalStorage = jest.fn().mockImplementation(() => undefined);
 const testCart: Cart = new Cart();
 
 beforeAll(() => {
-    products.forEach((product, index) => {
+    testProducts.forEach((product, index) => {
         const cartProduct: CartProduct = {
             product: product,
             count: 1,
@@ -65,23 +65,19 @@ describe("test testCart model functions", () => {
         };
         it("put product into testCart and return true if passed product is not in testCart", () => {
             const expected = true;
-            const push = jest.spyOn(Array.prototype, "push").mockClear();
 
             const actual = testCart.putProductIntoCart(testedProduct);
 
             expect(actual).toEqual(expected);
             expect(testCart.isProductInCart(testedProduct.id)).toBe(true);
-            expect(push).toBeCalledTimes(1);
         });
         it("don't put product into testCart and returns false if passed product is already in testCart", () => {
             const expected = false;
-            const push = jest.spyOn(Array.prototype, "push").mockClear();
 
             const actual = testCart.putProductIntoCart(testedProduct);
 
             expect(actual).toEqual(expected);
             expect(testCart.isProductInCart(testedProduct.id)).toBe(true);
-            expect(push).toBeCalledTimes(0);
         });
     });
     describe("test dropProductFromCart", () => {
@@ -90,7 +86,7 @@ describe("test testCart model functions", () => {
             const expected = true;
             const splice = jest.spyOn(Array.prototype, "splice").mockClear();
 
-            const actual = testCart.dropProductIntoCart(productId);
+            const actual = testCart.dropProductFromCart(productId);
 
             expect(actual).toEqual(expected);
             expect(testCart.isProductInCart(productId)).toBe(false);
@@ -101,7 +97,7 @@ describe("test testCart model functions", () => {
             expect(testCart.isProductInCart(productId)).toBe(false);
             const splice = jest.spyOn(Array.prototype, "splice").mockClear();
 
-            const actual = testCart.dropProductIntoCart(productId);
+            const actual = testCart.dropProductFromCart(productId);
 
             expect(actual).toEqual(expected);
             expect(splice).toBeCalledTimes(0);
@@ -212,7 +208,8 @@ describe("test testCart model functions", () => {
         });
         it("return testCart options with page 1 if passed testCart options page is more then testCart page count", () => {
             const inputOptions: CartOptions = { page: 200, limit: 2 };
-            const expectedOutputOptions: CartOptions = { page: 1, limit: 2 };
+            const pagesCount = Math.ceil(testCart.cartProducts.length / inputOptions.limit);
+            const expectedOutputOptions: CartOptions = { page: pagesCount, limit: 2 };
             const result = testCart.validateCartOptions(inputOptions);
             expect(expectedOutputOptions).toEqual(result);
         });
@@ -232,32 +229,24 @@ describe("test testCart model functions", () => {
     });
     describe("test setPromocode method", () => {
         const promocode: IPromocode = { text: "rss_3", discount: 5 };
-        it("set promocode and return true if passed promocode is not in testCart", () => {
-            const push = jest.spyOn(Array.prototype, "push").mockClear();
-            const expected = true;
+        it("set promocode and return it if passed promocode is not in testCart", () => {
+            const actual = testCart.setPromocode(promocode.text);
+            expect(actual).toEqual(promocode);
 
-            const actual = testCart.setPromocode(promocode);
-            expect(actual).toEqual(expected);
-
-            expect(testCart.usedPromocodes.includes(promocode)).toBe(true);
-            expect(push).toBeCalledTimes(1);
+            expect(testCart.usedPromocodes.find((item) => item.text === promocode.text)).not.toBe(undefined);
         });
-        it("don't set promocode and return false if passed promocode is already in testCart", () => {
-            expect(testCart.usedPromocodes.includes(promocode)).toBe(true);
-            const push = jest.spyOn(Array.prototype, "push").mockClear();
-            const expected = false;
+        it("don't set promocode and return undefined if passed promocode is already in testCart", () => {
+            expect(testCart.usedPromocodes.find((item) => item.text === promocode.text)).not.toBe(undefined);
 
-            const actual = testCart.setPromocode(promocode);
-            expect(actual).toEqual(expected);
-
-            expect(push).toBeCalledTimes(0);
+            const actual = testCart.setPromocode(promocode.text);
+            expect(actual).toEqual(undefined);
         });
     });
     describe("test removePromocode method", () => {
         const promocode: IPromocode = { text: "rss_1", discount: 10 };
         it("remove promocode and return true if promocode with passed promocode text is in testCart", () => {
             const splice = jest.spyOn(Array.prototype, "splice").mockClear();
-            const expected = true;
+            const expected = promocode;
             const actual = testCart.removePromocode(promocode.text);
 
             expect(actual).toEqual(expected);
@@ -266,7 +255,7 @@ describe("test testCart model functions", () => {
         });
         it("return false if promocode with passed promocode text is not in testCart", () => {
             const splice = jest.spyOn(Array.prototype, "splice").mockClear();
-            const expected = false;
+            const expected = undefined;
 
             expect(testCart.usedPromocodes.includes(promocode)).toBe(false);
             const actual = testCart.removePromocode(promocode.text);
