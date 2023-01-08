@@ -30,7 +30,7 @@ export default class StoreView {
 
         document.querySelector(".goods__output")!.innerHTML = "";
         document.querySelector(".found__value")!.innerHTML = `${products.length}`;
-        if(products.length === 0) document.querySelector(".goods__output")!.innerHTML = "<h2>No products found</h2>";
+        if (products.length === 0) document.querySelector(".goods__output")!.innerHTML = "<h2>No products found</h2>";
 
         const productItemTemplate = document.getElementById("productItemTemp") as HTMLTemplateElement;
         const fragment: DocumentFragment = document.createDocumentFragment();
@@ -99,7 +99,9 @@ export default class StoreView {
         // TODO refactor put in a separate function
         filter.categoryProducts.forEach((item) => {
             let attrChecked = "";
-            if(filterOptions.categories.includes(item.category)) {attrChecked = "checked";}
+            if (filterOptions.categories.includes(item.category)) {
+                attrChecked = "checked";
+            }
             category.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox" id="${item.category}"
@@ -112,7 +114,9 @@ export default class StoreView {
         });
         filter.brandProducts.forEach((item) => {
             let attrChecked = "";
-            if(filterOptions.brands.includes(item.brand)) {attrChecked = "checked";}
+            if (filterOptions.brands.includes(item.brand)) {
+                attrChecked = "checked";
+            }
             brand.innerHTML += `<div class="checkbox-line checkbox-active">
                                     <input class="checkbox"
                                     type="checkbox"
@@ -164,7 +168,6 @@ export default class StoreView {
     }
 
     private updateFilter = (event: Event) => {
-
         console.log("updateFilter");
 
         const formElement = document.getElementById("filters")! as HTMLFormElement;
@@ -295,15 +298,23 @@ export default class StoreView {
         // TODO refactor put in a separate function
         const radioButtons = document.querySelectorAll(".radio")! as NodeListOf<Element>;
         const tempRadioButtons = Array.from(radioButtons) as HTMLInputElement[];
-        const radioChecked = tempRadioButtons.find(radiobtn => {return radiobtn.value === filterOptions.displayMode ? true : false;});
-        radioButtons.forEach(radiobtn => {radiobtn.removeAttribute("checked");});
+        const radioChecked = tempRadioButtons.find((radiobtn) => {
+            return radiobtn.value === filterOptions.displayMode ? true : false;
+        });
+        radioButtons.forEach((radiobtn) => {
+            radiobtn.removeAttribute("checked");
+        });
         radioChecked?.setAttribute("checked", "checked");
-        if(filterOptions.displayMode === "") tempRadioButtons[0]?.setAttribute("checked", "checked");
+        if (filterOptions.displayMode === "") tempRadioButtons[0]?.setAttribute("checked", "checked");
 
         const selectTagOptions = document.querySelectorAll(".option")! as NodeListOf<Element>;
         const tempSelectTagOptions = Array.from(selectTagOptions) as HTMLOptionElement[];
-        const selectedOption = tempSelectTagOptions.find(option => {return option.value === filterOptions.sortingString ? true : false;});
-        selectTagOptions.forEach(option => {option.removeAttribute("selected");});
+        const selectedOption = tempSelectTagOptions.find((option) => {
+            return option.value === filterOptions.sortingString ? true : false;
+        });
+        selectTagOptions.forEach((option) => {
+            option.removeAttribute("selected");
+        });
         selectedOption?.setAttribute("selected", "selected");
 
         // TODO refactor put in a separate function
@@ -311,14 +322,14 @@ export default class StoreView {
         const tempCategoryCheckboxes = Array.from(categoryCheckboxes) as HTMLSpanElement[];
         tempCategoryCheckboxes.forEach((checkbox, index) => {
             checkbox.textContent = `${filter.categoryProducts[index]?.activeProducts}/${filter.categoryProducts[0]?.totalProducts}`;
-        })
+        });
         console.log("categoryCheckboxes =", categoryCheckboxes);
 
         const brandCheckboxes = document.querySelectorAll(".brand-product") as NodeListOf<Element>;
         const tempBrandCheckboxes = Array.from(brandCheckboxes) as HTMLSpanElement[];
         tempBrandCheckboxes.forEach((checkbox, index) => {
             checkbox.textContent = `${filter.brandProducts[index]?.activeProducts}/${filter.brandProducts[0]?.totalProducts}`;
-        })
+        });
         console.log("brandCheckboxes =", brandCheckboxes);
 
         console.log("\n");
