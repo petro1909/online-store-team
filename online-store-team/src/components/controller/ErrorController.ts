@@ -1,5 +1,5 @@
-import ErrorView from "../view/Error/error";
-import BaseController from "./baseController";
+import ErrorView from "../view/errorView/error";
+import BaseController from "./BaseController";
 
 export default class ErrorController extends BaseController {
     private errorView: ErrorView;
@@ -8,6 +8,7 @@ export default class ErrorController extends BaseController {
         this.errorView = new ErrorView();
     }
     public override async init(options?: string): Promise<void> {
+        console.log(options);
         this.errorView.drawError();
     }
 }

@@ -3,7 +3,7 @@ import productHtml from "./product.html";
 import "./product.css";
 import { Product } from "../../model/type/product";
 import { app } from "../../..";
-import CartView from "../Cart/cart";
+import CartView from "../cartView/cart";
 import { CartOptions } from "../../model/storeOptions";
 
 export default class ProductView {

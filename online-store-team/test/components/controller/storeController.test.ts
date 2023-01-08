@@ -1,4 +1,4 @@
-import StoreController from "../../../src/components/controller/StoreController";
+import StoreController from "../../../src/components/controller/storeController";
 
 const storeController = new StoreController();
 describe("test store controller getStoreOptions method", () => {

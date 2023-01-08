@@ -6,5 +6,5 @@ export enum regEx {
     "input-card-number" = "^\\s*?\\d{4}\\s*\\d{4}\\s*\\d{4}\\s*\\d{4}\\s*?$",
     // "input-valid-thru" = "^(0{1}[1-9]{1})|(1{1}[0-2]{1})$",
     "input-valid-thru" = "^0[1-9]|1[0-2]/2[3-9]$",
-    "input-cvv-code" = "^\\d{3}$"
+    "input-cvv-code" = "^\\d{3}$",
 }

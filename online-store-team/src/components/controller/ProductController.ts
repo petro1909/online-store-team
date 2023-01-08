@@ -1,5 +1,5 @@
-import ProductView from "../view/Product/product";
-import BaseController from "./baseController";
+import ProductView from "../view/productView/product";
+import BaseController from "./BaseController";
 import { app } from "../..";
 
 export default class ProductController extends BaseController {
