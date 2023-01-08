@@ -85,7 +85,7 @@ export default class StoreView {
     }
 
     private drawFilter(filter: StoreFilter, filterOptions: StoreFilterOptions) {
-        console.log("drawFilter");
+        // console.log("drawFilter");
         // console.log("filter =", filter);
         const filterSection = document.querySelector(".filter");
         filterSection!.insertAdjacentHTML("beforeend", filterHtml);
@@ -168,7 +168,7 @@ export default class StoreView {
     }
 
     private updateFilter = (event: Event) => {
-        console.log("updateFilter");
+        // console.log("updateFilter");
 
         const formElement = document.getElementById("filters")! as HTMLFormElement;
         const formData = new FormData(formElement);
@@ -288,9 +288,9 @@ export default class StoreView {
     }
 
     private makeFilterActual(filter: StoreFilter, filterOptions: StoreFilterOptions) {
-        console.log("makeFilterActual");
+        // console.log("makeFilterActual");
 
-        console.log("filter =", filter);
+        // console.log("filter =", filter);
 
         const search = document.getElementById("search")! as HTMLInputElement;
         search.value = filterOptions.searchString;
@@ -323,14 +323,14 @@ export default class StoreView {
         tempCategoryCheckboxes.forEach((checkbox, index) => {
             checkbox.textContent = `${filter.categoryProducts[index]?.activeProducts}/${filter.categoryProducts[0]?.totalProducts}`;
         });
-        console.log("categoryCheckboxes =", categoryCheckboxes);
+        // console.log("categoryCheckboxes =", categoryCheckboxes);
 
         const brandCheckboxes = document.querySelectorAll(".brand-product") as NodeListOf<Element>;
         const tempBrandCheckboxes = Array.from(brandCheckboxes) as HTMLSpanElement[];
         tempBrandCheckboxes.forEach((checkbox, index) => {
             checkbox.textContent = `${filter.brandProducts[index]?.activeProducts}/${filter.brandProducts[0]?.totalProducts}`;
         });
-        console.log("brandCheckboxes =", brandCheckboxes);
+        // console.log("brandCheckboxes =", brandCheckboxes);
 
         console.log("\n");
     }
