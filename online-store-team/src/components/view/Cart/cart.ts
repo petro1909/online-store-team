@@ -152,7 +152,7 @@ export default class CartView {
         const buyNowSubmit = document.querySelector(".buy-now__submit")! as HTMLButtonElement;
         buyNowSubmit.addEventListener("click", () => {
             console.log("buy-now pressed");
-            if(app.cart.cartProducts.length > 0) {
+            if (app.cart.cartProducts.length > 0) {
                 const orderView = new OrderView();
                 orderView.drawOrder();
             }
