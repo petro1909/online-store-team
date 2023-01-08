@@ -2,49 +2,30 @@
     <div class="close-filter-button">
     </div>
     <form action="#" class="filters" id="filters">
-        <fieldset class="buttons">
-            <button class="limits" type="reset" id="reset" name="reset">RESET</button>
-            <button class="limits" id="copy-link">COPY LINK</button>
-        </fieldset>
-        <fieldset class="display-mode" form="filters" id="display-mode">
-            <legend>Display-mode</legend>
-            <label for="size-4">Big</label>
-            <input class="radio"
-                    type="radio"
-                    name="display-mode"
-                    value="4"
-                    id="size-4"
-                    checked>
-            <label for="size-6">Little</label>
-            <input class="radio"
-                    type="radio"
-                    name="display-mode"
-                    value="6"
-                    id="size-6">
-        </fieldset>
-        <fieldset class="sort" form="filters" id="sort">
-            <legend>Sort</legend>
-            <input class="search"
-                    type="text"
-                    name="search"
-                    id="search"
-                    placeholder="Search product">
-            <select class="select" name="select" id="select">
-                <option class="option" value="sort-title" disabled selected class="sort-name">Sort options:</option>
-                <option class="option" value="price-ASC">Sort by price ASC</option>
-                <option class="option" value="price-DESC">Sort by price DESC</option>
-                <option class="option" value="rating-ASC">Sort by rating ASC</option>
-                <option class="option" value="rating-DESC">Sort by rating DESC</option>
-                <option class="option" value="discount-ASC">Sort by discount ASC</option>
-                <option class="option" value="discount-DESC">Sort by discount DESC</option>
-            </select>
-        </fieldset>
+
+
+        <div class="filters__btn-wrapper">
+            <button class="btn filters__btn" type="reset" id="reset" name="reset">RESET</button>
+            <button class="btn filters__btn" id="copy-link">COPY LINK</button>
+        </div>
+
         <fieldset class="category" form="filters" id="category">
-            <legend>Category</legend>
+            <legend class="legend">Category</legend>
         </fieldset>
         <fieldset class="brand" form="filters" id="brand">
-            <legend>Brand</legend>
+            <legend class="legend">Brand</legend>
         </fieldset>
+
+        <fieldset class="price" form="filters" id="price">
+            <legend class="legend">Price</legend>
+            <input class="limits" type="number" name="min-price" id="min-price" placeholder="From">
+            <input class="limits" type="number" name="max-price" id="max-price"  placeholder="To">
+        </fieldset>
+        <fieldset class="stock" form="filters" id="stock">
+            <legend class="legend">Stock</legend>
+            <input class="limits" type="number" name="min-stock" id="min-stock" placeholder="From">
+            <input class="limits" type="number" name="max-stock" id="max-stock"  placeholder="To">
+=======
         <fieldset class="range-slider" form="filters" id="price">
             <legend>Price</legend>
             <input class="limits" type="text" id="min-price">

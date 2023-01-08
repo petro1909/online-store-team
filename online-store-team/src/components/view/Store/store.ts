@@ -248,7 +248,7 @@ export default class StoreView {
         let lowerValue = parseInt(lowerSlider!.value);
         let upperValue = parseInt(upperSlider!.value);
 
-        upperSlider.oninput = function() {
+        upperSlider.oninput = function () {
             lowerValue = parseInt(lowerSlider.value);
             upperValue = parseInt(upperSlider.value);
             if (upperValue < lowerValue + minScope) {
@@ -265,8 +265,7 @@ export default class StoreView {
             minValue.value = lowerSlider.value;
         };
 
-
-        lowerSlider.oninput = function() {
+        lowerSlider.oninput = function () {
             lowerValue = parseInt(lowerSlider.value);
             upperValue = parseInt(upperSlider.value);
 
@@ -283,7 +282,7 @@ export default class StoreView {
             maxValue.value = upperSlider.value;
             minValue.value = lowerSlider.value;
         };
-    };
+    }
 
     private makeFilterActual(filter: StoreFilter, filterOptions: StoreFilterOptions) {
         console.log("makeFilterActual");
@@ -356,5 +355,4 @@ export default class StoreView {
         const filter = document.querySelector(".filter") as HTMLElement;
         filter.classList.remove("filter-show");
     }
-
 }

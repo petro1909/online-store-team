@@ -22,11 +22,14 @@ export default class CartView {
 
         const paginationPageCurrent = document.getElementById("pagination-page-current")! as HTMLInputElement;
         const paginationLimitInput = document.getElementById("pagination-limit-input")! as HTMLInputElement;
-        
+
         paginationLimitInput.value = String(cartOptions.limit!);
         paginationPageCurrent.textContent = String(cartOptions.page!);
 
-        const currentPageProductsList = app.cart.cartProducts.slice((cartOptions.page  - 1) * cartOptions.limit, (cartOptions.page  - 1) * cartOptions.limit + cartOptions.limit)
+        const currentPageProductsList = app.cart.cartProducts.slice(
+            (cartOptions.page - 1) * cartOptions.limit,
+            (cartOptions.page - 1) * cartOptions.limit + cartOptions.limit
+        );
 
         currentPageProductsList.forEach((product: CartProduct, idx: number): void => {
             const _product = product.product;
@@ -108,9 +111,9 @@ export default class CartView {
         allPromocodes.innerHTML =
             "Promocodes for test <br>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
 
-        if(currentPageProductsList.length === 0 && app.cart.cartProducts.length > 0) {
+        if (currentPageProductsList.length === 0 && app.cart.cartProducts.length > 0) {
             app.router.route("error");
-        } else if (app.cart.cartProducts.length === 0){
+        } else if (app.cart.cartProducts.length === 0) {
             cartOptions = { page: 1, limit: 3 };
             _cart.innerHTML = "<h2>Cart is Empty</h2>";
         } else {
@@ -149,23 +152,25 @@ export default class CartView {
         const buyNowSubmit = document.querySelector(".buy-now__submit")! as HTMLButtonElement;
         buyNowSubmit.addEventListener("click", () => {
             console.log("buy-now pressed");
-            const orderView = new OrderView();
-            orderView.drawOrder();
+            if (app.cart.cartProducts.length > 0) {
+                const orderView = new OrderView();
+                orderView.drawOrder();
+            }
         });
 
         const paginationCurrentPageNumber = document.querySelector(".pagination__page-number")! as HTMLElement;
         paginationCurrentPageNumber.addEventListener("click", (event) => {
             const clickedButton = event.target! as HTMLButtonElement;
-            if(clickedButton.classList.contains("pagination__page-prev")) {
+            if (clickedButton.classList.contains("pagination__page-prev")) {
                 this.cartOptions.page = this.cartOptions.page - 1;
                 app.cart.updateCartProducts(this.cartOptions);
                 this.drawCart(this.cartOptions);
-            } else if(clickedButton.classList.contains("pagination__page-next")) {
+            } else if (clickedButton.classList.contains("pagination__page-next")) {
                 this.cartOptions.page = this.cartOptions.page + 1;
                 app.cart.updateCartProducts(this.cartOptions);
                 this.drawCart(this.cartOptions);
             }
-        })
+        });
 
         const paginationLimitInput = document.getElementById("pagination-limit-input")! as HTMLInputElement;
         paginationLimitInput.addEventListener("change", (event: Event) => {
@@ -173,7 +178,7 @@ export default class CartView {
             this.cartOptions.limit = Number(inputLimit.value);
             app.cart.updateCartProducts(this.cartOptions);
             this.drawCart(this.cartOptions);
-        })
+        });
     }
 
     //input promocode text
