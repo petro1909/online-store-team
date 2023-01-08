@@ -3,7 +3,6 @@ import productHtml from "./product.html";
 import "./product.css";
 import { Product } from "../../model/type/product";
 import { app } from "../../..";
-import OrderView from "../../view/Order/order";
 import CartView from "../Cart/cart";
 import { CartOptions } from "../../model/storeOptions";
 
@@ -150,7 +149,6 @@ export default class ProductView {
 
     private buyProductNow(product: Product) {
         const cartView = new CartView();
-        const orderView = new OrderView();
         const isProductInCart = app.cart.isProductInCart(product.id);
 
         if (!isProductInCart) {
@@ -158,7 +156,7 @@ export default class ProductView {
         }
         app.router.route(`/cart`);
         cartView.drawCart(new CartOptions());
-        orderView.drawOrder();
+        cartView.drawOrder();
     }
 
     private SetElementInnerHtml(parentElement: HTMLElement, selector: string, value: string): void {
