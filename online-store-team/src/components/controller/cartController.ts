@@ -1,5 +1,5 @@
 import { CartOptions } from "../model/storeOptions";
-import CartView from "../view/cart/cart";
+import CartView from "../view/Cart/cart";
 import BaseController from "./baseController";
 
 export default class CartController extends BaseController {

@@ -1,0 +1,358 @@
+/*
+..######...#######..##.....##.##.....##..#######..##....##.....######..########.##....##.##.......########..######.
+.##....##.##.....##.###...###.###...###.##.....##.###...##....##....##....##.....##..##..##.......##.......##....##
+.##.......##.....##.####.####.####.####.##.....##.####..##....##..........##......####...##.......##.......##......
+.##.......##.....##.##.###.##.##.###.##.##.....##.##.##.##.....######.....##.......##....##.......######....######.
+.##.......##.....##.##.....##.##.....##.##.....##.##..####..........##....##.......##....##.......##.............##
+.##....##.##.....##.##.....##.##.....##.##.....##.##...###....##....##....##.......##....##.......##.......##....##
+..######...#######..##.....##.##.....##..#######..##....##.....######.....##.......##....########.########..######.
+*/
+
+* {
+    /* outline: 1px dashed red; outline-offset: 1px; */
+    box-sizing: border-box;
+}
+
+body,
+html {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.box-shadow {
+    border: 1px solid rgb(125, 125, 125); /* TODO add variable */
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5), 15px 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.text-shadow {
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 1); /* TODO add variable */
+}
+
+.btn {
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    color: rgb(255, 255, 255); /* TODO add variable */
+    background: linear-gradient(180deg,#e6e6e6 0%,rgba(0, 0, 0, 0.25) 49%, rgba(38, 38, 38, 0.6) 51%,rgba(0, 0, 0, 0.25) 100%);
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+}
+
+.btn:hover {
+    color: rgb(245, 200, 70); /* TODO add variable */
+}
+
+/*
+..######.....###....########..########
+.##....##...##.##...##.....##....##...
+.##........##...##..##.....##....##...
+.##.......##.....##.########.....##...
+.##.......#########.##...##......##...
+.##....##.##.....##.##....##.....##...
+..######..##.....##.##.....##....##...
+*/
+
+.cart {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+    padding: 2rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(255, 255, 255); /* TODO add variable */
+    background-image: url(../../../assets/img/Cart/cart-bg.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.cart__content {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+/*
+.########.....###.....######...####.##....##....###....########.####..#######..##....##
+.##.....##...##.##...##....##...##..###...##...##.##......##.....##..##.....##.###...##
+.##.....##..##...##..##.........##..####..##..##...##.....##.....##..##.....##.####..##
+.########..##.....##.##...####..##..##.##.##.##.....##....##.....##..##.....##.##.##.##
+.##........#########.##....##...##..##..####.#########....##.....##..##.....##.##..####
+.##........##.....##.##....##...##..##...###.##.....##....##.....##..##.....##.##...###
+.##........##.....##..######...####.##....##.##.....##....##....####..#######..##....##
+*/
+
+/* Pagination at the top of cart__content ============================= */
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    backdrop-filter: blur(0.5rem);
+    background: rgba(0, 0, 0, 0.5); /* TODO add variable */
+}
+
+.pagination__title {
+    text-transform: uppercase;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.pagination__controls {
+    display: flex;
+}
+
+.pagination__items-limit {
+    text-transform: uppercase;
+}
+
+.pagination__limit-input {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+    text-align: center;
+    color: rgb(255, 255, 255); /* TODO add variable */
+    background: transparent;
+    outline: none;
+    border: 1px solid rgb(255, 255, 255); /* TODO add variable */
+}
+
+.pagination__page-word {
+    text-transform: uppercase;
+    margin-left: 0.5rem;
+}
+
+.pagination__page-number {
+    display: flex;
+    justify-content: space-between;
+    width: 5rem;
+    margin-left: 0.5rem;
+}
+
+.pagination__page-prev {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.pagination__page-current {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    text-align: center;
+}
+
+.pagination__page-next {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/*
+..######.....###....########..########.........####.########.########.##.....##
+.##....##...##.##...##.....##....##.............##.....##....##.......###...###
+.##........##...##..##.....##....##.............##.....##....##.......####.####
+.##.......##.....##.########.....##....#######..##.....##....######...##.###.##
+.##.......#########.##...##......##.............##.....##....##.......##.....##
+.##....##.##.....##.##....##.....##.............##.....##....##.......##.....##
+..######..##.....##.##.....##....##............####....##....########.##.....##
+*/
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0 0 0;
+    border-radius: 0.25rem;
+    background: rgba(0, 0, 0, 0.35); /* TODO add variable */
+    backdrop-filter: blur(0.4rem);
+}
+
+
+.cart-item__number {
+    align-self: center;
+    width: 3rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    width: calc(100% - 9rem);
+    margin: 0;
+}
+
+.product__img {
+    height: 100px;
+    width: 150px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.product__desc {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.product__desc-title {
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+    text-align: center;
+}
+
+.product__separator {
+    width: calc(100% - 1rem);
+    margin: 0;
+    margin-left: 0.5rem;
+}
+
+.product__desc-text {
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+}
+
+.product__desc-other {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+}
+
+.product__desc-rating {
+    text-transform: uppercase;
+}
+
+.product__desc-discount {
+    text-transform: uppercase;
+    color: rgb(84, 255, 130); /* TODO add variable */
+}
+
+.cart-item__controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 6rem;
+}
+
+.cart-item__stock {
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.cart-item__btns {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
+}
+
+.cart-item__decrease-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.cart-item__quantity {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    text-align: center;
+}
+
+.cart-item__increase-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.cart-item__amount-control {
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    color: rgb(84, 255, 130); /* TODO add variable */
+}
+
+/*
+.########..##.....##.##....##....##....##..#######..##......##
+.##.....##.##.....##..##..##.....###...##.##.....##.##..##..##
+.##.....##.##.....##...####......####..##.##.....##.##..##..##
+.########..##.....##....##.......##.##.##.##.....##.##..##..##
+.##.....##.##.....##....##.......##..####.##.....##.##..##..##
+.##.....##.##.....##....##.......##...###.##.....##.##..##..##
+.########...#######.....##.......##....##..#######...###..###.
+*/
+
+.cart__summary {
+    width: 25%;
+    height: fit-content;
+    backdrop-filter: blur(0.5rem);
+    background: rgba(0, 0, 0, 0.25); /* TODO add variable */
+}
+
+.summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+.summary__separator {
+    width: 100%;
+    margin: 0;
+    margin-top: 1rem;
+}
+
+.summary__title {
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.summary__products {
+    margin-top: 1rem;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.summary__total {
+    margin-top: 1rem;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.summary__input-promo {
+    width: 100%;
+    height: 2.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 0;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255); /* TODO add variable */
+    background: rgba(40, 40, 40, 0.7); /* TODO add variable */
+}
+
+.summary__input-promo::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* TODO add variable */
+    text-align: center;
+}
+
+.summary__promo-code {
+    text-align: center;
+}
+
+.summary__submit {
+    width: fit-content;
+    padding: 1rem 3rem;
+    margin-top: 1rem;
+    background: linear-gradient(180deg,#e6e6e6 0%,rgba(255, 20, 20, 0.5) 49%, rgba(170, 60, 60, 0.7) 51%,rgba(255, 20, 20, 0.5) 100%);
+}
+.summary__proposed-promo-codes {
+    width: 100%;
+}
+
+.promo-code {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+}
