@@ -292,6 +292,5 @@ input[type=range]::-ms-thumb {
 
 #lower-price::-webkit-slider-thumb,
 #lower-stock::-webkit-slider-thumb {
-  background-color: #83a9cf;
-
+	background-color: #83a9cf;
 }
