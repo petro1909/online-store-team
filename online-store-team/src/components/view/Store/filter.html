@@ -1,38 +1,22 @@
 <aside class="filters-block">
     <form action="#" class="filters" id="filters">
-        <button type="reset" id="reset" name="reset">RESET</button>
-        <button id="copy-link">COPY LINK</button>
-        <fieldset class="display-mode" form="filters" id="display-mode">
-            <label for="size-4">col 4: </label>
-            <input type="radio" name="display-mode" value="4" id="size-4" checked>
-            <label for="size-6">col 6: </label>
-            <input type="radio" name="display-mode" value="6" id="size-6">
-        </fieldset>
-        <fieldset class="sort" form="filters" id="sort">
-            <input class="search" type="text" name="search" id="search" placeholder="Search product">
-            <select class="select" name="select" id="select">
-                <option value="sort-title" disabled="" selected="" class="sort-name">Sort options:</option>
-                <option value="price-ASC">Sort by price ASC</option>
-                <option value="price-DESC">Sort by price DESC</option>
-                <option value="rating-ASC">Sort by rating ASC</option>
-                <option value="rating-DESC">Sort by rating DESC</option>
-                <option value="discount-ASC">Sort by discount ASC</option>
-                <option value="discount-DESC">Sort by discount DESC</option>
-            </select>
-        </fieldset>
+        <div class="filters__btn-wrapper">
+            <button class="btn filters__btn" type="reset" id="reset" name="reset">RESET</button>
+            <button class="btn filters__btn" id="copy-link">COPY LINK</button>
+        </div>
         <fieldset class="category" form="filters" id="category">
-            <legend>Category</legend>
+            <legend class="legend">Category</legend>
         </fieldset>
         <fieldset class="brand" form="filters" id="brand">
-            <legend>Brand</legend>
+            <legend class="legend">Brand</legend>
         </fieldset>
         <fieldset class="price" form="filters" id="price">
-            <legend>Price</legend>
+            <legend class="legend">Price</legend>
             <input class="limits" type="number" name="min-price" id="min-price" placeholder="From">
             <input class="limits" type="number" name="max-price" id="max-price"  placeholder="To">
         </fieldset>
         <fieldset class="stock" form="filters" id="stock">
-            <legend>Stock</legend>
+            <legend class="legend">Stock</legend>
             <input class="limits" type="number" name="min-stock" id="min-stock" placeholder="From">
             <input class="limits" type="number" name="max-stock" id="max-stock"  placeholder="To">
         </fieldset>

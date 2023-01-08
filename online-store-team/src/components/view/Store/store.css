@@ -4,6 +4,12 @@
 .store {
     display: flex;
     width: 100%;
+    min-height: calc(100vh - 70px - 70px);
+    background-image: url(../../../assets/img/Cart/cart-bg.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .goods {
@@ -18,8 +24,14 @@
   }
 }
 .goods__header {
+    position: sticky;
+    top: 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(255, 255, 255);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .goods__output {
