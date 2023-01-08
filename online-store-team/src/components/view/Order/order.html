@@ -1,6 +1,7 @@
 <section class="pop-up element_invisible" id="pop-up">
-    <h2 class="order-processed element_invisible" id="order-processed">Thank you for your order. Redirect to store...</h2>
+    <h2 class="order-processed element_invisible" id="order-processed">Thank you for your order.<br>Redirect to store...</h2>
     <form action="#" class="order" id="order">
+        <span class="close-button" id="close-button">✖</span>
         <fieldset form="order" class="personal-details" id="personal-details">
             <legend class="fieldset-title">Personal details</legend>
             <label for="" class="tooltip">Two words, no less than three letters each.</label>
@@ -10,7 +11,7 @@
                     name="name"
                     id="input-name"
                     data-validity="false">
-            <label for="" class="tooltip">The first character must be '+''. At least 9 digits.</label>
+            <label for="" class="tooltip">The first character must be «+». At least 9 digits.</label>
             <input class="personal-details__input input-field"
                     type="text"
                     placeholder="Phone number"
@@ -24,7 +25,7 @@
                     name="address"
                     id="input-address"
                     data-validity="false">
-            <label for="" class="tooltip">Must be the symbol '@' and the correct name of the mail server</label>
+            <label for="" class="tooltip">Must be «@» and the correct domain name</label>
             <input class="personal-details__input input-field"
                     type="text"
                     placeholder="E-mail"
@@ -35,7 +36,7 @@
         <fieldset form="order" class="card-details" id="card-details">
             <legend class="fieldset-title">Credit card details</legend>
             <img class="paycard-image" src="../../../assets/img/Order/default.jpg" id="paycard-image">
-            <label for="" class="tooltip">The first digit must be 4,5 or 6</label>
+            <label for="" class="tooltip">The first digit must be 4, 5 or 6</label>
             <input class="card-details__input card-details__input_long input-field"
                     type="text"
                     placeholder="Card number"
@@ -44,7 +45,7 @@
                     maxlength="19"
                     data-validity="false">
             <div class="card-details__input-wrapper">
-                <label for="" class="tooltip">Month 01-12/Year 23-29
+                <label for="" class="tooltip tooltip-wrapper">Month 01-12 / Year 23-29
                     <input class="card-details__input input-field"
                         type="text"
                         placeholder="Valid thru"
@@ -53,7 +54,7 @@
                         maxlength="5"
                         data-validity="false">
                 </label>
-                <label for="" class="tooltip">Three digits
+                <label for="" class="tooltip tooltip-wrapper">Three digits
                     <input class="card-details__input input-field"
                         type="text"
                         placeholder="CVV code"
@@ -64,6 +65,6 @@
                 </label>
             </div>
         </fieldset>
-        <button type="submit" class="order__submit" id="order-submit">CONFIRM</button>
+        <button type="submit" class="order__submit buy-now__submit btn" id="order-submit">CONFIRM</button>
     </form>
 </section>

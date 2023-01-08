@@ -18,11 +18,15 @@ export default class OrderView {
 
             const popUp = document.getElementById("pop-up") as HTMLDivElement;
             const order = document.getElementById("order") as HTMLFormElement;
+            const closeButton = document.getElementById("close-button") as HTMLFormElement;
 
-            popUp!.addEventListener("click", (event) => {
+            popUp!.addEventListener("click", closePopUp);
+            closeButton!.addEventListener("click", closePopUp);
+
+            function closePopUp(event: Event) {
                 event.stopPropagation();
-                const clickedElement = event.target! as HTMLDivElement;
-                if (clickedElement.classList.contains("pop-up")) {
+                const clickedElement = event.target! as HTMLElement;
+                if (clickedElement.classList.contains("pop-up") || clickedElement.classList.contains("close-button")) {
                     const inputFields = Array.from(document.querySelectorAll(".input-field")) as HTMLInputElement[];
                     inputFields.forEach(item =>{
                         item.classList.remove("input-field_valid");
@@ -31,7 +35,8 @@ export default class OrderView {
                     order!.reset();
                     popUp!.classList.add("element_invisible");
                 }
-            });
+            };
+
         } else {
             popUp!.classList.remove("element_invisible");
         }
