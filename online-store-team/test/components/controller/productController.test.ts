@@ -1,6 +1,6 @@
-import ProductController from "../../../src/components/controller/productController";
+//import ProductController from "../../../src/components/controller/ProductController";
 
-const productController = new ProductController();
+//const productController = new ProductController();
 describe("test product controller methods", () => {
     describe("test getProductId method", () => {
         it("returns right number after parsing options", () => {
