@@ -8,6 +8,7 @@ export default class ErrorController extends BaseController {
         this.errorView = new ErrorView();
     }
     public override async init(options?: string): Promise<void> {
+        console.log(options);
         this.errorView.drawError();
     }
 }
