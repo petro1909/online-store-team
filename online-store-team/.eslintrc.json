@@ -17,8 +17,7 @@
     },
     "plugins": [
         "@typescript-eslint",
-        "prettier",
-        "import"
+        "prettier"
     ],
     "ignorePatterns": ["*.js"],
     "rules": {
@@ -29,7 +28,6 @@
             "singleQuote": false
           }
         ],
-        "max-len":"off",
         "@typescript-eslint/no-explicit-any": 2
     }
 }
