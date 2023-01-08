@@ -1,6 +1,6 @@
 import BaseController from "./baseController";
 import CartController from "./cartController";
-import ErrorController from "./errorController";
+import ErrorController from "./ErrorController";
 import ProductController from "./productController";
 import StoreController from "./storeController";
 

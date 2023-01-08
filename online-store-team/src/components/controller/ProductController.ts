@@ -1,4 +1,4 @@
-import ProductView from "../view/product/product";
+import ProductView from "../view/productView/product";
 import BaseController from "./baseController";
 import { app } from "../..";
 

@@ -1,5 +1,5 @@
 import BaseController from "./baseController";
-import StoreView from "../view/store/store";
+import StoreView from "../view/storeView/store";
 import { StoreFilterOptions } from "../model/storeOptions";
 
 export default class StoreController extends BaseController {
