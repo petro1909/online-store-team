@@ -292,7 +292,7 @@ export default class CartView {
         }
     }
 
-    private drawOrder = () => {
+    public drawOrder = () => {
         const orderView = new OrderView();
         orderView.drawOrder();
     };
