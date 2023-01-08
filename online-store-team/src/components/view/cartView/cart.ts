@@ -2,7 +2,7 @@
 import cartHtml from "./cart.html";
 import "./cart.css";
 import Cart from "../../model/cartModel";
-import OrderView from "../order/order";
+import OrderView from "../Order/order";
 import { CartProduct } from "../../model/type/cartProduct";
 import { app } from "../../../index";
 import { CartOptions } from "../../model/storeOptions";
