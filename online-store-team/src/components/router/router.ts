@@ -61,6 +61,7 @@ export default class Router {
     }
 
     public parseQueryParameters(options: StoreFilterOptions | CartOptions): string {
+        console.log(window.location.pathname);
         let queryString = window.location.pathname + "?";
         Object.keys(options).forEach((key: string) => {
             const value = options[key as keyof typeof options];
