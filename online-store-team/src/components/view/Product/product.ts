@@ -22,6 +22,7 @@ export default class ProductView {
         const productCategory = document.getElementById("product-category")!;
         const cartCost = document.getElementById("cart-cost")!;
 
+        cartCost.textContent = "€" + product.price;
         productId.setAttribute("data-id", String(product.id));
         productTitle.textContent = product.title;
         await app.store.removeDuplicatesFromProductImages(product);
@@ -32,7 +33,6 @@ export default class ProductView {
         productStock.textContent = String(product.stock);
         productBrand.textContent = product.brand;
         productCategory.textContent = product.category;
-        cartCost.textContent = "€" + product.price;
 
         const breadcrumbs = document.getElementById("breadcrumbs") as HTMLUListElement;
         const breadcrumbLinkStore = document.getElementById("breadcrumb-link-store")! as HTMLAnchorElement;
@@ -117,8 +117,6 @@ export default class ProductView {
     }
 
     private static switchProductButton(textContent: string, clickedButton: HTMLElement): void {
-        const cartCost = document.getElementById("cart-cost")!;
-        cartCost.textContent = "€" + app.cart.totalPrice;
         clickedButton.classList.toggle("object__drop-from-cart");
         clickedButton.classList.toggle("object__add-to-cart");
         clickedButton.textContent = textContent;

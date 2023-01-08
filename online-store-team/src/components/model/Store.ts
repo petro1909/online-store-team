@@ -10,7 +10,6 @@ export class Store {
     public async initStore(): Promise<void> {
         const storeJsonResult = await this.getProducts();
         this.products = storeJsonResult.products;
-        console.log(this.products);
         this.filter = new StoreFilter(this.products);
     }
     private async getProducts(): Promise<ProductJsonResult> {
@@ -31,7 +30,6 @@ export class Store {
             const arrayBuffer = await response.arrayBuffer();
             imageMap.set(arrayBuffer.byteLength, image);
         }
-        console.log(imageMap);
         product.images = Array.from(imageMap.values());
     }
 }

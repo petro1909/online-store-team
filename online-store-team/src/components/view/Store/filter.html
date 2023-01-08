@@ -1,15 +1,20 @@
 <aside class="filters-block">
+    <div class="close-filter-button">
+    </div>
     <form action="#" class="filters" id="filters">
+
         <div class="filters__btn-wrapper">
             <button class="btn filters__btn" type="reset" id="reset" name="reset">RESET</button>
             <button class="btn filters__btn" id="copy-link">COPY LINK</button>
         </div>
+
         <fieldset class="category" form="filters" id="category">
             <legend class="legend">Category</legend>
         </fieldset>
         <fieldset class="brand" form="filters" id="brand">
             <legend class="legend">Brand</legend>
         </fieldset>
+
         <fieldset class="price" form="filters" id="price">
             <legend class="legend">Price</legend>
             <input class="limits" type="number" name="min-price" id="min-price" placeholder="From">
@@ -19,6 +24,21 @@
             <legend class="legend">Stock</legend>
             <input class="limits" type="number" name="min-stock" id="min-stock" placeholder="From">
             <input class="limits" type="number" name="max-stock" id="max-stock"  placeholder="To">
+=======
+        <fieldset class="range-slider" form="filters" id="price">
+            <legend>Price</legend>
+            <input class="limits" type="text" id="min-price">
+            <input class="limits" type="text" id="max-price">
+            <input value="10" min="10" max="1749" step="1" type="range" name="min-price" id="lower-price"/>
+            <input value="1749" min="10" max="1749" step="1" type="range" name="max-price" id="upper-price"/>
+        </fieldset>
+        <fieldset class="range-slider" form="filters" id="stock">
+            <legend>Stock</legend>
+            <input class="limits" type="text" id="min-stock">
+            <input class="limits" type="text" id="max-stock">
+            <input value="2" min="2" max="149" step="1" type="range" name="min-stock" id="lower-stock"/>
+            <input value="149" min="2" max="149" step="1" type="range" name="max-stock" id="upper-stock"/>
+
         </fieldset>
     </form>
 </aside>

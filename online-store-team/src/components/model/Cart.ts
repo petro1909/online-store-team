@@ -34,9 +34,10 @@ export default class Cart {
             const cart = JSON.parse(cartStr) as Cart;
             this.totalCount = cart.totalCount;
             this.totalPrice = cart.totalPrice;
-            this.actualPrice = cart.totalPrice;
+            this.actualPrice = cart.actualPrice;
             this.totalDiscount = cart.totalDiscount;
             this.cartProducts = cart.cartProducts;
+            this.usedPromocodes = cart.usedPromocodes;
         }
     }
 
@@ -99,8 +100,11 @@ export default class Cart {
     }
 
     public updateCartProducts(options: CartOptions): Array<CartProduct> {
-        if (options.limit < 1) options.limit = 3;
+        if (options.limit < 1) options.limit = 1;
         if (options.page < 1) options.page = 1;
+        console.log(options);
+        const rightPagesLimit = Math.ceil(this.cartProducts.length / options.limit);
+        if (options.page > rightPagesLimit) options.page = rightPagesLimit;
         app.router.addQueryParameters(options);
         return this.cartProducts.slice(options.limit * (options.page - 1));
     }
@@ -123,7 +127,7 @@ export default class Cart {
         const findedPromocode = this.usedPromocodes.find((item) => item.text === promocodeText);
         if (findedPromocode) {
             const findexPromocodeIndex = this.usedPromocodes.indexOf(findedPromocode);
-            this.usedPromocodes.slice(findexPromocodeIndex, 1);
+            this.usedPromocodes.splice(findexPromocodeIndex, 1);
             this.totalDiscount = this.usedPromocodes.reduce((sum, promocode) => sum + promocode.discount, 0);
             this.updateActualPrice();
             this.saveToLocalStorage();
@@ -131,7 +135,6 @@ export default class Cart {
     }
 
     private updateActualPrice() {
-        console.log(this.actualPrice);
-        this.actualPrice = this.totalPrice * (1 - this.totalDiscount / 100);
+        this.actualPrice = Number((this.totalPrice * (1 - this.totalDiscount / 100)).toFixed(2));
     }
 }
