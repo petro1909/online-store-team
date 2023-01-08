@@ -1,60 +1,70 @@
-<section class="pop-up" id="pop-up"><!-- Remove class pop-up_invisivle for visibility -->
+<section class="pop-up element_invisible" id="pop-up">
+    <h2 class="order-processed element_invisible" id="order-processed">Thank you for your order.<br>Redirect to store...</h2>
     <form action="#" class="order" id="order">
-        <fieldset form="order" class="personal-details">
+        <span class="close-button" id="close-button">✖</span>
+        <fieldset form="order" class="personal-details" id="personal-details">
             <legend class="fieldset-title">Personal details</legend>
-            <input class="personal-details__input"
-                    type="text" placeholder="Name"
+            <label for="" class="tooltip">Two words, no less than three letters each.</label>
+            <input class="personal-details__input input-field"
+                    type="text"
+                    placeholder="Name"
                     name="name"
-                    pattern="^\s*?\w{3,25}\s*\w{3,25}\s*?$"
-                    required
-                    id="input-name">
-            <input class="personal-details__input"
-                    type="tel" placeholder="Phone number"
+                    id="input-name"
+                    data-validity="false">
+            <label for="" class="tooltip">The first character must be «+». At least 9 digits.</label>
+            <input class="personal-details__input input-field"
+                    type="text"
+                    placeholder="Phone number"
                     name="tel"
-                    pattern="^\+{1}\d{9,15}$"
-                    required
-                    id="input-tel">
-            <input class="personal-details__input"
+                    id="input-tel"
+                    data-validity="false">
+            <label for="" class="tooltip">Three words, no less than five letters each.</label>
+            <input class="personal-details__input input-field"
                     type="text"
                     placeholder="Delivery address"
                     name="address"
-                    pattern="^\s*?\w{5,25}\s*\w{5,25}\s*\w{5,25}\s*?$"
-                    required
-                    id="input-address">
-            <input class="personal-details__input"
-                    type="email"
+                    id="input-address"
+                    data-validity="false">
+            <label for="" class="tooltip">Must be «@» and the correct domain name</label>
+            <input class="personal-details__input input-field"
+                    type="text"
                     placeholder="E-mail"
                     name="email"
-                    pattern="^[A-Za-z0-9.-]+@[A-Za-z]+.[A-Za-z]{2,4}$"
-                    required
-                    id="input-email">
+                    id="input-email"
+                    data-validity="false">
         </fieldset>
-        <fieldset form="order" class="card-details">
+        <fieldset form="order" class="card-details" id="card-details">
             <legend class="fieldset-title">Credit card details</legend>
-            <input class="card-details__input card-details__input_long"
+            <img class="paycard-image" src="../../../assets/img/Order/default.jpg" id="paycard-image">
+            <label for="" class="tooltip">The first digit must be 4, 5 or 6</label>
+            <input class="card-details__input card-details__input_long input-field"
                     type="text"
                     placeholder="Card number"
                     name="card-number"
-                    pattern="^\s*?\d{4}\s*\d{4}\s*\d{4}\s*\d{4}\s*?$"
-                    required
-                    id="input-card-number">
+                    id="input-card-number"
+                    maxlength="19"
+                    data-validity="false">
             <div class="card-details__input-wrapper">
-                <input class="card-details__input"
+                <label for="" class="tooltip tooltip-wrapper">Month 01-12 / Year 23-29
+                    <input class="card-details__input input-field"
                         type="text"
                         placeholder="Valid thru"
                         name="valid-thru"
-                        pattern="^\d{2}\/\d{2}$"
-                        required
-                        id="input-valid-thru">
-                <input class="card-details__input"
+                        id="input-valid-thru"
+                        maxlength="5"
+                        data-validity="false">
+                </label>
+                <label for="" class="tooltip tooltip-wrapper">Three digits
+                    <input class="card-details__input input-field"
                         type="text"
                         placeholder="CVV code"
                         name="cvv-code"
-                        pattern="^\d{3}$"
-                        required
-                        id="input-cvv-code">
+                        id="input-cvv-code"
+                        maxlength="3"
+                        data-validity="false">
+                </label>
             </div>
         </fieldset>
-        <button type="submit" class="order__submit">CONFIRM</button>
+        <button type="submit" class="order__submit buy-now__submit btn" id="order-submit">CONFIRM</button>
     </form>
 </section>
