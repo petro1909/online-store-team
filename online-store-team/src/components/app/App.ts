@@ -1,8 +1,8 @@
 import Cart from "../model/cartModel";
 import Store from "../model/storeModel";
 import Router from "../router/router";
-import HeaderView from "../view/Header/header";
-import FooterView from "../view/Footer/footer";
+import HeaderView from "../view/header/header";
+import FooterView from "../view/footer/footer";
 
 export default class App {
     public readonly header: HeaderView;
