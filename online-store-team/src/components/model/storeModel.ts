@@ -1,11 +1,11 @@
-import StoreFilter from "./StoreFilter";
-import { StoreFilterOptions } from "./type/IFilterOptions";
-import { Product, ProductJsonResult } from "./type/IProduct";
+import StoreFilter from "./storeFilterModel";
+import { StoreFilterOptions } from "./storeOptions";
+import { Product, ProductJsonResult } from "./type/product";
 
-export class Store {
+export default class Store {
     public products: Array<Product> = [];
     public categories: Array<string> = [];
-    private filter!: StoreFilter;
+    public filter!: StoreFilter;
 
     public async initStore(): Promise<void> {
         const storeJsonResult = await this.getProducts();

@@ -1,290 +1,397 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import cartHtml from "./cart.html";
 import "./cart.css";
-import Cart from "../../model/Cart";
-import OrderView from "../../view/Order/order";
-import { CartProduct } from "../../model/type/ICartProduct";
+import Cart from "../../model/cartModel";
+import OrderView from "../Order/order";
+import { CartProduct } from "../../model/type/cartProduct";
 import { app } from "../../../index";
-import { CartOptions } from "../../model/type/IFilterOptions";
-import { IPromocode } from "../../model/type/IPromocode";
+import { CartOptions } from "../../model/storeOptions";
+import { IPromocode } from "../../model/type/promocode";
 
 export default class CartView {
-    private cartOptions: CartOptions = new CartOptions();
+    private cartOptions: CartOptions;
+    private cartHtmlTemplate: DocumentFragment;
+    constructor() {
+        this.cartOptions = new CartOptions();
+        this.cartHtmlTemplate = document.createRange().createContextualFragment(cartHtml);
+    }
     public drawCart(cartOptions: CartOptions): void {
-        this.cartOptions = cartOptions;
-        document.getElementById("root")!.innerHTML = cartHtml;
+        this.cartOptions = app.cart.validateCartOptions(cartOptions);
+        app.router.replaceQueryParameters(this.cartOptions);
 
-        const fragment: DocumentFragment = document.createDocumentFragment();
-        const paginationTemplate = document.getElementById("paginationTemplate")! as HTMLTemplateElement;
-        const clonePaginationTemp = paginationTemplate.content.cloneNode(true) as HTMLElement;
-        const content = document.querySelector(".content")! as HTMLDivElement;
-        content.prepend(clonePaginationTemp);
-
-        const paginationPageCurrent = document.getElementById("pagination-page-current")! as HTMLInputElement;
-        const paginationLimitInput = document.getElementById("pagination-limit-input")! as HTMLInputElement;
-
-        paginationLimitInput.value = String(cartOptions.limit!);
-        paginationPageCurrent.textContent = String(cartOptions.page!);
-
-        const currentPageProductsList = app.cart.cartProducts.slice(
-            (cartOptions.page - 1) * cartOptions.limit,
-            (cartOptions.page - 1) * cartOptions.limit + cartOptions.limit
-        );
-
-        currentPageProductsList.forEach((product: CartProduct, idx: number): void => {
-            const _product = product.product;
-            const cartItemTemplate = document.getElementById("cartItemTemplate")! as HTMLTemplateElement;
-            const templateClone = cartItemTemplate.content.cloneNode(true) as HTMLElement;
-
-            const cartItem = templateClone.querySelector(".cart-item")! as HTMLElement;
-            const cartItemNumber = templateClone.querySelector(".cart-item__number")! as HTMLSpanElement;
-            const productImg = templateClone.querySelector(".product__img")! as HTMLImageElement;
-            const productDescTitle = templateClone.querySelector(".product__desc-title")! as HTMLElement;
-            const productDescText = templateClone.querySelector(".product__desc-text")! as HTMLElement;
-            const productDescRating = templateClone.querySelector(".product__desc-rating")! as HTMLElement;
-            const productDescDiscount = templateClone.querySelector(".product__desc-discount")! as HTMLElement;
-            const cartItemStock = templateClone.querySelector(".cart-item__stock")! as HTMLElement;
-            const cartItemQuantity = templateClone.querySelector(".cart-item__quantity")! as HTMLElement;
-            const cartItemAmountControl = templateClone.querySelector(".cart-item__amount-control")! as HTMLElement;
-
-            cartItem.setAttribute("data-id", String(_product.id));
-            cartItemNumber.textContent = String((cartOptions.page - 1) * cartOptions.limit + idx + 1);
-            productImg.src = String(_product.images[0]);
-            productImg.alt = _product.title;
-            productDescTitle.textContent = _product.title;
-            productDescText.textContent = _product.description;
-            productDescRating.textContent = `Rating: ${_product.rating}`;
-            productDescDiscount.textContent = `Discount: ${_product.discountPercentage}%`;
-            cartItemStock.textContent = `Stock: ${_product.stock}`;
-            cartItemQuantity.textContent = String(product.count);
-            cartItemAmountControl.textContent = `€${product.totalPrice}`;
-
-            fragment.append(templateClone);
-        });
-
-        const contentContainer = document.querySelector(".content__container")! as HTMLDivElement;
-        contentContainer.appendChild(fragment);
-
-        const cartBuyNowTemplate = document.getElementById("cartBuyNowTemplate")! as HTMLTemplateElement;
-        const cloneCartBuyNowTemp = cartBuyNowTemplate.content.cloneNode(true) as HTMLElement;
-        const _cart = document.querySelector(".cart")!;
-        _cart.append(cloneCartBuyNowTemp);
-
-        const buyNowProducts = document.querySelector(".buy-now__products-value")! as HTMLDivElement;
-
-        const productItemsQuantity = app.cart.cartProducts.reduce<number>((acc, item: CartProduct): number => {
-            return acc + item.count;
-        }, 0);
-        app.header.drawHeader(app.cart);
-
-        buyNowProducts.textContent = String(productItemsQuantity);
-
-        const buyNowTotal = document.querySelector(".buy-now__total-value")! as HTMLElement;
-        buyNowTotal.textContent = app.cart.totalPrice.toString();
-
-        const buyNowActualTotalSection = document.querySelector(".buy-now__actual-total-text")! as HTMLElement;
-        const buyNowActualTotal = document.querySelector(".buy-now__actual-total-value")! as HTMLElement;
-        buyNowActualTotal.textContent = app.cart.actualPrice.toString();
-        if (app.cart.totalPrice === app.cart.actualPrice) {
-            buyNowActualTotalSection.style.display = "none";
+        const documentRoot = document.getElementById("root");
+        if (!documentRoot) {
+            return;
         }
-
-        //promo codes
-        //used promo codes
-        const usedPromocodesSection = document.querySelector(".buy-now__used-promo-codes") as HTMLElement;
-        const usedPromocodesListSection = usedPromocodesSection.querySelector(
-            ".buy-now__used-promo-codes-list"
-        ) as HTMLElement;
-        console.log(app.cart);
-        usedPromocodesSection!.addEventListener("click", this.removePromocode);
-        app.cart.usedPromocodes.forEach((promocode) => {
-            usedPromocodesListSection.append(this.createPromocodeSection(promocode, "DROP"));
-        });
-        if (app.cart.usedPromocodes.length === 0) {
-            usedPromocodesSection.style.display = "none";
+        documentRoot.innerHTML = "";
+        const cartWrapperSection = this.cartHtmlTemplate.querySelector(".cart") as HTMLElement | null;
+        if (!cartWrapperSection) {
+            return;
         }
-        //proposed promo codes
-        const proposedPromocodeSection = document.querySelector(".buy-now__proposed-promo-codes") as HTMLElement;
-        proposedPromocodeSection!.addEventListener("click", this.setPromocode);
+        documentRoot.append(cartWrapperSection);
+        this.drawCartHeader();
+        this.drawCartProducts();
+        this.drawSummary();
+    }
 
-        const allPromocodes = document.querySelector(".buy-now__all-promo-codes")! as HTMLDivElement;
-        allPromocodes.innerHTML =
-            "Promocodes for test <br>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
+    private drawCartHeader() {
+        const cartHeaderSection = document.querySelector(".content__pagination") as HTMLElement | null;
+        if (!cartHeaderSection) {
+            return;
+        }
+        const cartPaginationSection = cartHeaderSection.querySelector(".pagination__page-number") as HTMLElement | null;
+        if (cartPaginationSection) {
+            cartPaginationSection.addEventListener("click", this.changeCartPage);
+        }
+        const pageProductLimitInput = document.getElementById("pagination-limit-input") as HTMLInputElement | null;
+        if (pageProductLimitInput) {
+            pageProductLimitInput.addEventListener("change", this.updateCartProductLimit);
+        }
+        this.updateCartHeader();
+    }
 
-        if (currentPageProductsList.length === 0 && app.cart.cartProducts.length > 0) {
-            app.router.route("error");
-        } else if (app.cart.cartProducts.length === 0) {
-            cartOptions = { page: 1, limit: 3 };
-            _cart.innerHTML = "<h2>Cart is Empty</h2>";
+    private updateCartHeader() {
+        const currentPage = document.getElementById("pagination-page-current") as HTMLElement | null;
+        if (currentPage) {
+            currentPage.innerHTML = `${this.cartOptions.page}`;
+        }
+        const pageProductLimitInput = document.getElementById("pagination-limit-input") as HTMLInputElement | null;
+        if (pageProductLimitInput) {
+            pageProductLimitInput.value = `${this.cartOptions.limit}`;
+        }
+    }
+
+    private updateCartProductLimit = (e: Event) => {
+        const productLimitInput = e.target as HTMLInputElement;
+        const productPageLimit = Number.parseInt(productLimitInput.value);
+
+        if (!productPageLimit) {
+            productLimitInput.value = `${this.cartOptions.limit}`;
+            return;
+        }
+        if (productPageLimit === this.cartOptions.limit) {
+            return;
+        }
+        if (productPageLimit < 1) {
+            this.cartOptions.limit = 1;
+        } else if (productPageLimit > app.cart.cartProducts.length) {
+            this.cartOptions.limit = app.cart.cartProducts.length;
         } else {
-            this.addHandlers();
+            this.cartOptions.limit = productPageLimit;
+        }
+        this.updateCartHeader();
+        this.updateCartProducts();
+        app.router.addQueryParameters(this.cartOptions);
+    };
+
+    private changeCartPage = (e: Event) => {
+        const clickedButton = e.target as HTMLElement | null;
+        if (!clickedButton) {
+            return;
+        }
+        let currPage = this.cartOptions.page;
+        if (clickedButton.classList.contains("pagination__page-prev")) {
+            currPage--;
+        } else if (clickedButton.classList.contains("pagination__page-next")) {
+            currPage++;
+        }
+        let pagesCount = Math.ceil(app.cart.cartProducts.length / this.cartOptions.limit);
+        if (Number.isNaN(pagesCount)) {
+            pagesCount = 0;
+        }
+        if (currPage < 1 || currPage > pagesCount) {
+            return;
+        }
+        this.cartOptions.page = currPage;
+        this.updateCartHeader();
+        this.updateCartProducts();
+        app.router.addQueryParameters(this.cartOptions);
+    };
+
+    private drawCartProducts() {
+        const cartProductsWrapperSection = document.querySelector(".content__container") as HTMLElement;
+        if (!cartProductsWrapperSection) {
+            return;
+        }
+        cartProductsWrapperSection.addEventListener("click", this.cartProductHandlers);
+        this.updateCartProducts();
+    }
+
+    private updateCartProducts() {
+        const cartProductsSection = document.querySelector(".cart-items") as HTMLElement;
+        if (!cartProductsSection) {
+            return;
+        }
+        const productItemWrapperSection = this.cartHtmlTemplate.getElementById(
+            "cartItemTemplate"
+        ) as HTMLTemplateElement;
+        cartProductsSection.innerHTML = "";
+
+        const activeCartProducts = app.cart.updateCartProducts(this.cartOptions);
+        if (activeCartProducts.length === 0) {
+            const noCartItemPlaceholder = document.createElement("div");
+            noCartItemPlaceholder.innerHTML = "There is no products in cart";
+            cartProductsSection.append(noCartItemPlaceholder);
+        }
+
+        activeCartProducts.forEach((cartProduct) => {
+            cartProductsSection.append(this.drawCartProcuct(cartProduct, productItemWrapperSection));
+        });
+    }
+
+    private drawCartProcuct(cartProduct: CartProduct, template: HTMLTemplateElement): HTMLElement {
+        const product = cartProduct.product;
+        const cartProductSection = template.content.cloneNode(true) as HTMLElement;
+
+        const cartItem = cartProductSection.querySelector(".cart-item") as HTMLElement | null;
+        if (cartItem) {
+            cartItem.setAttribute("data-id", String(product.id));
+        }
+        const productImg = cartProductSection.querySelector(".product__img") as HTMLImageElement | null;
+        if (productImg) {
+            productImg.src = String(product.images[0]);
+            productImg.alt = product.title;
+            productImg.loading = "lazy";
+        }
+        this.SetElementInnerHtml(cartProductSection, ".cart-item__number", `${cartProduct.cartIndex}`);
+        this.SetElementInnerHtml(cartProductSection, ".product__desc-title", product.title);
+        this.SetElementInnerHtml(cartProductSection, ".product__desc-text", product.description);
+        this.SetElementInnerHtml(cartProductSection, ".product__desc-rating", `Rating: ${product.rating}`);
+        this.SetElementInnerHtml(
+            cartProductSection,
+            ".product__desc-discount",
+            `Discount: ${product.discountPercentage}%`
+        );
+        this.SetElementInnerHtml(cartProductSection, ".cart-item__stock", `Stock: ${product.stock}`);
+        this.SetElementInnerHtml(cartProductSection, ".cart-item__quantity", `${cartProduct.count}`);
+        this.SetElementInnerHtml(cartProductSection, ".cart-item__amount-control", `€${cartProduct.totalPrice}`);
+        return cartProductSection;
+    }
+
+    private cartProductHandlers = (e: MouseEvent) => {
+        const eventTarget = e.target as HTMLElement;
+        const cartItemSectrion = eventTarget.closest(".cart-item");
+        if (!cartItemSectrion) return;
+        const productIdStr = cartItemSectrion.getAttribute("data-id");
+        if (!productIdStr) return;
+        const productId = Number.parseInt(productIdStr);
+        if (!productId) return;
+
+        if (eventTarget.closest(".cart-item") && !eventTarget.classList.contains("btn")) {
+            app.router.route("product/" + productId);
+            return;
+        }
+        if (eventTarget.classList.contains("cart-item__decrease-btn")) {
+            if (!app.cart.decreaceCartProductCount(productId)) {
+                return;
+            }
+            const tempCartOptions = app.cart.validateCartOptions(this.cartOptions);
+            if (tempCartOptions.page !== this.cartOptions.page) {
+                this.cartOptions.page = tempCartOptions.page;
+                this.cartOptions.limit = tempCartOptions.limit;
+                this.updateCartHeader();
+                app.router.replaceQueryParameters(this.cartOptions);
+            }
+        }
+        if (eventTarget.classList.contains("cart-item__increase-btn")) {
+            if (!app.cart.increaceCartProductCount(productId)) {
+                return;
+            }
+        }
+        if (eventTarget.classList.contains("btn")) {
+            app.header.drawHeader(app.cart);
+            this.updateSummary();
+            this.updateCartProducts();
+        }
+    };
+
+    private drawSummary = () => {
+        const summary = document.querySelector(".summary") as HTMLElement | null;
+        if (!summary) {
+            return;
+        }
+
+        const proposedPromocodeSection = summary.querySelector(".summary__proposed-promo-codes") as HTMLElement | null;
+        if (!proposedPromocodeSection) {
+            return;
+        }
+
+        const usedPromocodesSection = summary.querySelector(".summary__used-promo-codes") as HTMLElement | null;
+        if (usedPromocodesSection) {
+            const usedPromocodesListSection = usedPromocodesSection.querySelector(
+                ".summary__used-promo-codes-list"
+            ) as HTMLElement | null;
+            if (usedPromocodesListSection) {
+                proposedPromocodeSection.addEventListener("click", (e) =>
+                    this.setPromocode(e, usedPromocodesListSection)
+                );
+                usedPromocodesListSection.addEventListener("click", this.removePromocode);
+                app.cart.usedPromocodes.forEach((promocode) => {
+                    usedPromocodesListSection.append(this.createPromocodeSection(promocode, "DROP"));
+                });
+            }
+            if (app.cart.usedPromocodes.length === 0) {
+                usedPromocodesSection.style.display = "none";
+            }
+        }
+
+        const summaryPromocodeInput = summary.querySelector(".summary__input-promo") as HTMLInputElement | null;
+        if (summaryPromocodeInput) {
+            summaryPromocodeInput.addEventListener("input", () =>
+                this.findPromocode(proposedPromocodeSection, summaryPromocodeInput.value)
+            );
+        }
+
+        const allPromocodesSection = document.querySelector(".summary__all-promo-codes") as HTMLElement | null;
+        if (allPromocodesSection) {
+            allPromocodesSection.innerHTML =
+                "Promocodes for test: <br>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
+        }
+
+        const summarySumbit = summary.querySelector(".summary__submit") as HTMLElement | null;
+        if (summarySumbit) {
+            summarySumbit.addEventListener("click", this.drawOrder);
+        }
+        this.updateSummary();
+    };
+
+    private updateSummary() {
+        const summary = document.querySelector(".summary") as HTMLElement | null;
+        if (!summary) {
+            return;
+        }
+        this.SetElementInnerHtml(summary, ".summary__products-value", `${app.cart.totalCount}`);
+        this.SetElementInnerHtml(summary, ".summary__total-value", `${app.cart.totalPrice}`);
+        const cartActualTotalPrice = document.querySelector(".summary__actual-total-value") as HTMLElement | null;
+        if (cartActualTotalPrice) {
+            cartActualTotalPrice.innerHTML = `${app.cart.actualPrice}`;
+        }
+        const usedPromoCodesSection = document.querySelector(".summary__used-promo-codes") as HTMLElement | null;
+        const cartTotalPriceSection = document.querySelector(".summary__total-text") as HTMLElement | null;
+        const cartActualTotalPriceSection = document.querySelector(".summary__actual-total-text") as HTMLElement | null;
+        if (usedPromoCodesSection) {
+            if (app.cart.usedPromocodes.length === 0) {
+                usedPromoCodesSection.style.display = "none";
+            } else {
+                usedPromoCodesSection.style.display = "block";
+            }
+        }
+        if (cartTotalPriceSection) {
+            if (app.cart.usedPromocodes.length === 0) {
+                cartTotalPriceSection.style.textDecoration = "none";
+            } else {
+                cartTotalPriceSection.style.textDecoration = "line-through";
+            }
+        }
+        if (cartActualTotalPriceSection) {
+            if (app.cart.usedPromocodes.length === 0) {
+                cartActualTotalPriceSection.style.display = "none";
+            } else {
+                cartActualTotalPriceSection.style.display = "block";
+            }
         }
     }
 
-    private addHandlers(): void {
-        const cartItem = document.querySelector(".content__container")!;
+    public drawOrder = () => {
+        const orderView = new OrderView();
+        orderView.drawOrder();
+    };
 
-        cartItem.addEventListener("click", (event) => {
-            const clickedElement = event.target as HTMLElement;
-            const idProduct = clickedElement.closest(".cart-item")!.getAttribute("data-id");
-            if (clickedElement.classList.contains("cart-item__decrease-btn")) {
-                app.cart.decreaceCartProductCount(Number(idProduct));
-                app.cart.updateCartProducts(this.cartOptions);
-                this.drawCart(this.cartOptions);
-            }
-            if (clickedElement.classList.contains("cart-item__increase-btn")) {
-                app.cart.increaceCartProductCount(Number(idProduct));
-                app.cart.updateCartProducts(this.cartOptions);
-                this.drawCart(this.cartOptions);
-            }
-            if (clickedElement.classList.contains("product__img")) {
-                app.router.route("product/" + idProduct);
-            }
-        });
-
-        const buyNowInputCode = document.querySelector(".buy-now__input-promo")! as HTMLInputElement;
-        buyNowInputCode.addEventListener("input", (event) => {
-            const inputPromo = event.target as HTMLInputElement;
-            const value = inputPromo!.value;
-            this.findPromocode(value);
-        });
-
-        const buyNowSubmit = document.querySelector(".buy-now__submit")! as HTMLButtonElement;
-        buyNowSubmit.addEventListener("click", () => {
-            console.log("buy-now pressed");
-            if (app.cart.cartProducts.length > 0) {
-                const orderView = new OrderView();
-                orderView.drawOrder();
-            }
-        });
-
-        const paginationCurrentPageNumber = document.querySelector(".pagination__page-number")! as HTMLElement;
-        paginationCurrentPageNumber.addEventListener("click", (event) => {
-            const clickedButton = event.target! as HTMLButtonElement;
-            if (clickedButton.classList.contains("pagination__page-prev")) {
-                this.cartOptions.page = this.cartOptions.page - 1;
-                app.cart.updateCartProducts(this.cartOptions);
-                this.drawCart(this.cartOptions);
-            } else if (clickedButton.classList.contains("pagination__page-next")) {
-                this.cartOptions.page = this.cartOptions.page + 1;
-                app.cart.updateCartProducts(this.cartOptions);
-                this.drawCart(this.cartOptions);
-            }
-        });
-
-        const paginationLimitInput = document.getElementById("pagination-limit-input")! as HTMLInputElement;
-        paginationLimitInput.addEventListener("change", (event: Event) => {
-            const inputLimit = event.target! as HTMLInputElement;
-            this.cartOptions.limit = Number(inputLimit.value);
-            app.cart.updateCartProducts(this.cartOptions);
-            this.drawCart(this.cartOptions);
-        });
-    }
-
-    //input promocode text
-    private findPromocode(value: string) {
-        const proposedPromocodesSection = document.querySelector(".buy-now__proposed-promo-codes") as HTMLElement;
-        proposedPromocodesSection!.innerHTML = "";
+    private findPromocode(parentElement: HTMLElement, value: string) {
+        parentElement.innerHTML = "";
         const findedPromocode = Cart.promocodes.find((promocode) => value === promocode.text);
         if (!findedPromocode) {
             return;
         }
-        proposedPromocodesSection.append(this.createPromocodeSection(findedPromocode, "ADD"));
-        if (app.cart.usedPromocodes.includes(findedPromocode)) {
-            const addPromocodeButton = proposedPromocodesSection.querySelector(".promo-code__action") as HTMLElement;
-            addPromocodeButton.style.display = "none";
-        }
+        parentElement.append(this.createPromocodeSection(findedPromocode, "ADD"));
+        this.updateProposedPromocodeButtonSection();
     }
 
-    private setPromocode = (e: MouseEvent) => {
-        const eventTarget = e.target as HTMLElement;
-        if (!eventTarget.classList.contains("promo-code__action")) {
-            return;
-        }
-        const promocodeSection = eventTarget.closest(".promo-code") as Element | null;
-        if (!promocodeSection) {
-            return;
-        }
-        const promocodeId = promocodeSection.getAttribute("id") as string | null;
-        if (!promocodeId) {
-            return;
-        }
-        const findedPromocode = Cart.promocodes.find((promocode) => promocodeId === promocode.text);
+    private setPromocode = (e: MouseEvent, parentElement: HTMLElement) => {
+        const promocodeTuple = this.getPromocodeSecionAndId(e);
+        if (!promocodeTuple) return;
+
+        const findedPromocode = app.cart.setPromocode(promocodeTuple.promocodeId);
         if (!findedPromocode) {
             return;
         }
-        if (app.cart.usedPromocodes.includes(findedPromocode)) {
-            return;
-        }
-        app.cart.setPromocode(findedPromocode);
-        if (app.cart.usedPromocodes.length === 1) {
-            const usedPromoCodesSection = document.querySelector(".buy-now__used-promo-codes") as HTMLElement;
-            usedPromoCodesSection!.style.display = "block";
-            const cartTotalPriceSection = document.querySelector(".buy-now__total-text") as HTMLElement;
-            cartTotalPriceSection!.style.textDecoration = "line-through";
-        }
-        const usedPromoCodesSection = document.querySelector(".buy-now__used-promo-codes-list") as HTMLElement;
-        usedPromoCodesSection.append(this.createPromocodeSection(findedPromocode, "DROP"));
-        const addPromocodeButton = promocodeSection.querySelector(".promo-code__action") as HTMLElement;
-        addPromocodeButton.style.display = "none";
 
-        const cartActualTotalPriceSection = document.querySelector(".buy-now__actual-total-text") as HTMLElement;
-        const cartActualTotalPrice = document.querySelector(".buy-now__actual-total-value") as HTMLElement;
-        cartActualTotalPrice!.innerHTML = app.cart.actualPrice.toString();
-        cartActualTotalPriceSection!.style.display = "block";
+        parentElement.append(this.createPromocodeSection(findedPromocode, "DROP"));
+        this.updateProposedPromocodeButtonSection();
+        this.updateSummary();
     };
 
-    private removePromocode(e: MouseEvent) {
+    private removePromocode = (e: MouseEvent) => {
+        const promocodeTuple = this.getPromocodeSecionAndId(e);
+        if (!promocodeTuple) return;
+
+        const findedPromocode = app.cart.removePromocode(promocodeTuple.promocodeId);
+        if (!findedPromocode) {
+            return;
+        }
+        promocodeTuple.section.remove();
+        this.updateProposedPromocodeButtonSection();
+        this.updateSummary();
+    };
+
+    private getPromocodeSecionAndId(e: MouseEvent): { section: HTMLElement; promocodeId: string } | undefined {
         const eventTarget = e.target as HTMLElement;
         if (!eventTarget.classList.contains("promo-code__action")) return;
 
-        const promocodeSection = eventTarget.closest(".promo-code") as Element | null;
+        const promocodeSection = eventTarget.closest(".promo-code") as HTMLElement | null;
         if (!promocodeSection) return;
 
-        const removedPromocodeId = promocodeSection.getAttribute("id") as string | null;
-        if (!removedPromocodeId) return;
-
-        app.cart.removePromocode(removedPromocodeId);
-        promocodeSection.remove();
-
-        const cartActualTotalPrice = document.querySelector(".buy-now__actual-total-value") as HTMLElement;
-        cartActualTotalPrice!.innerHTML = app.cart.actualPrice.toString();
-
-        if (app.cart.usedPromocodes.length === 0) {
-            const usedPromoCodesSection = document.querySelector(".buy-now__used-promo-codes") as HTMLElement;
-            usedPromoCodesSection!.style.display = "none";
-            const cartActualTotalPriceSection = document.querySelector(".buy-now__actual-total-text") as HTMLElement;
-            cartActualTotalPriceSection!.style.display = "none";
-            const cartTotalPriceSection = document.querySelector(".buy-now__total-text") as HTMLElement;
-            cartTotalPriceSection!.style.textDecoration = "none";
-        }
-
-        const proposedPromocodesSection = document.querySelector(".buy-now__proposed-promo-codes") as HTMLElement;
-        const proposedPromocodeSection = proposedPromocodesSection.querySelector(".promo-code") as HTMLElement;
-        const proposedPromocodeId = proposedPromocodeSection.getAttribute("id");
-        if (!proposedPromocodeId) return;
-        if (proposedPromocodeId === removedPromocodeId) {
-            const proposedPromocodeButton = proposedPromocodeSection.querySelector(
-                ".promo-code__action"
-            ) as HTMLElement;
-            if (!proposedPromocodeButton) return;
-            proposedPromocodeButton.style.display = "block";
-        }
+        const id = promocodeSection.getAttribute("id") as string | null;
+        if (!id) return;
+        return { section: promocodeSection, promocodeId: id };
     }
 
     private createPromocodeSection(promocode: IPromocode, buttonText: string): HTMLElement {
-        const proposedPromocodeTemplate = document.getElementById("promo-codeTemplate") as HTMLTemplateElement;
-        const proposedPromocodeSection = proposedPromocodeTemplate.content.children[0]!.cloneNode(true) as HTMLElement;
-        proposedPromocodeSection.id = promocode.text;
+        const proposedPromocodeTemplate = this.cartHtmlTemplate.getElementById(
+            "promo-codeTemplate"
+        ) as HTMLTemplateElement;
+        const proposedPromocodeTemplateClone = proposedPromocodeTemplate.content.cloneNode(true) as HTMLTemplateElement;
+        const proposedPromocodeSection = proposedPromocodeTemplateClone.querySelector(
+            ".promo-code"
+        ) as HTMLElement | null;
+        if (proposedPromocodeSection) {
+            proposedPromocodeSection.setAttribute("id", promocode.text);
+            this.SetElementInnerHtml(proposedPromocodeSection, ".promo-code__name", promocode.text);
+            this.SetElementInnerHtml(proposedPromocodeSection, ".promo-code__discount", `${promocode.discount}%`);
+            this.SetElementInnerHtml(proposedPromocodeSection, ".promo-code__action", buttonText);
+        }
+        return proposedPromocodeTemplateClone;
+    }
 
-        const proposedPromocodeName = proposedPromocodeSection.querySelector(".promo-code__name");
-        proposedPromocodeName!.innerHTML = promocode.text;
+    private updateProposedPromocodeButtonSection(): void {
+        const proposedPromocodeSection = document.querySelector(".summary__proposed-promo-codes") as HTMLElement | null;
+        if (!proposedPromocodeSection) {
+            return;
+        }
+        const promocodeSection = proposedPromocodeSection.querySelector(".promo-code") as HTMLElement | null;
+        if (!promocodeSection) {
+            return;
+        }
+        const id = promocodeSection.getAttribute("id") as string | null;
+        if (!id) return;
 
-        const proposedPromocodeDiscount = proposedPromocodeSection.querySelector(".promo-code__discount");
-        proposedPromocodeDiscount!.innerHTML = promocode.discount.toString() + "%";
+        const addPromocodeButton = promocodeSection.querySelector(".promo-code__action") as HTMLElement | null;
+        if (!addPromocodeButton) {
+            return;
+        }
 
-        const addPromocodeButton = proposedPromocodeSection.querySelector(".promo-code__action");
-        addPromocodeButton!.innerHTML = buttonText;
-        return proposedPromocodeSection;
+        if (app.cart.usedPromocodes.find((item) => item.text === id)) {
+            addPromocodeButton.style.display = "none";
+        } else {
+            addPromocodeButton.style.display = "block";
+        }
+    }
+
+    private SetElementInnerHtml(parentElement: HTMLElement, selector: string, value: string): void {
+        const element = parentElement.querySelector(selector) as HTMLElement;
+        if (!element) {
+            return;
+        }
+        element.innerHTML = value;
     }
 }

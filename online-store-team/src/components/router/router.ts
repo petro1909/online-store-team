@@ -1,5 +1,5 @@
-import ControllerFactory from "../controller/ControllerFactory";
-import { CartOptions, StoreFilterOptions } from "../model/type/IFilterOptions";
+import ControllerFactory from "../controller/controllerFactory";
+import { CartOptions, StoreFilterOptions } from "../model/storeOptions";
 
 export default class Router {
     public static routes = {
@@ -60,7 +60,7 @@ export default class Router {
         return [path, queryParams];
     }
 
-    public addQueryParameters(options: StoreFilterOptions | CartOptions) {
+    public parseQueryParameters(options: StoreFilterOptions | CartOptions): string {
         let queryString = window.location.pathname + "?";
         Object.keys(options).forEach((key: string) => {
             const value = options[key as keyof typeof options];
@@ -78,7 +78,16 @@ export default class Router {
             }
         });
         queryString = queryString.slice(0, -1);
+        return queryString;
+    }
+    public addQueryParameters(options: StoreFilterOptions | CartOptions): void {
+        const queryString = this.parseQueryParameters(options);
         window.history.pushState({ queryString }, queryString, queryString);
+    }
+
+    public replaceQueryParameters(options: StoreFilterOptions | CartOptions): void {
+        const queryString = this.parseQueryParameters(options);
+        window.history.replaceState({ queryString }, queryString, queryString);
     }
 
     public copyQueryParametersToClipBoard() {

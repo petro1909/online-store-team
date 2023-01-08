@@ -18,15 +18,3 @@ export class CartOptions {
         this.limit = limit;
     }
 }
-// export interface ISearchOptions extends IBaseOptions {
-//     searchString: string;
-// }
-
-// export interface IDisplayOptions extends IBaseOptions {
-//     displayMode: string;
-// }
-
-export interface ISortOptions {
-    sortingParameter: string;
-    order: number;
-}

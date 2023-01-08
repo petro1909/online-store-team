@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ISortOptions, StoreFilterOptions } from "./type/IFilterOptions";
-import { Product } from "./type/IProduct";
+import { StoreFilterOptions } from "./storeOptions";
+import { ISortOptions } from "./type/sortOptions";
+import { Product } from "./type/product";
 
 interface ICategoryProducts {
     category: string;
@@ -23,20 +24,44 @@ export default class StoreFilter {
     ]);
     public categoryProducts: Array<ICategoryProducts> = [];
     public brandProducts: Array<IBrandProducts> = [];
-    public minPrice: number;
-    public maxPrice: number;
-    public minStock: number;
-    public maxStock: number;
+    public minPrice = 0;
+    public maxPrice = 0;
+    public minStock = 0;
+    public maxStock = 0;
 
     constructor(products: Array<Product>) {
-        this.minPrice = products[0]!.price;
-        this.maxPrice = products[0]!.price;
-        this.minStock = products[0]!.stock;
-        this.maxStock = products[0]!.stock;
         for (const product of products) {
             this.initFilterFields(product);
         }
     }
+    // public initFilterFields(products: Array<Product>) {
+    //     const productPriceArray = products.map((product) => product.price);
+    //     this.minPrice = Math.min(...productPriceArray);
+    //     this.maxPrice = Math.max(...productPriceArray);
+    //     const productStockArray = products.map((product) => product.stock);
+    //     this.minPrice = Math.min(...productStockArray);
+    //     this.maxPrice = Math.max(...productStockArray);
+    //     products.forEach((product) => {
+    //         //fill products count by category
+    //         let categoryProduct = this.categoryProducts.find((item) => item.category === product.category);
+    //         if (!categoryProduct) {
+    //             categoryProduct = { category: product.category, activeProducts: 1, totalProducts: 1 };
+    //             this.categoryProducts.push(categoryProduct);
+    //         } else {
+    //             categoryProduct.totalProducts += 1;
+    //             categoryProduct.activeProducts += 1;
+    //         }
+    //         //fill products count by brand
+    //         let brandProduct = this.brandProducts.find((item) => item.brand === product.brand);
+    //         if (!brandProduct) {
+    //             brandProduct = { brand: product.brand, activeProducts: 1, totalProducts: 1 };
+    //             this.brandProducts.push(brandProduct);
+    //         } else {
+    //             brandProduct.totalProducts += 1;
+    //             brandProduct.activeProducts += 1;
+    //         }
+    //     });
+    // }
 
     public initFilterFields(product: Product): void {
         //fill products count by category
@@ -175,7 +200,7 @@ export default class StoreFilter {
         return true;
     }
 
-    private searchProduct(item: Product, filterOptions: StoreFilterOptions): boolean {
+    public searchProduct(item: Product, filterOptions: StoreFilterOptions): boolean {
         const searchString = filterOptions.searchString;
         if (!searchString) {
             return true;

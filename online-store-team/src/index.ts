@@ -1,4 +1,4 @@
-import App from "./components/app/App";
+import App from "./components/app/app";
 import "./style.css";
 
 export const app: App = new App();

@@ -1,7 +1,6 @@
 .thing {
     display: flex;
     flex-direction: column;
-    min-height: inherit;/* TODO add variables 100px header height, 70px footer height */
     background-image: url(../../../assets/img/Cart/cart-bg.jpg);
     background-position: center;
     background-repeat: no-repeat;
