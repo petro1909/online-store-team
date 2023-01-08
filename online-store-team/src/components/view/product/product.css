@@ -1,0 +1,122 @@
+.thing {
+    display: flex;
+    flex-direction: column;
+    background-image: url(../../../assets/img/Cart/cart-bg.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.breadcrumbs {
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+.breadcrumbs__item {
+    padding: 0.25rem 1rem;
+}
+
+.breadcrumbs__link {
+    display: block;
+}
+
+.product__obj {
+    
+    min-height: calc(100vh - 210px); /* TODO add variables 100px header height, 70px footer height */
+}
+
+
+.object__title {
+    text-align: center;
+}
+
+.object__about {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.object__images {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.object__img {
+    width: 30vw;
+    height: 20vw;
+    object-fit: contain;
+    object-position: center;
+}
+
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.controls__btn {
+    width: 2rem;
+    height: 0.5rem;
+    margin: 0.25rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.controls__btn_active {
+    background-color: rgb(255, 0, 0);
+}
+
+.object__info {
+    width: 30%;
+}
+
+.object__info-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.info-list__item-header {
+    font-size: 1.2rem;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.info-list__item-text {
+    margin: 0;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.object__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.object__cost {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.object__drop-from-cart,
+.object__add-to-cart {
+    width: 150px;
+    height: 40px;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.object__buy-now {
+    width: 150px;
+    height: 40px;
+    margin-top: 1rem;
+    cursor: pointer;
+}
