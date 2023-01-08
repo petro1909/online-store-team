@@ -2,7 +2,7 @@
 import orderHtml from "./order.html";
 import { app } from "../../../index";
 import "./order.css";
-import { regEx } from "../../model/type/orderEnum";
+import { regEx } from "../../model/type/OrderEnum";
 import _default from "../../../assets/img/Order/default.jpg";
 import visa from "../../../assets/img/Order/visa.jpg";
 import mastercard from "../../../assets/img/Order/mastercard.jpg";

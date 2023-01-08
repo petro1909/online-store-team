@@ -1,4 +1,4 @@
-import BaseController from "./baseController";
+import BaseController from "./BaseController";
 import StoreView from "../view/storeView/store";
 import { StoreFilterOptions } from "../model/storeOptions";
 

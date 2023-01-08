@@ -1,5 +1,5 @@
 import ErrorView from "../view/errorView/error";
-import BaseController from "./baseController";
+import BaseController from "./BaseController";
 
 export default class ErrorController extends BaseController {
     private errorView: ErrorView;

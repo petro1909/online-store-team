@@ -1,4 +1,4 @@
-import ControllerFactory from "../controller/controllerFactory";
+import ControllerFactory from "../controller/ControllerFactory";
 import { CartOptions, StoreFilterOptions } from "../model/storeOptions";
 
 export default class Router {
