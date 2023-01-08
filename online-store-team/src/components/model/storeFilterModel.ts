@@ -198,7 +198,7 @@ export default class StoreFilter {
         return true;
     }
 
-    private searchProduct(item: Product, filterOptions: StoreFilterOptions): boolean {
+    public searchProduct(item: Product, filterOptions: StoreFilterOptions): boolean {
         const searchString = filterOptions.searchString;
         if (!searchString) {
             return true;
