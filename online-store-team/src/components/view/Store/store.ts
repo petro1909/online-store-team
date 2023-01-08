@@ -242,7 +242,7 @@ export default class StoreView {
         app.router.addQueryParameters(this.filterOptions);
     };
 
-    private workRangeInput(partOfId: string, minScope: number, event: Event) {
+    private workRangeInput(partOfId: string, minScope: number) {
         // console.log("workRangeInput");
         const lowerSlider = document.getElementById(`lower-${partOfId}`) as HTMLInputElement;
         const upperSlider = document.getElementById(`upper-${partOfId}`) as HTMLInputElement;

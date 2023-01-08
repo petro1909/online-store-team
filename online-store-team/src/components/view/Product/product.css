@@ -30,8 +30,6 @@
     min-height: calc(100vh - 210px); /* TODO add variables 100px header height, 70px footer height */
 }
 
-.object {
-}
 
 .object__title {
     text-align: center;
@@ -55,8 +53,6 @@
     object-position: center;
 }
 
-.object__images-controls {
-}
 
 .controls {
     display: flex;
@@ -84,12 +80,6 @@
     padding: 0;
     margin: 0;
     list-style-type: none;
-}
-
-.info-list {
-}
-
-.info-list__item {
 }
 
 .info-list__item-header {

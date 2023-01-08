@@ -1,6 +1,6 @@
-import Router from "../../../src/components/router/router";
+// import Router from "../../../src/components/router/router";
 
-const testRouter = new Router();
+// const testRouter = new Router();
 //нужно замокать window.loaction, чтобы можно было использовать
 //window.location.pathname и window.location.search
 

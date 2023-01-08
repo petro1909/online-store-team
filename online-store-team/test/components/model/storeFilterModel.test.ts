@@ -2,7 +2,7 @@
 import StoreFilter from "../../../src/components/model/storeFilterModel";
 import Store from "../../../src/components/model/storeModel";
 import { StoreFilterOptions } from "../../../src/components/model/storeOptions";
-import { Product } from "../../../src/components/model/type/product";
+// import { Product } from "../../../src/components/model/type/product";
 import { testProducts } from "../../testFiles";
 
 const testStore: Store = new Store();

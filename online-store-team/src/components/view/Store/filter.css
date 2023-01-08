@@ -70,10 +70,6 @@
   padding: 5px;
 }
 
-.legend {
-  
-}
-
 .display-mode {
   display: flex;
   justify-content: center;
@@ -177,14 +173,14 @@ input[type=number] {
   border: 1px solid #ddd;
   font-size: 1.6em;
   text-align: center;
-  -moz-appearance: textfield;
+  /* -moz-appearance: textfield; */
 }
 
-input[type=number]::-webkit-outer-spin-button,
+/* input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
-  /* -webkit-appearance: none; */
+  -webkit-appearance: none;
 
-}
+} */
 
 input[type=number]:invalid,
 input[type=number]:out-of-range {
@@ -192,7 +188,7 @@ input[type=number]:out-of-range {
 }
 
 input[type=range] {
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
   width: 90%;
 }
 
@@ -216,7 +212,7 @@ input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
-  animate: 0.2s;
+  /* animate: 0.2s; */
   background: #2497e3;
   border-radius: 1px;
   box-shadow: none;
@@ -241,7 +237,7 @@ input[type=range]::-moz-range-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
-  animate: 0.2s;
+  /* animate: 0.2s; */
   background: #2497e3;
   border-radius: 1px;
   box-shadow: none;
@@ -264,7 +260,7 @@ input[type=range]::-ms-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
-  animate: 0.2s;
+  /* animate: 0.2s; */
   background: transparent;
   border-color: transparent;
   color: transparent;
