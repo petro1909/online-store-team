@@ -357,9 +357,11 @@ export default class StoreView {
         filter!.classList.add("filter-show");
     }
     private hideFilterByResizeWindow() {
-        const filter = document.querySelector(".filter") as HTMLElement;
-        if (document.body.clientWidth > 900 && filter.classList.contains("filter-show")) {
-            filter.classList.remove("filter-show");
+        const filter = document.querySelector(".filter") as HTMLElement | null;
+        if (filter) {
+            if (document.body.clientWidth > 900 && filter.classList.contains("filter-show")) {
+                filter.classList.remove("filter-show");
+            }
         }
     }
     private hideFilter() {
