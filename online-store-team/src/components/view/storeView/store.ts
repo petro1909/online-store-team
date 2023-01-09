@@ -336,7 +336,12 @@ export default class StoreView {
                 }
             });
         }
-        Utils.setInputValue(filterSection, "#min-price", `${filter.minPrice}`);
+        if (Number.isFinite(filter.minPrice)) {
+            Utils.setInputValue(filterSection, "#min-price", `${filter.minPrice}`);
+        } else {
+            Utils.setInputValue(filterSection, "#min-price", "Not found");
+        }
+
         Utils.setInputValue(filterSection, "#max-price", `${filter.maxPrice}`);
         Utils.setInputValue(filterSection, "#lower-price", `${filter.minPrice}`);
         Utils.setInputValue(filterSection, "#upper-price", `${filter.maxPrice}`);
