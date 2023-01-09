@@ -54,6 +54,7 @@
     z-index: 2000;
     background-color: #fff;
     transition: left 1s;
+    background: rgba(0, 0, 0, 0.5);
   }
 
   .close-filter-button {
@@ -80,21 +81,22 @@
 }
 
 .sort {
-  display: flex;
-  justify-content: space-between;
+  display: inline-block;
   width: 50%;
   padding: 0;
   border: none;
 }
 
 .search {
-  width: 45%
+  width: 45%;
+  height: 25px;
 }
-
 .select {
-  width: 45%
+  height: 25px;
 }
-
+#display-mode {
+  margin: 10px;
+}
 .category {
   width: 100%;
   height: 30vh;
@@ -156,13 +158,14 @@
 */
 
 .range-slider {
-  width: 90%;
   margin: 5px;
-  text-align: center;
   position: relative;
   height: 4.2em;
 }
 
+.fake-inputs {
+  display: flex;
+}
 .range-slider input[type=range] {
   position: absolute;
   left: 15px;
