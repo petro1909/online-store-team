@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import storeHtml from "./store.html";
 import filterHtml from "./filter.html";
 import "./store.css";
@@ -8,364 +7,411 @@ import { app } from "../../..";
 import StoreFilter from "../../model/storeFilterModel";
 import { StoreFilterOptions } from "../../model/storeOptions";
 import BurgerMenuImage from "../../../assets/img/Header/burger_menu.svg";
+import Utils from "../common/utils";
 
 export default class StoreView {
-    private filterOptions: StoreFilterOptions = new StoreFilterOptions();
+    private filterOptions: StoreFilterOptions;
+    private storeHtmlTemplate: DocumentFragment;
+    private filterHtmlTemplate: DocumentFragment;
 
+    constructor() {
+        this.filterOptions = new StoreFilterOptions();
+        this.storeHtmlTemplate = document.createRange().createContextualFragment(storeHtml);
+        this.filterHtmlTemplate = document.createRange().createContextualFragment(filterHtml);
+    }
     public drawStore(options: StoreFilterOptions): void {
         this.filterOptions = options;
-        document.getElementById("root")!.innerHTML = storeHtml;
+        const documentRoot = document.getElementById("root") as HTMLElement | null;
+        if (!documentRoot) {
+            return;
+        }
+        documentRoot.innerHTML = "";
+        const storeWrapper = this.storeHtmlTemplate.querySelector(".store") as HTMLElement | null;
+        if (!storeWrapper) {
+            return;
+        }
+        documentRoot.append(storeWrapper);
+        const burgerMenuImage = document.querySelector(".burger-menu__img") as HTMLImageElement | null;
+        if (burgerMenuImage) {
+            burgerMenuImage.src = BurgerMenuImage;
+            burgerMenuImage.addEventListener("click", this.toggleFilter);
+        }
+        const popup = document.getElementById("popup-bg") as HTMLElement | null;
+        if (popup) {
+            popup.addEventListener("click", this.toggleFilter);
+        }
 
         const activeProducts = app.store.updateFilterProducts(options);
-        this.drawProducts(activeProducts);
-
-        const filter = app.store.getFilter();
-        // console.log("filter =", filter);
-        this.drawFilter(filter, this.filterOptions);
-        this.makeFilterActual(filter, this.filterOptions);
+        const filterWrapper = storeWrapper.querySelector(".filter") as HTMLElement | null;
+        if (filterWrapper) {
+            this.drawFilterSection(app.store.filter, filterWrapper);
+        }
+        this.drawProductsSection(activeProducts);
+    }
+    private updateStore = () => {
+        console.log("2");
+        const activeProducts = app.store.updateFilterProducts(this.filterOptions);
+        this.updateProdcts(activeProducts);
+        this.updateFilter(app.store.filter, this.filterOptions);
+        app.router.addQueryParameters(this.filterOptions);
+    };
+    private drawProductsSection(products: Array<Product>) {
+        const productsSectionWrapper = document.querySelector(".goods__output-wrapper") as HTMLElement | null;
+        if (!productsSectionWrapper) {
+            return;
+        }
+        productsSectionWrapper.addEventListener("click", this.productClickHandler);
+        this.updateProdcts(products);
     }
 
-    private drawProducts(products: Array<Product>) {
-        //console.log("drawProducts =", products);
+    private updateProdcts(products: Array<Product>) {
+        const productsSection = document.querySelector(".goods__output") as HTMLElement | null;
+        if (!productsSection) {
+            return;
+        }
+        productsSection.innerHTML = "";
+        const productsCountSection = document.querySelector(".found__value") as HTMLElement | null;
+        if (productsCountSection) {
+            productsCountSection.innerHTML = `${products.length}`;
+        }
+        if (products.length === 0) {
+            productsSection.innerHTML = "<h2>No products found</h2>";
+        }
 
-        document.querySelector(".goods__output")!.innerHTML = "";
-        document.querySelector(".found__value")!.innerHTML = `${products.length}`;
-        if (products.length === 0) document.querySelector(".goods__output")!.innerHTML = "<h2>No products found</h2>";
+        const productItemTemplate = this.storeHtmlTemplate.getElementById(
+            "productItemTemp"
+        ) as HTMLTemplateElement | null;
+        if (!productItemTemplate) {
+            return;
+        }
+        products.forEach((product) => {
+            productsSection.append(this.drawProductItem(product, productItemTemplate));
+        });
+    }
 
-        const productItemTemplate = document.getElementById("productItemTemp") as HTMLTemplateElement;
-        const fragment: DocumentFragment = document.createDocumentFragment();
-
-        products.forEach((item: Product): void => {
-            const templateClone = productItemTemplate.content.cloneNode(true) as HTMLElement;
-            const articleElem = templateClone.querySelector(".product-item")! as HTMLDivElement;
-
-            articleElem.style.backgroundImage = `url(${item.thumbnail})`;
-
-            articleElem.setAttribute("data-id", String(item.id)); // Set tag article attribute "data-id" as product ID
-            templateClone.querySelector(".product-item__title")!.textContent = item.title;
-            templateClone.querySelector(".info__row-category")!.textContent = item.category;
-            templateClone.querySelector(".info__row-brand")!.textContent = item.brand;
-            templateClone.querySelector(".info__row-price")!.textContent = "€" + item.price;
-            templateClone.querySelector(".info__row-discount")!.textContent = item.discountPercentage + "%";
-            templateClone.querySelector(".info__row-rating")!.textContent = String(item.rating);
-            templateClone.querySelector(".info__row-stock")!.textContent = String(item.stock);
-
-            const isId = app.cart.isProductInCart(item.id);
-            if (isId) {
-                const currentAddButton = templateClone.querySelector(".button-add")! as HTMLElement;
+    private drawProductItem(product: Product, template: HTMLTemplateElement): HTMLElement {
+        const templateClone = template.content.cloneNode(true) as HTMLElement;
+        const productItem = templateClone.querySelector(".product-item") as HTMLElement | null;
+        if (productItem) {
+            productItem.setAttribute("data-id", `${product.id}`);
+            setTimeout(() => {
+                productItem.style.backgroundImage = `url(${product.thumbnail})`;
+            });
+            const isProductInCart = app.cart.isProductInCart(product.id);
+            if (isProductInCart) {
+                const currentAddButton = templateClone.querySelector(".button-add") as HTMLElement;
                 StoreView.styleProductCard("DROP FROM CART", currentAddButton);
             }
-            if (this.filterOptions.displayMode === "6") articleElem.classList.add("product-item_small");
-            fragment.append(templateClone);
-        });
+            if (this.filterOptions.displayMode === "6") productItem.classList.add("product-item_small");
+        }
+        Utils.setElementInnerHtml(templateClone, ".product-item__title", product.title);
+        Utils.setElementInnerHtml(templateClone, ".info__row-category", product.category);
+        Utils.setElementInnerHtml(templateClone, ".info__row-brand", product.brand);
+        Utils.setElementInnerHtml(templateClone, ".info__row-price", `${product.price}`);
+        Utils.setElementInnerHtml(templateClone, ".info__row-discount", `${product.discountPercentage}%`);
+        Utils.setElementInnerHtml(templateClone, ".info__row-rating", `${product.rating}`);
+        Utils.setElementInnerHtml(templateClone, ".info__row-stock", `${product.stock}`);
 
-        document.querySelector(".goods__output")!.appendChild(fragment);
-        document.querySelector(".goods__output")!.addEventListener("click", this.productClickHandler);
+        return templateClone;
+    }
+    private drawFilterSection(filter: StoreFilter, wrapper: HTMLElement) {
+        const filterSection = this.filterHtmlTemplate.querySelector(".filters-block") as HTMLElement | null;
+        if (!filterSection) {
+            return;
+        }
+        filterSection.addEventListener("input", this.updateStore);
+        wrapper.append(filterSection);
+
+        const closeFilterButton = filterSection.querySelector(".close-filter-button") as HTMLElement;
+        closeFilterButton.addEventListener("click", this.toggleFilter);
+        window.addEventListener("resize", this.hideFilterByResizeWindow);
+
+        const checkBoxLineTemplate = this.filterHtmlTemplate.getElementById(
+            "checkboxLine"
+        ) as HTMLTemplateElement | null;
+        if (!checkBoxLineTemplate) {
+            return;
+        }
+        const resetButon = document.getElementById("reset") as HTMLElement | null;
+        if (resetButon) {
+            resetButon.addEventListener("click", this.resetHandler);
+        }
+        const copyLinkButon = document.getElementById("copy-link") as HTMLElement | null;
+        if (copyLinkButon) {
+            copyLinkButon.addEventListener("click", app.router.copyQueryParametersToClipBoard);
+        }
+        const sortFieldset = document.getElementById("sort") as HTMLElement | null;
+        if (sortFieldset) {
+            sortFieldset.addEventListener("input", (e) => this.sortProducts(e));
+        }
+        const seacrchFieldset = document.getElementById("search") as HTMLInputElement | null;
+        if (seacrchFieldset) {
+            seacrchFieldset.addEventListener("input", () => this.searchProducts(seacrchFieldset.value));
+        }
+        const displayModeFieldset = document.getElementById("display-mode") as HTMLElement | null;
+        if (displayModeFieldset) {
+            displayModeFieldset.addEventListener("input", (e) => this.changeDisplayMode(e));
+        }
+        const filterForm = document.getElementById("filters-form") as HTMLFormElement | null;
+
+        const categoryFilterSection = document.getElementById("category") as HTMLElement | null;
+        if (categoryFilterSection && filterForm) {
+            categoryFilterSection.addEventListener("input", () => this.selectCategory(filterForm));
+            filter.categoryProducts.forEach((productByCategory) => {
+                categoryFilterSection.append(Utils.fillInputLine(productByCategory, checkBoxLineTemplate));
+            });
+        }
+        const brandFilterSection = document.getElementById("brand") as HTMLElement | null;
+        if (brandFilterSection && filterForm) {
+            brandFilterSection.addEventListener("input", () => this.selectBrand(filterForm));
+            filter.brandProducts.forEach((productByBrand) => {
+                brandFilterSection.append(Utils.fillInputLine(productByBrand, checkBoxLineTemplate));
+            });
+        }
+        const priceFieldset = document.getElementById("price") as HTMLElement | null;
+        if (priceFieldset) {
+            priceFieldset.addEventListener("input", this.sliderInput.bind(this, "price", 100));
+        }
+
+        const stockFieldset = document.getElementById("stock") as HTMLElement | null;
+        if (stockFieldset) {
+            stockFieldset.addEventListener("input", this.sliderInput.bind(this, "stock", 8));
+        }
+        this.updateFilter(filter, this.filterOptions);
     }
 
+    private sortProducts = (e: Event) => {
+        const target = e.target as HTMLInputElement;
+        const sortValue = target.value;
+        if (sortValue) {
+            this.filterOptions.sortingString = sortValue;
+        }
+    };
+    private searchProducts(searchValue: string) {
+        this.filterOptions.searchString = searchValue;
+    }
+
+    private changeDisplayMode(e: Event) {
+        const eventTarget = e.target as HTMLInputElement;
+        if (!eventTarget.matches("input[type=radio]")) {
+            return;
+        }
+        const displayModeValue = eventTarget.value;
+        this.filterOptions.displayMode = displayModeValue;
+    }
+    private selectCategory(formElement: HTMLFormElement) {
+        const formData = new FormData(formElement);
+        this.filterOptions.categories = formData.getAll("category") as Array<string>;
+    }
+    private selectBrand(formElement: HTMLFormElement) {
+        const formData = new FormData(formElement);
+        this.filterOptions.brands = formData.getAll("brand") as Array<string>;
+    }
     private productClickHandler(event: Event): void {
         const clickedElement = event.target as HTMLElement;
-        if (!clickedElement!.classList.contains("goods__output")) {
-            const productId = clickedElement.closest(".product-item")!.getAttribute("data-id");
-            const product = app.store.products.find((item) => item.id === +productId!);
-            if (clickedElement.classList.contains("button-add")) {
-                StoreView.styleProductCard("DROP FROM CART", clickedElement);
-                app.cart.putProductIntoCart(product!);
-                app.header.drawHeader(app.cart);
-            } else if (clickedElement.classList.contains("button-drop")) {
-                StoreView.styleProductCard("ADD TO CART", clickedElement);
-                app.cart.dropProductFromCart(+productId!);
-                app.header.drawHeader(app.cart);
-            } else if (clickedElement.classList.contains("button-details")) {
-                app.router.route(`/product/${productId}`);
-            } else {
-                app.router.route(`/product/${productId}`);
-            }
+        const parentProductItemSection = clickedElement.closest(".product-item") as HTMLElement | null;
+        if (!parentProductItemSection) {
+            return;
+        }
+        const productIdStr = parentProductItemSection.getAttribute("data-id");
+        if (!productIdStr) {
+            return;
+        }
+        const productId = Number.parseInt(productIdStr);
+        if (!productId) {
+            return;
+        }
+        const findedProduct = app.store.products.find((product) => product.id === productId);
+        if (!findedProduct) {
+            return;
+        }
+        if (clickedElement.classList.contains("button-details")) {
+            app.router.route(`/product/${productId}`);
+        }
+        if (clickedElement.classList.contains("button-add")) {
+            StoreView.styleProductCard("DROP FROM CART", clickedElement);
+            app.cart.putProductIntoCart(findedProduct);
+            app.header.drawHeader(app.cart);
+        } else if (clickedElement.classList.contains("button-drop")) {
+            StoreView.styleProductCard("ADD TO CART", clickedElement);
+            app.cart.dropProductFromCart(+productId);
+            app.header.drawHeader(app.cart);
         }
     }
 
-    private drawFilter(filter: StoreFilter, filterOptions: StoreFilterOptions) {
-        console.log("drawFilter");
-        // console.log("filter =", filter);
-        const filterSection = document.querySelector(".filter");
-        filterSection!.insertAdjacentHTML("beforeend", filterHtml);
+    //     const burgerMenuImage = document.querySelector(".burger-menu__img")! as HTMLImageElement;
+    //     burgerMenuImage.src = BurgerMenuImage;
 
-        const closeFilterButton = filterSection?.querySelector(".close-filter-button") as HTMLElement;
-        closeFilterButton.addEventListener("click", this.hideFilter);
-        window.addEventListener("resize", this.hideFilterByResizeWindow);
-        const category = document.getElementById("category")!;
-        const brand = document.getElementById("brand")!;
-
-        // TODO refactor put in a separate function
-        filter.categoryProducts.forEach((item) => {
-            let attrChecked = "";
-            if (filterOptions.categories.includes(item.category)) {
-                attrChecked = "checked";
-            }
-            category.innerHTML += `<div class="checkbox-line checkbox-active">
-                                    <input class="checkbox"
-                                    type="checkbox" id="${item.category}"
-                                    value="${item.category}"
-                                    name="category"
-                                    ${attrChecked}>
-                                    <label for="${item.category}">${item.category}</label>
-                                    <span class="category-product">${item.activeProducts}/${item.totalProducts}</span>
-                                </div>`;
-        });
-        filter.brandProducts.forEach((item) => {
-            let attrChecked = "";
-            if (filterOptions.brands.includes(item.brand)) {
-                attrChecked = "checked";
-            }
-            brand.innerHTML += `<div class="checkbox-line checkbox-active">
-                                    <input class="checkbox"
-                                    type="checkbox"
-                                    id="${item.brand}"
-                                    value="${item.brand}"
-                                    name="brand"
-                                    ${attrChecked}>
-                                    <label for="${item.brand}">${item.brand}</label>
-                                    <span class="brand-product">${item.activeProducts}/${item.totalProducts}</span>
-                                </div>`;
-        });
-
-        const minPrice = document.getElementById("min-price")! as HTMLInputElement;
-        const maxPrice = document.getElementById("max-price")! as HTMLInputElement;
-        const minStock = document.getElementById("min-stock")! as HTMLInputElement;
-        const maxStock = document.getElementById("max-stock")! as HTMLInputElement;
-
-        const lowerPrice = document.getElementById("lower-price")! as HTMLInputElement;
-        const upperPrice = document.getElementById("upper-price")! as HTMLInputElement;
-        const lowerStock = document.getElementById("lower-stock")! as HTMLInputElement;
-        const upperStock = document.getElementById("upper-stock")! as HTMLInputElement;
-
-        minPrice.value = String(filter.minPrice);
-        maxPrice.value = String(filter.maxPrice);
-        minStock.value = String(filter.minStock);
-        maxStock.value = String(filter.maxStock);
-
-        lowerPrice.value = String(filter.minPrice);
-        upperPrice.value = String(filter.maxPrice);
-        lowerStock.value = String(filter.minStock);
-        upperStock.value = String(filter.maxStock);
-
-        filterSection!.addEventListener("input", this.updateFilter);
-        filterSection!.addEventListener("reset", this.resetHandler);
-
-        const stockFieldSet = document.getElementById("stock");
-        const priceFieldSet = document.getElementById("price");
-        const burgerMenuImage = document.querySelector(".burger-menu__img")! as HTMLImageElement;
-        burgerMenuImage.src = BurgerMenuImage;
-
-        burgerMenuImage.addEventListener("click", this.drawBurgerMenuFilter);
-        stockFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "stock", 8));
-        priceFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "price", 100));
-        console.log("\n");
-    }
+    //     burgerMenuImage.addEventListener("click", this.drawBurgerMenuFilter);
+    //     stockFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "stock", 8));
+    //     priceFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "price", 100));
+    // }
 
     private resetHandler() {
         app.router.route("/");
     }
 
-    private updateFilter = (event: Event) => {
-        console.log("updateFilter");
-
-        const formElement = document.getElementById("filters")! as HTMLFormElement;
-        const formData = new FormData(formElement);
-        const filterOptions = this.filterOptions;
-
-        const element = event.target as HTMLInputElement;
-        const name = element.name;
-
-        const minPrice = document.getElementById("min-price") as HTMLInputElement;
-        const maxPrice = document.getElementById("max-price") as HTMLInputElement;
-        const minStock = document.getElementById("min-stock") as HTMLInputElement;
-        const maxStock = document.getElementById("max-stock") as HTMLInputElement;
-
-        const lowerPrice = document.getElementById("lower-price")! as HTMLInputElement;
-        const upperPrice = document.getElementById("upper-price")! as HTMLInputElement;
-        const lowerStock = document.getElementById("lower-stock")! as HTMLInputElement;
-        const upperStock = document.getElementById("upper-stock")! as HTMLInputElement;
-
-        switch (name) {
-            case "category":
-                filterOptions.categories = formData.getAll(name) as Array<string>;
-                break;
-            case "brand":
-                filterOptions.brands = formData.getAll(name) as Array<string>;
-                break;
-            case "search":
-                filterOptions.searchString = element.value;
-                break;
-            case "select":
-                filterOptions.sortingString = element.value;
-                break;
-            case "min-price":
-                filterOptions.minPrice = Number(minPrice!.value);
-                filterOptions.maxPrice = Number(maxPrice!.value);
-                break;
-            case "max-price":
-                filterOptions.minPrice = Number(minPrice!.value);
-                filterOptions.maxPrice = Number(maxPrice!.value);
-                break;
-            case "min-stock":
-                filterOptions.minStock = Number(minStock!.value);
-                filterOptions.maxStock = Number(maxStock!.value);
-                break;
-            case "max-stock":
-                filterOptions.minStock = Number(minStock!.value);
-                filterOptions.maxStock = Number(maxStock!.value);
-                break;
-            case "display-mode":
-                filterOptions.displayMode = String(element.value);
-                break;
-            default:
-                break;
+    private updateFilter(filter: StoreFilter, filterOptions: StoreFilterOptions) {
+        const filterSection = document.querySelector(".filters-block") as HTMLElement | null;
+        if (!filterSection) {
+            return;
+        }
+        const search = document.getElementById("search") as HTMLInputElement | null;
+        if (search) {
+            search.value = filterOptions.searchString;
         }
 
-        const activeProducts = app.store.updateFilterProducts(filterOptions);
-        const filter = app.store.getFilter();
-
-        minPrice.value = String(filter.minPrice);
-        maxPrice.value = String(filter.maxPrice);
-        minStock.value = String(filter.minStock);
-        maxStock.value = String(filter.maxStock);
-
-        lowerPrice.value = String(filter.minPrice);
-        upperPrice.value = String(filter.maxPrice);
-        lowerStock.value = String(filter.minStock);
-        upperStock.value = String(filter.maxStock);
-
-        this.drawProducts(activeProducts);
-        this.makeFilterActual(filter, filterOptions);
-        console.log("\n");
-        app.router.addQueryParameters(this.filterOptions);
-    };
-
-    private workRangeInput(partOfId: string, minScope: number) {
-        // console.log("workRangeInput");
-        const lowerSlider = document.getElementById(`lower-${partOfId}`) as HTMLInputElement;
-        const upperSlider = document.getElementById(`upper-${partOfId}`) as HTMLInputElement;
-        const maxValue = document.getElementById(`max-${partOfId}`) as HTMLInputElement;
-        const minValue = document.getElementById(`min-${partOfId}`) as HTMLInputElement;
-        let lowerValue = parseInt(lowerSlider!.value);
-        let upperValue = parseInt(upperSlider!.value);
-
-        upperSlider.oninput = function () {
-            lowerValue = parseInt(lowerSlider.value);
-            upperValue = parseInt(upperSlider.value);
-            if (upperValue < lowerValue + minScope) {
-                lowerSlider.value = String(upperValue - minScope);
-                maxValue.value = upperSlider.value;
-                minValue.value = lowerSlider.value;
-                if (lowerValue === Number(lowerSlider.min)) {
-                    upperSlider.value = String(minScope);
-                    maxValue.value = upperSlider.value;
-                    minValue.value = lowerSlider.value;
+        const displayModeFieldset = filterSection.querySelector(".display-mode") as HTMLElement | null;
+        if (displayModeFieldset) {
+            const radioButtons = document.querySelectorAll("input[type='radio']") as NodeListOf<Element>;
+            const tempRadioButtons = Array.from(radioButtons) as Array<HTMLInputElement>;
+            let radioChecked = tempRadioButtons.find((radiobtn) => radiobtn.value === filterOptions.displayMode);
+            if (!radioChecked) {
+                radioChecked = tempRadioButtons[0];
+                if (radioChecked) {
+                    radioChecked.checked = true;
                 }
+            } else {
+                radioChecked.checked = true;
             }
-            maxValue.value = upperSlider.value;
-            minValue.value = lowerSlider.value;
-        };
+        }
 
-        lowerSlider.oninput = function () {
-            lowerValue = parseInt(lowerSlider.value);
-            upperValue = parseInt(upperSlider.value);
-
-            if (lowerValue > upperValue - minScope) {
-                upperSlider.value = String(lowerValue + minScope);
-                maxValue.value = upperSlider.value;
-                minValue.value = lowerSlider.value;
-                if (upperValue === Number(upperSlider.max)) {
-                    lowerSlider.value = String(parseInt(upperSlider.max) - minScope);
-                    maxValue.value = upperSlider.value;
-                    minValue.value = lowerSlider.value;
+        const sortFieldset = filterSection.querySelector(".sort") as HTMLElement | null;
+        if (sortFieldset) {
+            const sortOptions = sortFieldset.querySelectorAll("option") as NodeListOf<HTMLElement>;
+            const tempSelectTagOptions = Array.from(sortOptions) as HTMLOptionElement[];
+            let selectedOption = tempSelectTagOptions.find((option) => option.value === filterOptions.sortingString);
+            if (!selectedOption) {
+                selectedOption = tempSelectTagOptions[0];
+                if (selectedOption) {
+                    selectedOption.selected = true;
                 }
+            } else {
+                selectedOption.selected = true;
             }
-            maxValue.value = upperSlider.value;
-            minValue.value = lowerSlider.value;
-        };
+        }
+        const categoryFilterSection = filterSection.querySelector("fieldset.category") as HTMLFieldSetElement | null;
+        if (categoryFilterSection) {
+            const categoryCheckboxesLines = Array.from(
+                categoryFilterSection.querySelectorAll(".checkbox-line")
+            ) as Array<HTMLElement>;
+            categoryCheckboxesLines.forEach((checkboxLine, index) => {
+                const checkbox = checkboxLine.querySelector(".checkbox-line__input") as HTMLInputElement | null;
+                const checkboxSpan = checkboxLine.querySelector(
+                    ".checkbox-line__product-quantity"
+                ) as HTMLInputElement | null;
+                if (checkbox && checkboxSpan) {
+                    const filterCategoryProduct = filter.categoryProducts[index];
+                    if (filterCategoryProduct) {
+                        if (
+                            this.filterOptions.categories.find(
+                                (category) => category === filterCategoryProduct.category
+                            )
+                        ) {
+                            checkbox.checked = true;
+                        }
+                        checkboxSpan.innerHTML = `${filterCategoryProduct.activeProducts}/${filterCategoryProduct.totalProducts}`;
+                    }
+                }
+            });
+        }
+
+        const brandFilterSection = filterSection.querySelector("fieldset.brand") as HTMLFieldSetElement | null;
+        if (brandFilterSection) {
+            const brandCheckboxesLines = Array.from(
+                brandFilterSection.querySelectorAll(".checkbox-line")
+            ) as Array<HTMLElement>;
+            brandCheckboxesLines.forEach((checkboxLine, index) => {
+                const checkbox = checkboxLine.querySelector(".checkbox-line__input") as HTMLInputElement | null;
+                const checkboxSpan = checkboxLine.querySelector(
+                    ".checkbox-line__product-quantity"
+                ) as HTMLInputElement | null;
+                if (checkbox && checkboxSpan) {
+                    const filterBrandProduct = filter.brandProducts[index];
+                    if (filterBrandProduct) {
+                        if (this.filterOptions.brands.find((brand) => brand === filterBrandProduct.brand)) {
+                            checkbox.checked = true;
+                        }
+                        checkboxSpan.innerHTML = `${filterBrandProduct.activeProducts}/${filterBrandProduct.totalProducts}`;
+                    }
+                }
+            });
+        }
+        Utils.setInputValue(filterSection, "#min-price", `${filter.minPrice}`);
+        Utils.setInputValue(filterSection, "#max-price", `${filter.maxPrice}`);
+        Utils.setInputValue(filterSection, "#lower-price", `${filter.minPrice}`);
+        Utils.setInputValue(filterSection, "#upper-price", `${filter.maxPrice}`);
+        Utils.setInputValue(filterSection, "#min-stock", `${filter.minStock}`);
+        Utils.setInputValue(filterSection, "#max-stock", `${filter.maxStock}`);
+        Utils.setInputValue(filterSection, "#lower-stock", `${filter.minStock}`);
+        Utils.setInputValue(filterSection, "#upper-stock", `${filter.maxStock}`);
     }
 
-    private makeFilterActual(filter: StoreFilter, filterOptions: StoreFilterOptions) {
-        console.log("makeFilterActual");
+    private sliderInput(sliderId: string, minScope: number) {
+        const minValue = document.getElementById(`min-${sliderId}`) as HTMLInputElement;
+        const maxValue = document.getElementById(`max-${sliderId}`) as HTMLInputElement;
+        const lowerSlider = document.getElementById(`lower-${sliderId}`) as HTMLInputElement;
+        const upperSlider = document.getElementById(`upper-${sliderId}`) as HTMLInputElement;
 
-        console.log("filter =", filter);
+        upperSlider.oninput = () => {
+            const lowerValue = parseInt(lowerSlider.value);
+            const upperValue = parseInt(upperSlider.value);
+            if (upperValue < lowerValue + minScope) {
+                upperSlider.value = `${lowerValue + minScope}`;
+                console.log(upperSlider.value);
+            }
+            maxValue.value = upperSlider.value;
+            minValue.value = lowerSlider.value;
+            if (sliderId === "price") {
+                this.filterOptions.maxPrice = Number(maxValue.value);
+            }
+            if (sliderId === "stock") {
+                this.filterOptions.maxStock = Number(maxValue.value);
+            }
+        };
 
-        const search = document.getElementById("search")! as HTMLInputElement;
-        search.value = filterOptions.searchString;
+        lowerSlider.oninput = () => {
+            const lowerValue = parseInt(lowerSlider.value);
+            const upperValue = parseInt(upperSlider.value);
 
-        // TODO refactor put in a separate function
-        const radioButtons = document.querySelectorAll(".radio")! as NodeListOf<Element>;
-        const tempRadioButtons = Array.from(radioButtons) as HTMLInputElement[];
-        const radioChecked = tempRadioButtons.find((radiobtn) => {
-            return radiobtn.value === filterOptions.displayMode ? true : false;
-        });
-        radioButtons.forEach((radiobtn) => {
-            radiobtn.removeAttribute("checked");
-        });
-        radioChecked?.setAttribute("checked", "checked");
-        if (filterOptions.displayMode === "") tempRadioButtons[0]?.setAttribute("checked", "checked");
-
-        const selectTagOptions = document.querySelectorAll(".option")! as NodeListOf<Element>;
-        const tempSelectTagOptions = Array.from(selectTagOptions) as HTMLOptionElement[];
-        const selectedOption = tempSelectTagOptions.find((option) => {
-            return option.value === filterOptions.sortingString ? true : false;
-        });
-        selectTagOptions.forEach((option) => {
-            option.removeAttribute("selected");
-        });
-        selectedOption?.setAttribute("selected", "selected");
-
-        // TODO refactor put in a separate function
-        const categoryCheckboxes = document.querySelectorAll(".category-product") as NodeListOf<Element>;
-        const tempCategoryCheckboxes = Array.from(categoryCheckboxes) as HTMLSpanElement[];
-        tempCategoryCheckboxes.forEach((checkbox, index) => {
-            checkbox.textContent = `${filter.categoryProducts[index]?.activeProducts}/${filter.categoryProducts[0]?.totalProducts}`;
-        });
-        console.log("categoryCheckboxes =", categoryCheckboxes);
-
-        const brandCheckboxes = document.querySelectorAll(".brand-product") as NodeListOf<Element>;
-        const tempBrandCheckboxes = Array.from(brandCheckboxes) as HTMLSpanElement[];
-        tempBrandCheckboxes.forEach((checkbox, index) => {
-            checkbox.textContent = `${filter.brandProducts[index]?.activeProducts}/${filter.brandProducts[0]?.totalProducts}`;
-        });
-        console.log("brandCheckboxes =", brandCheckboxes);
-
-        console.log("\n");
+            if (lowerValue > upperValue - minScope) {
+                lowerSlider.value = String(upperValue - minScope);
+            }
+            maxValue.value = upperSlider.value;
+            minValue.value = lowerSlider.value;
+            if (sliderId === "price") {
+                this.filterOptions.minPrice = Number(minValue.value);
+            }
+            if (sliderId === "stock") {
+                this.filterOptions.minStock = Number(minValue.value);
+            }
+        };
     }
 
     public static styleProductCard(textContent: string, clickedButton: HTMLElement): void {
-        const articleElem = clickedButton.closest(".product-item")!;
+        const articleElem = clickedButton.closest(".product-item") as HTMLElement;
         clickedButton.classList.toggle("button-add");
         clickedButton.classList.toggle("button-drop");
         articleElem.classList.toggle("product-item_added");
         clickedButton.textContent = textContent;
     }
 
-    private drawBurgerMenuFilter() {
+    private hideFilterByResizeWindow() {
         const filter = document.querySelector(".filter") as HTMLElement;
         const spaBody = document.getElementById("spa-body") as HTMLBodyElement;
-        const popupBg = document.getElementById("popup-bg")! as HTMLDivElement;
-        popupBg.onclick = () => {
-            popupBg!.classList.remove("popup-bg_active");
-            spaBody!.classList.remove("spa-body_active");
-            filter!.classList.remove("filter-show");
-        };
-        popupBg.classList.add("popup-bg_active");
-        spaBody.classList.add("spa-body_active");
-        filter!.classList.add("filter-show");
-    }
-    private hideFilterByResizeWindow() {
-        const filter = document.querySelector(".filter") as HTMLElement | null;
-        if (filter) {
-            if (document.body.clientWidth > 900 && filter.classList.contains("filter-show")) {
-                filter.classList.remove("filter-show");
-            }
+        const popupBg = document.getElementById("popup-bg") as HTMLDivElement;
+        if (document.body.clientWidth > 900 && filter && spaBody && popupBg) {
+            popupBg.classList.remove("popup-bg_active");
+            spaBody.classList.remove("spa-body_active");
+            filter.classList.remove("filter-show");
         }
     }
-    private hideFilter() {
+    private toggleFilter() {
         const filter = document.querySelector(".filter") as HTMLElement;
-        filter.classList.remove("filter-show");
+        const spaBody = document.getElementById("spa-body") as HTMLBodyElement;
+        const popupBg = document.getElementById("popup-bg") as HTMLDivElement;
+        popupBg.classList.toggle("popup-bg_active");
+        spaBody.classList.toggle("spa-body_active");
+        filter.classList.toggle("filter-show");
     }
 }
