@@ -20,7 +20,7 @@ export default class ProductController extends BaseController {
             }
         }
     }
-    private getProductId(options: string): number | undefined {
+    public getProductId(options: string): number | undefined {
         return Number.parseInt(options);
     }
 }
