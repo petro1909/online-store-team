@@ -1,49 +1,38 @@
 <aside class="filters-block">
-    <div class="close-filter-button">
-    </div>
-    <fieldset class="sort" form="filters" id="sort">
-      <select class="select" name="select" id="select">
-          <option value="sort-title" disabled="" selected="" class="sort-name">Sort options:</option>
-          <option value="price-ASC">Sort by price ASC</option>
-          <option value="price-DESC">Sort by price DESC</option>
-          <option value="rating-ASC">Sort by rating ASC</option>
-          <option value="rating-DESC">Sort by rating DESC</option>
-          <option value="discount-ASC">Sort by discount ASC</option>
-          <option value="discount-DESC">Sort by discount DESC</option>
-      </select>
-      <input class="search" type="text" name="search" id="search" placeholder="Search product">
-    </fieldset>
-    <fieldset class="display-mode" form="filters" id="display-mode">
-        <label for="size-4">col 4: </label>
-        <input type="radio" name="display-mode" value="4" id="size-4" checked>
-        <label for="size-6">col 6: </label>
-        <input type="radio" name="display-mode" value="6" id="size-6">
-    </fieldset>
+    <div class="close-filter-button"></div>    
     <form action="#" class="filters" id="filters">
-        <div class="filters__btn-wrapper">
+        <fieldset class="filters__btn-wrapper" form="filters">
             <button class="btn filters__btn" type="reset" id="reset" name="reset">RESET</button>
             <button class="btn filters__btn" id="copy-link">COPY LINK</button>
-        </div>
-
+        </fieldset>
+        <fieldset class="sort" form="filters" id="sort">
+            <select class="select" name="select" id="select">
+                <option class="option" value="sort-title" disabled="" selected="" class="sort-name">Sort options:</option>
+                <option class="option" value="price-ASC">Sort by price ASC</option>
+                <option class="option" value="price-DESC">Sort by price DESC</option>
+                <option class="option" value="rating-ASC">Sort by rating ASC</option>
+                <option class="option" value="rating-DESC">Sort by rating DESC</option>
+                <option class="option" value="discount-ASC">Sort by discount ASC</option>
+                <option class="option" value="discount-DESC">Sort by discount DESC</option>
+            </select>
+            <input class="search" type="search" name="search" id="search" placeholder="Search product">
+        </fieldset>
+        <fieldset class="display-mode" form="filters" id="display-mode">
+            <label class="display-mode__label" for="size-4">Tiles:
+                <input class="display-mode__radio radio" type="radio" name="display-mode" value="4" id="size-4" checked>
+            </label>
+            <label class="display-mode__label" for="size-6">List:
+                <input class="display-mode__radio radio" type="radio" name="display-mode" value="6" id="size-6">
+            </label>
+        </fieldset>
         <fieldset class="category" form="filters" id="category">
             <legend class="legend">Category</legend>
         </fieldset>
         <fieldset class="brand" form="filters" id="brand">
             <legend class="legend">Brand</legend>
         </fieldset>
-
-        <!-- <fieldset class="price" form="filters" id="price">
-            <legend class="legend">Price</legend>
-            <input class="limits" type="number" name="min-price" id="min-price" placeholder="From">
-            <input class="limits" type="number" name="max-price" id="max-price"  placeholder="To">
-        </fieldset>
-        <fieldset class="stock" form="filters" id="stock">
-            <legend class="legend">Stock</legend>
-            <input class="limits" type="number" name="min-stock" id="min-stock" placeholder="From">
-            <input class="limits" type="number" name="max-stock" id="max-stock"  placeholder="To">
-=======</fieldset> -->
         <fieldset class="range-slider" form="filters" id="price">
-            <legend>Price</legend>
+            <legend class="legend">Price</legend>
             <input class="limits" type="text" id="min-price">
             <input class="limits" type="text" id="max-price">
             <input value="10"
@@ -62,7 +51,7 @@
                     id="upper-price"/>
         </fieldset>
         <fieldset class="range-slider" form="filters" id="stock">
-            <legend>Stock</legend>
+            <legend class="legend">Stock</legend>
             <input class="limits" type="text" id="min-stock">
             <input class="limits" type="text" id="max-stock">
             <input value="2"
