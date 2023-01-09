@@ -1,6 +1,7 @@
 :root {
   --product-color: #2c2d33;
 }
+
 .store {
     display: flex;
     width: 100%;
@@ -18,25 +19,46 @@
     flex-direction: column;
     width: 80%;
 }
-@media (max-width: 900px) {
+
+@media (max-width: 991px) {
+
   .goods {
     width: 100%;
     margin: 0 auto;
   }
+
 }
+
 .goods__header {
     position: sticky;
     top: 0;
+    z-index: 1500;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 1rem 2rem;
+    border-bottom: 1px solid rgb(128, 128, 128);
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: rgb(255, 255, 255);
-    background: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(1rem);
+}
+
+.burger-menu {
+  display: none;
+}
+
+.burger-menu__img {
+  transform: scale(1.5);
+}
+
+.found {
+  color: rgb(0, 0, 0);
 }
 
 .goods__output {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     min-height: calc(100vh - 190px);
 }
@@ -92,23 +114,17 @@
     cursor: pointer;
 }
 
+@media (max-width: 991px) {
 
-.product-item_small {
-    min-width: 150px;
-    width: 11vw;
-    min-height: 150px;
-    height: 11vw;
-}
-
-
-@media (max-width: 900px) {
   .product-item {
     min-width: 220px;
     min-height: 220px;
   }
+
   .product-item__info {
     display: none;
-  } 
+  }
+
 }
 .product-item_added .product-item__title{
     background-color: rgb(24, 145, 0);
@@ -130,8 +146,6 @@
     list-style-type: none;
     background-color: rgba(0, 0, 0, 0.7);
 }
-
-
 
 .info__row {
     padding: 0.15rem 1rem;
@@ -156,12 +170,54 @@
     cursor: pointer;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 991px) {
+
   .product-item__buttons {
     display: block;
   }
+
   .product-item__buttons button {
     width: 100%;
     border: none;
   }
+
 }
+
+.product-item_small {
+  width: 70%;
+  min-height: 25vh;
+  height: 25vh;
+  margin: 1rem 10%;
+  background: rgba(255, 255, 255, 0.15);
+  background-repeat: no-repeat;
+  background-size: 20vh;
+  background-position: top 40px right 5%;
+  backdrop-filter: blur(1rem);
+}
+
+.product-item_small .info{
+  width: 50%;
+}
+
+@media (max-width: 991px) {
+
+  .product-item_small .info {
+    display: block;
+  }
+
+}
+
+@media (max-width: 576px) {
+
+  .product-item_small .info {
+    display: none;
+  }
+
+  .product-item_small{
+    background-size: 25vh;
+    background-position: center;
+    background-size: cover;
+  }
+
+}
+

@@ -21,18 +21,6 @@
     color: #fff;
 }
 
-.burger-menu {
-  position: absolute;
-  left: 170px;
-  top: 25px;
-  display: none;
-
-}
-
-.burger-menu__img {
-  transform: scale(1.7);
-}
-
 .logo {
     padding: 0.25rem 1rem;
     margin: 0;

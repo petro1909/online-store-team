@@ -108,7 +108,7 @@ export default class StoreView {
                                     value="${item.category}"
                                     name="category"
                                     ${attrChecked}>
-                                    <label for="${item.category}">${item.category}</label>
+                                    <label class="checkbox-label" for="${item.category}">${item.category}</label>
                                     <span class="category-product">${item.activeProducts}/${item.totalProducts}</span>
                                 </div>`;
         });
@@ -124,7 +124,7 @@ export default class StoreView {
                                     value="${item.brand}"
                                     name="brand"
                                     ${attrChecked}>
-                                    <label for="${item.brand}">${item.brand}</label>
+                                    <label class="checkbox-label" for="${item.brand}">${item.brand}</label>
                                     <span class="brand-product">${item.activeProducts}/${item.totalProducts}</span>
                                 </div>`;
         });
@@ -317,7 +317,6 @@ export default class StoreView {
         });
         selectedOption?.setAttribute("selected", "selected");
 
-        // TODO refactor put in a separate function
         const categoryCheckboxes = document.querySelectorAll(".category-product") as NodeListOf<Element>;
         const tempCategoryCheckboxes = Array.from(categoryCheckboxes) as HTMLSpanElement[];
         tempCategoryCheckboxes.forEach((checkbox, index) => {
@@ -359,13 +358,15 @@ export default class StoreView {
     private hideFilterByResizeWindow() {
         const filter = document.querySelector(".filter") as HTMLElement | null;
         if (filter) {
-            if (document.body.clientWidth > 900 && filter.classList.contains("filter-show")) {
+            if (document.body.clientWidth > 991 && filter.classList.contains("filter-show")) {
                 filter.classList.remove("filter-show");
             }
         }
     }
     private hideFilter() {
         const filter = document.querySelector(".filter") as HTMLElement;
+        const popupBg = document.getElementById("popup-bg")! as HTMLDivElement;
         filter.classList.remove("filter-show");
+        popupBg.classList.remove("popup-bg_active");
     }
 }
