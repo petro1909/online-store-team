@@ -315,6 +315,7 @@ export default class StoreView {
             });
         }
 
+
         const brandFilterSection = filterSection.querySelector("fieldset.brand") as HTMLFieldSetElement | null;
         if (brandFilterSection) {
             const brandCheckboxesLines = Array.from(
@@ -386,7 +387,6 @@ export default class StoreView {
             }
         };
     }
-
     public static styleProductCard(textContent: string, clickedButton: HTMLElement): void {
         const articleElem = clickedButton.closest(".product-item") as HTMLElement;
         clickedButton.classList.toggle("button-add");
@@ -399,12 +399,13 @@ export default class StoreView {
         const filter = document.querySelector(".filter") as HTMLElement;
         const spaBody = document.getElementById("spa-body") as HTMLBodyElement;
         const popupBg = document.getElementById("popup-bg") as HTMLDivElement;
-        if (document.body.clientWidth > 900 && filter && spaBody && popupBg) {
+        if (document.body.clientWidth > 991 && filter && spaBody && popupBg) {
             popupBg.classList.remove("popup-bg_active");
             spaBody.classList.remove("spa-body_active");
             filter.classList.remove("filter-show");
         }
     }
+
     private toggleFilter() {
         const filter = document.querySelector(".filter") as HTMLElement;
         const spaBody = document.getElementById("spa-body") as HTMLBodyElement;
@@ -412,5 +413,13 @@ export default class StoreView {
         popupBg.classList.toggle("popup-bg_active");
         spaBody.classList.toggle("spa-body_active");
         filter.classList.toggle("filter-show");
+    }
+
+    private copyQueryStrigToClipboard(event: Event) {
+        event.preventDefault();
+        const clickedElement = event.target as HTMLElement;
+        app.router.copyQueryParametersToClipBoard();
+        clickedElement.textContent = "LINK COPIED!";
+        setTimeout(() => clickedElement.textContent = "COPY LINK", 1500);
     }
 }

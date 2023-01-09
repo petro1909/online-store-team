@@ -130,7 +130,7 @@ export default class CartView {
         const activeCartProducts = app.cart.updateCartProducts(this.cartOptions);
         if (activeCartProducts.length === 0) {
             const noCartItemPlaceholder = document.createElement("div");
-            noCartItemPlaceholder.innerHTML = "There is no products in cart";
+            noCartItemPlaceholder.innerHTML = "<h2 class='no-found'>There is no products in cart</h2>";
             cartProductsSection.append(noCartItemPlaceholder);
         }
 
@@ -245,11 +245,11 @@ export default class CartView {
         const allPromocodesSection = document.querySelector(".summary__all-promo-codes") as HTMLElement | null;
         if (allPromocodesSection) {
             allPromocodesSection.innerHTML =
-                "Promocodes for test: <br>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
+                "Promocodes for test: " + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
         }
 
         const summarySumbit = summary.querySelector(".summary__submit") as HTMLElement | null;
-        if (summarySumbit) {
+        if (summarySumbit && app.cart.cartProducts.length !== 0) {
             summarySumbit.addEventListener("click", this.drawOrder);
         }
         this.updateSummary();
