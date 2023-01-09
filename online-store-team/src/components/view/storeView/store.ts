@@ -49,7 +49,6 @@ export default class StoreView {
         this.drawProductsSection(activeProducts);
     }
     private updateStore = () => {
-        console.log("2");
         const activeProducts = app.store.updateFilterProducts(this.filterOptions);
         this.updateProdcts(activeProducts);
         this.updateFilter(app.store.filter, this.filterOptions);
@@ -75,7 +74,7 @@ export default class StoreView {
             productsCountSection.innerHTML = `${products.length}`;
         }
         if (products.length === 0) {
-            productsSection.innerHTML = "<h2>No products found</h2>";
+            productsSection.innerHTML = "<h2 class='no-found'>No products found</h2>";
         }
 
         const productItemTemplate = this.storeHtmlTemplate.getElementById(
