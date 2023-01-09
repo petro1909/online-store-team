@@ -130,7 +130,7 @@ export default class CartView {
         const activeCartProducts = app.cart.updateCartProducts(this.cartOptions);
         if (activeCartProducts.length === 0) {
             const noCartItemPlaceholder = document.createElement("div");
-            noCartItemPlaceholder.innerHTML = "There is no products in cart";
+            noCartItemPlaceholder.innerHTML = "<h2 class='no-found'>There is no products in cart";
             cartProductsSection.append(noCartItemPlaceholder);
         }
 
@@ -249,7 +249,7 @@ export default class CartView {
         }
 
         const summarySumbit = summary.querySelector(".summary__submit") as HTMLElement | null;
-        if (summarySumbit) {
+        if (summarySumbit && app.cart.cartProducts.length !== 0) {
             summarySumbit.addEventListener("click", this.drawOrder);
         }
         this.updateSummary();

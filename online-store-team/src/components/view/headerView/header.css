@@ -1,10 +1,12 @@
 :root {
     --hover-color: #f5c946;
 }
+
 .header-wrapper {
   background-color: #17181c;
   color: #fff;
 }
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -27,6 +29,7 @@
     text-decoration: none;
     cursor: pointer;
     font-weight: 400;
+    transition: all 250ms;
 }
 
 .logo:hover {
@@ -43,6 +46,7 @@
   position: relative;
   padding: 2px;
   cursor: pointer;
+  transition: all 500ms;
 }
 
 .cart-content__quantity {

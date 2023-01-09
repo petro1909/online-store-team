@@ -356,7 +356,7 @@ html {
 
 .product__desc-discount {
     text-transform: uppercase;
-    color: rgb(84, 255, 130); /* TODO add variable */
+    color: rgb(0, 0, 0); /* TODO add variable */
 }
 
 .cart-item__controls {
@@ -426,7 +426,7 @@ html {
 .cart-item__amount-control {
     padding: 0.25rem 0.5rem;
     text-align: center;
-    color: rgb(84, 255, 130); /* TODO add variable */
+    color: rgb(0, 0, 0); /* TODO add variable */
 }
 
 @media (max-width: 576px) {
