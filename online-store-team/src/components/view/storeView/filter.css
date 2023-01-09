@@ -78,6 +78,7 @@
     z-index: 2000;
     background-color: rgba(255, 255, 255, 0.5);
     transition: left 1s;
+    background: rgba(0, 0, 0, 0.5);
   }
 
   .close-filter-button {
@@ -148,7 +149,7 @@
   cursor: pointer;
 }
 
-.select {
+#display-mode {
   width: 49%;
   height: 2rem;
   padding: 0.25rem;
@@ -158,7 +159,6 @@
   background-color: rgba(40, 40, 40, 0.4);
   transform: translateX(-2px);
 }
-
 .category {
   width: 100%;
   height: 25vh;
@@ -229,6 +229,9 @@
   height: 5.5em;
 }
 
+.fake-inputs {
+  display: flex;
+}
 .range-slider input[type=range] {
   position: absolute;
   left: 15px;
