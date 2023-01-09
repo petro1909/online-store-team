@@ -2,12 +2,12 @@ import { StoreFilterOptions } from "./storeOptions";
 import { ISortOptions } from "./type/sortOptions";
 import { Product } from "./type/product";
 
-interface ICategoryProducts {
+export interface CategoryProducts {
     category: string;
     activeProducts: number;
     totalProducts: number;
 }
-interface IBrandProducts {
+export interface BrandProducts {
     brand: string;
     activeProducts: number;
     totalProducts: number;
@@ -21,8 +21,8 @@ export default class StoreFilter {
         ["discount-ASC", { sortingParameter: "discountPercentage", order: 1 }],
         ["discount-DESC", { sortingParameter: "discountPercentage", order: -1 }],
     ]);
-    public categoryProducts: Array<ICategoryProducts> = [];
-    public brandProducts: Array<IBrandProducts> = [];
+    public categoryProducts: Array<CategoryProducts> = [];
+    public brandProducts: Array<BrandProducts> = [];
     public minPrice = 0;
     public maxPrice = 0;
     public minStock = 0;
@@ -61,7 +61,6 @@ export default class StoreFilter {
 
     public getActiveProducts(products: Array<Product>, options: StoreFilterOptions): Array<Product> {
         let activeProducts = this.filterProducts(products, options);
-        console.log(activeProducts);
         activeProducts = this.searchProducts(activeProducts, options);
         activeProducts = this.sortProducts(activeProducts, options);
         return activeProducts;
@@ -105,7 +104,7 @@ export default class StoreFilter {
         });
     }
 
-    private filterProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
+    public filterProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
         const activeProducts = products.filter((product) => {
             const categories = filterOptions.categories;
             if (categories.length !== 0) {
@@ -142,7 +141,7 @@ export default class StoreFilter {
         return activeProducts;
     }
 
-    private sortProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
+    public sortProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
         const sortingString = filterOptions.sortingString;
         if (!sortingString) {
             return products;
@@ -174,7 +173,7 @@ export default class StoreFilter {
         });
     }
 
-    private searchProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
+    public searchProducts(products: Array<Product>, filterOptions: StoreFilterOptions): Array<Product> {
         const searchString = filterOptions.searchString;
         if (!searchString) {
             return products;
