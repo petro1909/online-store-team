@@ -21,7 +21,7 @@ export default class ProductView {
         rootElement.append(productWrapperSection);
         const findedProduct = app.store.products.find((product) => product.id === productId);
         if (!findedProduct) {
-            productWrapperSection.innerHTML = `No product with such id ${productId}`;
+            productWrapperSection.innerHTML = `<h2 class="no-found">No product with such id ${productId}</h2>`;
             return;
         }
         await app.store.removeDuplicatesFromProductImages(findedProduct);
@@ -99,8 +99,9 @@ export default class ProductView {
             return;
         }
         for (let i = 0; i < product.images.length; i++) {
-            const element = document.createElement("button");
+            const element = document.createElement("div");
             element.classList.add("controls__btn");
+            element.style.backgroundImage = (`url(${product.images[i]})`)
             element.setAttribute("data-id", `${i}`);
             if (i === 0) element.classList.add("controls__btn_active");
             controlsOfImages.append(element);

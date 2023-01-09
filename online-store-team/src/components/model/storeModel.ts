@@ -17,7 +17,9 @@ export default class Store {
         return await (res.json() as Promise<ProductJsonResult>);
     }
     public updateFilterProducts(options: StoreFilterOptions = new StoreFilterOptions()): Array<Product> {
-        return this.filter.updateFilter(this.products, options);
+        const activeProducts = this.filter.getActiveProducts(this.products, options);
+        this.filter.updateFilterFields(activeProducts, options);
+        return activeProducts;
     }
     public getFilter(): StoreFilter {
         return this.filter;

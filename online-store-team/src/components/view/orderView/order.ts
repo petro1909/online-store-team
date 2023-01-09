@@ -32,8 +32,11 @@ export default class OrderView {
         if (clickedElement.classList.contains("pop-up") || clickedElement.classList.contains("close-button")) {
             const inputFields = Array.from(document.querySelectorAll(".input-field")) as HTMLInputElement[];
             inputFields.forEach((item) => {
+                const parentElement = item.parentElement! as HTMLLabelElement;
                 item.classList.remove("input-field_valid");
                 item.classList.remove("input-field_invalid");
+                parentElement.classList.remove("cross");
+                parentElement.classList.remove("checkmark");
             });
             const order = document.getElementById("order") as HTMLFormElement;
             order!.reset();
@@ -59,18 +62,23 @@ export default class OrderView {
 
     private checkInputValueValidity(event: Event) {
         const targetElement = event.target as HTMLInputElement;
+        const parentElement = targetElement.parentElement! as HTMLLabelElement;
         const targetElementId = targetElement.id;
         if (targetElementId !== "order-submit") {
             const tempRegEx = new RegExp(OrderView.regEx[targetElementId]);
             const inputFieldValue = targetElement!.value.trim();
             const isValueValid = tempRegEx.test(inputFieldValue);
             if (isValueValid) {
+                parentElement.classList.add("checkmark");
                 targetElement.classList.add("input-field_valid");
                 targetElement.classList.remove("input-field_invalid");
+                parentElement.classList.remove("cross");
                 targetElement.dataset["validity"] = "true";
             } else {
+                parentElement.classList.add("cross");
                 targetElement.classList.add("input-field_invalid");
                 targetElement.classList.remove("input-field_valid");
+                parentElement.classList.remove("checkmark");
                 targetElement.dataset["validity"] = "false";
             }
         }
@@ -124,6 +132,22 @@ export default class OrderView {
                     paycardImage.src = _default;
                     inputFieldValue = inputFieldValue.slice(0, -1);
                     targetElement.value = inputFieldValue;
+                    break;
+            }
+        } else if ( inputFieldValue.length > 1) {
+            const paycardImage = document.getElementById("paycard-image") as HTMLImageElement;
+            switch (+inputFieldValue[0]!) {
+                case 4:
+                    paycardImage.src = visa;
+                    break;
+                case 5:
+                    paycardImage.src = mastercard;
+                    break;
+                case 6:
+                    paycardImage.src = maestro;
+                    break;
+                default:
+                    paycardImage.src = _default;
                     break;
             }
         }
@@ -211,7 +235,9 @@ export default class OrderView {
         } else if (isAllFieldsInvalid) {
             inputFields.forEach((item) => {
                 if (item.dataset["validity"] === "false") {
+                    const parentElement = item.parentElement! as HTMLLabelElement;
                     item.classList.add("input-field_invalid");
+                    parentElement.classList.add("cross");
                 }
             });
         }
