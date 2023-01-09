@@ -21,7 +21,7 @@ export default class ProductView {
         rootElement.append(productWrapperSection);
         const findedProduct = app.store.products.find((product) => product.id === productId);
         if (!findedProduct) {
-            productWrapperSection.innerHTML = `No product with such id ${productId}`;
+            productWrapperSection.innerHTML = `<h2 class="no-found">No product with such id ${productId}</h2>`;
             return;
         }
         await app.store.removeDuplicatesFromProductImages(findedProduct);
