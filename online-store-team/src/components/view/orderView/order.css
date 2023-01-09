@@ -20,7 +20,8 @@
     justify-content: center;
     align-items: center;
     width: 40%;
-    padding: 3rem;
+    min-height: 90vh;
+    padding:1rem 3rem;
     border: 1px solid rgb(128, 128, 128);
     background: rgba(0, 0, 0, 0.5);
     border-radius: 0.25rem;
@@ -41,7 +42,6 @@
     cursor: pointer;
 }
 
-
 .fieldset-title {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 2rem;
@@ -53,10 +53,11 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 1rem;
     color: rgb(175, 175, 175);
+    text-align: center;
 }
 
 .tooltip-wrapper {
-    width: 50%;
+    width: 70%;
     padding: 0;
 }
 
@@ -64,11 +65,34 @@
     height: 2rem;
     border-radius: 0.25rem;
     border: 0;
-    margin-bottom: 0.5rem;
     font-size: 1.2rem;
     text-align: center;
     outline: none;
     transition: all 100ms;
+}
+
+.input-field__wrapper{
+    position: relative;
+    width: 100%;
+    height: 2rem;
+}
+
+.cross::after{
+    content:"✖";
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    color: rgb(255, 0, 0);
+    transform: scale(1.2);
+}
+
+.checkmark::after{
+    content:"✔";
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    color: rgb(4, 255, 0);
+    transform: scale(1.2);
 }
 
 .input-field:focus {
@@ -119,7 +143,6 @@
 
 .card-details__input {
     width: 100%;
-    margin-top: 5px;
 }
 
 .card-details__input_long {
@@ -144,21 +167,17 @@
 }
 
 .order__submit {
+    width: fit-content;
+    padding: 1rem 3rem;
     border: 1px solid rgb(128, 128, 128);
     border-radius: 0.25rem;
-    margin-top: 1rem;
+    margin: 1rem 0;
+    background-color: rgba(255, 0, 0, 0.8);
+    transition: all 500ms;
     cursor: pointer;
 }
 
-.buy-now__submit {
-    width: fit-content;
-    padding: 1rem 3rem;
-    margin-top: 2rem;
-    background-color: rgba(255, 0, 0, 0.8);
-    transition: all 500ms;
-}
-
-.buy-now__submit:hover {
+.order__submit:hover {
     background-color: rgba(94, 255, 0, 0.8);
     color: rgb(0, 0, 0);
 }
