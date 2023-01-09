@@ -149,7 +149,7 @@
   cursor: pointer;
 }
 
-#display-mode {
+.select {
   width: 49%;
   height: 2rem;
   padding: 0.25rem;
