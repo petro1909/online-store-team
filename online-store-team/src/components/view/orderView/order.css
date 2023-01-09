@@ -150,6 +150,13 @@
     cursor: pointer;
 }
 
+.buy-now__submit {
+    width: fit-content;
+    padding: 1rem 3rem;
+    margin-top: 2rem;
+    background: linear-gradient(180deg,#e6e6e6 0%,rgba(255, 20, 20, 0.5) 49%, rgba(170, 60, 60, 0.7) 51%,rgba(255, 20, 20, 0.5) 100%);
+}
+
 .element_invisible {
     display: none;
 }

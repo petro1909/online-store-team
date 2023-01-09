@@ -95,6 +95,11 @@
 .##........##.....##..#######..########...#######...######.....##............####....##....########.##.....##
 */
 
+.no-found {
+  font-size: 3rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
 .product-item {
     display: flex;
     flex-direction: column;
@@ -103,8 +108,8 @@
     width: 17vw;
     min-height: 260px;
     height: 17vw;
-    border-radius: 0.5rem;
-    border: 1px solid #fff;
+    border-radius: 0.25rem;
+    border: 1px solid rgb(128, 128, 128);
     margin: 1rem;
     background-repeat: no-repeat;
     background-size: cover;
@@ -127,7 +132,7 @@
 
 }
 .product-item_added .product-item__title{
-    background-color: rgb(24, 145, 0);
+    background-color: rgb(72, 199, 46);
 }
 
 .product-item__title {
@@ -138,8 +143,9 @@
 }
 
 .product-item__info {
-    width: 90%;
+    width: 85%;
     margin: 0;
+    border-radius: 0 0 0.75rem 0;
     padding: 0;
     font-size: 0.7rem;
     color: rgb(255, 255, 255);
@@ -188,10 +194,10 @@
   min-height: 25vh;
   height: 25vh;
   margin: 1rem 10%;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.25);
   background-repeat: no-repeat;
   background-size: 20vh;
-  background-position: top 40px right 5%;
+  background-position: center right 5%;
   backdrop-filter: blur(1rem);
 }
 

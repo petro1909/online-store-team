@@ -161,7 +161,7 @@
 
 .category {
   width: 100%;
-  height: 30vh;
+  height: 25vh;
   padding: 0;
   border: none;
   border-bottom: 1px solid rgb(128, 128, 128);
@@ -170,7 +170,7 @@
 }
 
 .brand {
-  height: 30vh;
+  height: 25vh;
   width: 100%;
   padding: 0;
   border: none;
@@ -361,4 +361,54 @@ input[type=range]::-ms-thumb {
 #lower-price::-webkit-slider-thumb,
 #lower-stock::-webkit-slider-thumb {
 	background-color: #000000;
+}
+
+::-webkit-scrollbar {
+  width: 12px; /* ширина для вертикального скролла */
+  height: 8px; /* высота для горизонтального скролла */
+  background-color: rgba(240, 240, 240, 0.198);
+}
+
+/* ползунок скроллбара */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(130, 130, 130, 0.5);
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 10px #f3faf7;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(130, 130, 130);
+}
+
+/* Стрелки */
+
+::-webkit-scrollbar-button:vertical:start:decrement {
+  background: linear-gradient(120deg, rgb(100, 100, 100) 40%, rgba(0, 0, 0, 0) 41%),
+      linear-gradient(240deg, rgb(100, 100, 100) 40%, rgba(0, 0, 0, 0) 41%),
+      linear-gradient(0deg, rgb(100, 100, 100) 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #f6f8f4;
+}
+
+::-webkit-scrollbar-button:vertical:end:increment {
+  background:
+      linear-gradient(300deg, rgb(100, 100, 100) 40%, rgba(0, 0, 0, 0) 41%),
+      linear-gradient(60deg, rgb(100, 100, 100) 40%, rgba(0, 0, 0, 0) 41%),
+      linear-gradient(180deg, rgb(100, 100, 100) 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #f6f8f4;
+}
+
+::-webkit-scrollbar-button:horizontal:start:decrement {
+  background:
+      linear-gradient(30deg, rgb(100, 100, 100) 40%, rgba(0, 0, 0, 0) 41%),
+      linear-gradient(150deg, rgb(100, 100, 100) 40%, rgba(0, 0, 0, 0) 41%),
+      linear-gradient(270deg, rgb(100, 100, 100) 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #f6f8f4;
+}
+
+::-webkit-scrollbar-button:horizontal:end:increment {
+  background:
+      linear-gradient(210deg, rgb(100, 100, 100) 40%, rgba(0, 0, 0, 0) 41%),
+      linear-gradient(330deg, rgb(100, 100, 100) 40%, rgba(0, 0, 0, 0) 41%),
+      linear-gradient(90deg, rgb(100, 100, 100) 30%, rgba(0, 0, 0, 0) 31%);
+  background-color: #f6f8f4;
 }
