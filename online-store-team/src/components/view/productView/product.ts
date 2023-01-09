@@ -99,8 +99,9 @@ export default class ProductView {
             return;
         }
         for (let i = 0; i < product.images.length; i++) {
-            const element = document.createElement("button");
+            const element = document.createElement("div");
             element.classList.add("controls__btn");
+            element.style.backgroundImage = (`url(${product.images[i]})`)
             element.setAttribute("data-id", `${i}`);
             if (i === 0) element.classList.add("controls__btn_active");
             controlsOfImages.append(element);

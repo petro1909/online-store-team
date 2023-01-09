@@ -111,7 +111,6 @@
 
 }
 
-
 .controls {
     display: flex;
     justify-content: center;
@@ -119,24 +118,25 @@
 }
 
 .controls__btn {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 4rem;
+    height: 3rem;
     margin: 0.25rem;
-    border-radius: 50%;
+    border-radius: 0.25rem;
     border: 1px solid rgb(128, 128, 128);
-    background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
+    background-position: center;
+    background-size: cover;
     transition: all 250ms;
 }
 
 .controls__btn:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid rgba(94, 255, 0, 0.8);
 }
 
 @media (max-width: 768px) {
 
     .controls__btn {
-        width: 2rem;
+        width: 3rem;
         height: 2rem;
         margin: 0.5rem;
     }
@@ -144,7 +144,7 @@
 }
 
 .controls__btn_active {
-    background-color: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 0, 0, 0.8);
 }
 
 .object__info {
