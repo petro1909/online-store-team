@@ -137,7 +137,7 @@ export default class StoreView {
         }
         const copyLinkButon = document.getElementById("copy-link") as HTMLElement | null;
         if (copyLinkButon) {
-            copyLinkButon.addEventListener("click", app.router.copyQueryParametersToClipBoard);
+            copyLinkButon.addEventListener("click", this.copyQueryStrigToClipboard);
         }
         const sortFieldset = document.getElementById("sort") as HTMLElement | null;
         if (sortFieldset) {
@@ -315,7 +315,6 @@ export default class StoreView {
             });
         }
 
-
         const brandFilterSection = filterSection.querySelector("fieldset.brand") as HTMLFieldSetElement | null;
         if (brandFilterSection) {
             const brandCheckboxesLines = Array.from(
@@ -420,6 +419,6 @@ export default class StoreView {
         const clickedElement = event.target as HTMLElement;
         app.router.copyQueryParametersToClipBoard();
         clickedElement.textContent = "LINK COPIED!";
-        setTimeout(() => clickedElement.textContent = "COPY LINK", 1500);
+        setTimeout(() => (clickedElement.textContent = "COPY LINK"), 1500);
     }
 }
