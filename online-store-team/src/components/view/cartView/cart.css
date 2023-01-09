@@ -60,7 +60,7 @@ html {
     gap: 1rem;
     padding: 2rem;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: rgb(255, 255, 255); /* TODO add variable */
+    color: rgb(0, 0, 0); /* TODO add variable */
     background-image: url(../../../assets/img/Cart/cart-bg.jpg);
     background-position: center;
     background-repeat: no-repeat;
@@ -109,8 +109,9 @@ html {
     align-items: center;
     padding: 0.5rem;
     border-radius: 0.25rem;
-    backdrop-filter: blur(0.5rem);
-    background: rgba(0, 0, 0, 0.5); /* TODO add variable */
+    border: 1px solid rgb(128, 128, 128);
+    backdrop-filter: blur(1rem);
+    background-color: rgba(255, 255, 255, 0.1); /* TODO add variable */
 }
 
 .pagination__title {
@@ -155,7 +156,7 @@ html {
     margin-left: 0.5rem;
     text-align: center;
     color: rgb(255, 255, 255); /* TODO add variable */
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
     outline: none;
     border: 1px solid rgb(128, 128, 128) !important; /* TODO add variable */
     transition: all 500ms;
@@ -225,8 +226,9 @@ html {
     justify-content: space-between;
     margin: 1rem 0 0 0;
     border-radius: 0.25rem;
-    background: rgba(0, 0, 0, 0.35); /* TODO add variable */
-    backdrop-filter: blur(0.4rem);
+    border: 1px solid rgb(128, 128, 128);
+    background-color: rgba(255, 255, 255, 0.1); /* TODO add variable */
+    backdrop-filter: blur(1rem);
 }
 
 @media (max-width: 576px) {
@@ -309,14 +311,12 @@ html {
 
 .product__desc-title {
     padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem 0.25rem 0 0;
+    border-bottom: 1px solid rgb(255, 255, 255);
     margin: 0;
+    color: rgb(255, 255, 255);
     text-align: center;
-}
-
-.product__separator {
-    width: calc(100% - 1rem);
-    margin: 0;
-    margin-left: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .product__desc-text {
@@ -382,6 +382,8 @@ html {
 .cart-item__decrease-btn {
     width: 1.5rem;
     height: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 .cart-item__quantity {
@@ -394,6 +396,8 @@ html {
 .cart-item__increase-btn {
     width: 1.5rem;
     height: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 @media (max-width: 576px) {
@@ -446,7 +450,7 @@ html {
 .cart__summary {
     height: fit-content;
     backdrop-filter: blur(0.5rem);
-    background: rgba(0, 0, 0, 0.25);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .summary {
@@ -457,6 +461,7 @@ html {
     width: 400px;
     padding: 2rem 1rem;
     border-radius: 0.25rem;
+    border: 1px solid rgb(128, 128, 128);
 }
 
 .summary__separator {
@@ -502,7 +507,6 @@ html {
     }
 
 }
-
 
 .summary__products {
     margin-top: 1rem;
