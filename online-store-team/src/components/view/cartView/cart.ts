@@ -245,7 +245,7 @@ export default class CartView {
         const allPromocodesSection = document.querySelector(".summary__all-promo-codes") as HTMLElement | null;
         if (allPromocodesSection) {
             allPromocodesSection.innerHTML =
-                "Promocodes for test: <br>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
+                "Promocodes for test: <wbr>" + Cart.promocodes.map((promocode: IPromocode) => promocode.text).join(", ");
         }
 
         const summarySumbit = summary.querySelector(".summary__submit") as HTMLElement | null;

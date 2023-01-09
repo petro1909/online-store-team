@@ -23,13 +23,15 @@
   <aside class="cart__summary summary box-shadow">
     <h2 class="summary__title  text-shadow">Summary</h2>
     <hr class="summary__separator">
-    <div class="summary__products">
-        <span class="summary__products-text">Total count:</span>
-        <span class="summary__products-value">0</span>
-    </div>
-    <div class="summary__total">
-        <p class="summary__total-text">Total: €<span class="summary__total-value">0</span></p>
-        <p class="summary__actual-total-text">Actual Total: €<span class="summary__actual-total-value">0</span></p>
+    <div class="summary__products-wrapper">
+        <div class="summary__products">
+            <span class="summary__products-text">Total count:</span>
+            <span class="summary__products-value">0</span>
+        </div>
+        <div class="summary__total">
+            <span class="summary__total-text">Total: €<span class="summary__total-value">0</span></span>
+            <span class="summary__actual-total-text">Actual Total: €<span class="summary__actual-total-value">0</span></span>
+        </div>
     </div>
     <div class="summary__used-promo-codes">
       <h2 class="summary__used-promo-codes-header">Used promocodes</h2>
@@ -80,7 +82,7 @@
   <section class="promo-code">
     <p class="promo-code__name"></p>
     <p class="promo-code__discount"></p>
-    <button class="promo-code__action"></button>
+    <button class="promo-code__action btn"></button>
   </section>
 </template>
 

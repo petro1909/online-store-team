@@ -171,7 +171,6 @@
 
 input[type=number] {
   border: 1px solid #ddd;
-  font-size: 1.6em;
   text-align: center;
   /* -moz-appearance: textfield; */
 }
