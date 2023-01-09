@@ -32,7 +32,10 @@ export default class StoreController extends BaseController {
                     if (Array.isArray(keyType)) {
                         storeOptions[key as keyof typeof storeOptions] = value.split("+") as never;
                     } else if (typeof keyType === "number") {
-                        storeOptions[key as keyof StoreFilterOptions] = Number(value) as never;
+                        const numberValue = Number.parseInt(value);
+                        if (!Number.isNaN(numberValue)) {
+                            storeOptions[key as keyof StoreFilterOptions] = numberValue as never;
+                        }
                     } else {
                         storeOptions[key as keyof StoreFilterOptions] = value as never;
                     }
