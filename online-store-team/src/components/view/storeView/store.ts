@@ -85,8 +85,7 @@ export default class StoreView {
     }
 
     private drawFilter(filter: StoreFilter, filterOptions: StoreFilterOptions) {
-        console.log("drawFilter");
-        // console.log("filter =", filter);
+
         const filterSection = document.querySelector(".filter");
         filterSection!.insertAdjacentHTML("beforeend", filterHtml);
 
@@ -96,7 +95,6 @@ export default class StoreView {
         const category = document.getElementById("category")!;
         const brand = document.getElementById("brand")!;
 
-        // TODO refactor put in a separate function
         filter.categoryProducts.forEach((item) => {
             let attrChecked = "";
             if (filterOptions.categories.includes(item.category)) {
@@ -160,7 +158,9 @@ export default class StoreView {
         burgerMenuImage.addEventListener("click", this.drawBurgerMenuFilter);
         stockFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "stock", 8));
         priceFieldSet!.addEventListener("input", this.workRangeInput.bind(this, "price", 100));
-        console.log("\n");
+
+        const copyLinkButton = document.getElementById("copy-link")! as HTMLButtonElement;
+        copyLinkButton.addEventListener("click", this.copyQueryStrigToClipboard);
     }
 
     private resetHandler() {
@@ -168,7 +168,6 @@ export default class StoreView {
     }
 
     private updateFilter = (event: Event) => {
-        console.log("updateFilter");
 
         const formElement = document.getElementById("filters")! as HTMLFormElement;
         const formData = new FormData(formElement);
@@ -286,15 +285,12 @@ export default class StoreView {
     }
 
     private makeFilterActual(filter: StoreFilter, filterOptions: StoreFilterOptions) {
-        console.log("makeFilterActual");
-        console.log("filterOptions =", filterOptions);
 
         const search = document.getElementById("search")! as HTMLInputElement;
         search.value = filterOptions.searchString;
 
         const radioButtons = document.querySelectorAll(".radio")! as NodeListOf<Element>;
         const tempRadioButtons = Array.from(radioButtons) as HTMLInputElement[];
-        console.log("tempRadioButtons =", tempRadioButtons);
         const radioChecked = tempRadioButtons.find((radiobtn) => {
             return radiobtn.value === filterOptions.displayMode ? true : false;
         });
@@ -303,11 +299,9 @@ export default class StoreView {
         });
         radioChecked?.setAttribute("checked", "checked");
         if (filterOptions.displayMode === "") tempRadioButtons[0]?.setAttribute("checked", "checked");
-        console.log("radioChecked =", radioChecked);
 
         const selectTagOptions = document.querySelectorAll(".option")! as NodeListOf<Element>;
         const tempSelectTagOptions = Array.from(selectTagOptions) as HTMLOptionElement[];
-        console.log("tempSelectTagOptions =", tempSelectTagOptions);
         const selectedOption = tempSelectTagOptions.find((option) => {
             return option.value === filterOptions.sortingString ? true : false;
         });
@@ -315,23 +309,18 @@ export default class StoreView {
             option.removeAttribute("selected");
         });
         selectedOption?.setAttribute("selected", "selected");
-        console.log("selectedOption =", selectedOption);
 
         const categoryCheckboxes = document.querySelectorAll(".category-product") as NodeListOf<Element>;
         const tempCategoryCheckboxes = Array.from(categoryCheckboxes) as HTMLSpanElement[];
         tempCategoryCheckboxes.forEach((checkbox, index) => {
             checkbox.textContent = `${filter.categoryProducts[index]?.activeProducts}/${filter.categoryProducts[0]?.totalProducts}`;
         });
-        // console.log("categoryCheckboxes =", categoryCheckboxes);
 
         const brandCheckboxes = document.querySelectorAll(".brand-product") as NodeListOf<Element>;
         const tempBrandCheckboxes = Array.from(brandCheckboxes) as HTMLSpanElement[];
         tempBrandCheckboxes.forEach((checkbox, index) => {
             checkbox.textContent = `${filter.brandProducts[index]?.activeProducts}/${filter.brandProducts[0]?.totalProducts}`;
         });
-        // console.log("brandCheckboxes =", brandCheckboxes);
-
-        console.log("\n");
     }
 
     public static styleProductCard(textContent: string, clickedButton: HTMLElement): void {
@@ -355,6 +344,7 @@ export default class StoreView {
         spaBody.classList.add("spa-body_active");
         filter!.classList.add("filter-show");
     }
+
     private hideFilterByResizeWindow() {
         const filter = document.querySelector(".filter") as HTMLElement | null;
         const popupBg = document.getElementById("popup-bg")! as HTMLDivElement;
@@ -370,5 +360,13 @@ export default class StoreView {
         const popupBg = document.getElementById("popup-bg")! as HTMLDivElement;
         filter.classList.remove("filter-show");
         popupBg.classList.remove("popup-bg_active");
+    }
+
+    private copyQueryStrigToClipboard(event: Event) {
+        event.preventDefault();
+        const clickedElement = event.target as HTMLElement;
+        app.router.copyQueryParametersToClipBoard();
+        clickedElement.textContent = "LINK COPIED!";
+        setTimeout(() => clickedElement.textContent = "COPY LINK", 1500);
     }
 }
