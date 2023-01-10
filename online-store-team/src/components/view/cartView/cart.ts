@@ -7,6 +7,7 @@ import { CartProduct } from "../../model/type/cartProduct";
 import { app } from "../../../index";
 import { CartOptions } from "../../model/storeOptions";
 import { IPromocode } from "../../model/type/promocode";
+import Utils from "../common/utils";
 
 export default class CartView {
     private cartOptions: CartOptions;
@@ -153,18 +154,18 @@ export default class CartView {
             productImg.alt = product.title;
             productImg.loading = "lazy";
         }
-        this.SetElementInnerHtml(cartProductSection, ".cart-item__number", `${cartProduct.cartIndex}`);
-        this.SetElementInnerHtml(cartProductSection, ".product__desc-title", product.title);
-        this.SetElementInnerHtml(cartProductSection, ".product__desc-text", product.description);
-        this.SetElementInnerHtml(cartProductSection, ".product__desc-rating", `Rating: ${product.rating}`);
-        this.SetElementInnerHtml(
+        Utils.setElementInnerHtml(cartProductSection, ".cart-item__number", `${cartProduct.cartIndex}`);
+        Utils.setElementInnerHtml(cartProductSection, ".product__desc-title", product.title);
+        Utils.setElementInnerHtml(cartProductSection, ".product__desc-text", product.description);
+        Utils.setElementInnerHtml(cartProductSection, ".product__desc-rating", `Rating: ${product.rating}`);
+        Utils.setElementInnerHtml(
             cartProductSection,
             ".product__desc-discount",
             `Discount: ${product.discountPercentage}%`
         );
-        this.SetElementInnerHtml(cartProductSection, ".cart-item__stock", `Stock: ${product.stock}`);
-        this.SetElementInnerHtml(cartProductSection, ".cart-item__quantity", `${cartProduct.count}`);
-        this.SetElementInnerHtml(cartProductSection, ".cart-item__amount-control", `€${cartProduct.totalPrice}`);
+        Utils.setElementInnerHtml(cartProductSection, ".cart-item__stock", `Stock: ${product.stock}`);
+        Utils.setElementInnerHtml(cartProductSection, ".cart-item__quantity", `${cartProduct.count}`);
+        Utils.setElementInnerHtml(cartProductSection, ".cart-item__amount-control", `€${cartProduct.totalPrice}`);
         return cartProductSection;
     }
 
@@ -260,8 +261,8 @@ export default class CartView {
         if (!summary) {
             return;
         }
-        this.SetElementInnerHtml(summary, ".summary__products-value", `${app.cart.totalCount}`);
-        this.SetElementInnerHtml(summary, ".summary__total-value", `${app.cart.totalPrice}`);
+        Utils.setElementInnerHtml(summary, ".summary__products-value", `${app.cart.totalCount}`);
+        Utils.setElementInnerHtml(summary, ".summary__total-value", `${app.cart.totalPrice}`);
         const cartActualTotalPrice = document.querySelector(".summary__actual-total-value") as HTMLElement | null;
         if (cartActualTotalPrice) {
             cartActualTotalPrice.innerHTML = `${app.cart.actualPrice}`;
@@ -356,9 +357,9 @@ export default class CartView {
         ) as HTMLElement | null;
         if (proposedPromocodeSection) {
             proposedPromocodeSection.setAttribute("id", promocode.text);
-            this.SetElementInnerHtml(proposedPromocodeSection, ".promo-code__name", promocode.text);
-            this.SetElementInnerHtml(proposedPromocodeSection, ".promo-code__discount", `${promocode.discount}%`);
-            this.SetElementInnerHtml(proposedPromocodeSection, ".promo-code__action", buttonText);
+            Utils.setElementInnerHtml(proposedPromocodeSection, ".promo-code__name", promocode.text);
+            Utils.setElementInnerHtml(proposedPromocodeSection, ".promo-code__discount", `${promocode.discount}%`);
+            Utils.setElementInnerHtml(proposedPromocodeSection, ".promo-code__action", buttonText);
         }
         return proposedPromocodeTemplateClone;
     }
@@ -385,13 +386,5 @@ export default class CartView {
         } else {
             addPromocodeButton.style.display = "block";
         }
-    }
-
-    private SetElementInnerHtml(parentElement: HTMLElement, selector: string, value: string): void {
-        const element = parentElement.querySelector(selector) as HTMLElement;
-        if (!element) {
-            return;
-        }
-        element.innerHTML = value;
     }
 }

@@ -159,6 +159,14 @@
     font-size: 14px;
 }
 
+.info__row-category {
+    text-transform: capitalize;
+}
+
+.info__row-brand{
+  text-transform: capitalize;
+}
+
 .product-item__buttons {
     align-self: center;
     display: grid;
@@ -170,12 +178,26 @@
     border: none;
     border-right: 2px solid;
     background-color: var(--product-color);
-    color: #fff;
+    color: rgb(255, 255, 255);
     height: 35px;
     font-size: 16px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
 }
+
+.button-add,
+.button-drop,
+.button-details {
+  transition: all 300ms;
+}
+
+.button-add:hover,
+.button-drop:hover,
+.button-details:hover {
+  background-color: rgba(138, 138, 138, 0.95);
+}
+
+
 
 @media (max-width: 991px) {
 

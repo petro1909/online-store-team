@@ -61,7 +61,6 @@
   position: sticky;
   top: 0;
   z-index: 2000;
-  /* height: calc(100vh - 70px -70px); */
   height: 100vh;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
@@ -104,10 +103,12 @@
 
 .display-mode__label {
   font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .display-mode__radio {
-  transform: scale(1.3);
+  transform: scale(1.4);
+  cursor: pointer;
 }
 
 .sort {
@@ -201,7 +202,21 @@
   align-items: center;
 }
 
+.checkbox-line {
+  margin: 0.1rem 0.25rem;
+}
+
+.checkbox-line__input {
+  position: relative;
+  top: 3px;
+  margin: 0;
+  cursor: pointer;
+  transform: scale(1.4);
+}
+
 .checkbox-line__label {
+  padding-left: 0.5rem;
+  text-transform: capitalize;
   cursor: pointer;
 }
 
@@ -249,17 +264,13 @@
   text-align: center;
 }
 
+/* Input range styling */
+
 input[type=number] {
   border: 1px solid #ddd;
   text-align: center;
-  /* -moz-appearance: textfield; */
 }
 
-/* input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-
-} */
 
 input[type=number]:invalid,
 input[type=number]:out-of-range {
@@ -365,6 +376,8 @@ input[type=range]::-ms-thumb {
 #lower-stock::-webkit-slider-thumb {
 	background-color: #000000;
 }
+
+/* Scroll styling */
 
 ::-webkit-scrollbar {
   width: 12px; /* ширина для вертикального скролла */
