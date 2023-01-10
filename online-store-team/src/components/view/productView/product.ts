@@ -103,7 +103,7 @@ export default class ProductView {
         for (let i = 0; i < product.images.length; i++) {
             const element = document.createElement("div");
             element.classList.add("controls__btn");
-            element.style.backgroundImage = (`url(${product.images[i]})`)
+            element.style.backgroundImage = `url(${product.images[i]})`;
             element.setAttribute("data-id", `${i}`);
             if (i === 0) element.classList.add("controls__btn_active");
             controlsOfImages.append(element);
@@ -156,6 +156,7 @@ export default class ProductView {
 
         if (!isProductInCart) {
             app.cart.putProductIntoCart(product!);
+            app.header.drawHeader(app.cart);
         }
         app.router.route(`/cart`);
         cartView.drawCart(new CartOptions());

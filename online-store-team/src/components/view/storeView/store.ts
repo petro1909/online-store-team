@@ -349,7 +349,7 @@ export default class StoreView {
         Utils.setInputValue(filterSection, "#upper-stock", `${filter.maxStock}`);
     }
 
-    private checkAndSetRangeValues(inputRangeValue: Number, inputRangeId: string, filterSection: HTMLElement) {
+    private checkAndSetRangeValues(inputRangeValue: number, inputRangeId: string, filterSection: HTMLElement) {
         if (Number.isFinite(inputRangeValue)) {
             Utils.setInputValue(filterSection, inputRangeId, `${inputRangeValue}`);
         } else {
