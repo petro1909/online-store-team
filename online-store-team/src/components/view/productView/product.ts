@@ -156,6 +156,7 @@ export default class ProductView {
 
         if (!isProductInCart) {
             app.cart.putProductIntoCart(product!);
+            app.header.drawHeader(app.cart);
         }
         app.router.route(`/cart`);
         cartView.drawCart(new CartOptions());
