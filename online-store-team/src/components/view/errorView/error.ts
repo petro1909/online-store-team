@@ -3,6 +3,7 @@ import "./error.css";
 
 export default class ErrorView {
     public drawError(): void {
-        document.getElementById("root")!.innerHTML = errorHtml;
+        const rootElement = document.getElementById("root") as HTMLElement;
+        rootElement.innerHTML = errorHtml;
     }
 }

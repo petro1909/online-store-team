@@ -134,7 +134,7 @@ export default class OrderView {
                     targetElement.value = inputFieldValue;
                     break;
             }
-        } else if ( inputFieldValue.length > 1) {
+        } else if (inputFieldValue.length > 1) {
             const paycardImage = document.getElementById("paycard-image") as HTMLImageElement;
             switch (+inputFieldValue[0]!) {
                 case 4:
