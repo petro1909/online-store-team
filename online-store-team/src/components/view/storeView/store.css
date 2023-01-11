@@ -48,6 +48,14 @@
   display: none;
 }
 
+@media (max-width: 991px) {
+
+  .burger-menu {
+    display: block;
+  }
+
+}
+
 .burger-menu__img {
   transform: scale(1.5);
 }
