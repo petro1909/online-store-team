@@ -79,6 +79,7 @@ export default class CartView {
         } else {
             this.cartOptions.limit = productPageLimit;
         }
+        this.cartOptions = app.cart.validateCartOptions(this.cartOptions);
         this.updateCartHeader();
         this.updateCartProducts();
         app.router.addQueryParameters(this.cartOptions);
