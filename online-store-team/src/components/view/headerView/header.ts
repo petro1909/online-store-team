@@ -1,12 +1,16 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import "./header.css";
 import HeaderHtml from "./header.html";
 import Cart from "../../model/cartModel";
+import Utils from "../common/utils";
 
 export default class HeaderView {
     public drawHeader(cart: Cart): void {
-        document.getElementById("header")!.innerHTML = HeaderHtml;
-        document.querySelector(".cart-total__cost")!.innerHTML = String(cart.totalPrice);
-        document.querySelector(".cart-content__quantity")!.innerHTML = String(cart.totalCount);
+        const header = document.getElementById("header") as HTMLElement | null;
+        if (!header) {
+            return;
+        }
+        header.innerHTML = HeaderHtml;
+        Utils.setElementInnerHtml(header, ".cart-total__cost", `${cart.totalPrice}`);
+        Utils.setElementInnerHtml(header, ".cart-content__quantity", `${cart.totalCount}`);
     }
 }

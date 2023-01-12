@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import cartHtml from "./cart.html";
 import "./cart.css";
 import Cart from "../../model/cartModel";
@@ -133,14 +132,14 @@ export default class CartView {
 
         const activeCartProducts = app.cart.updateCartProducts(this.cartOptions);
         if (activeCartProducts.length === 0) {
-            summary!.style.display = "none";
-            pagination!.style.display = "none";
+            summary.style.display = "none";
+            pagination.style.display = "none";
             const noCartItemPlaceholder = document.createElement("div");
             noCartItemPlaceholder.innerHTML = "<h2 class='no-found'>There is no products in cart</h2>";
             cartProductsSection.append(noCartItemPlaceholder);
         } else if (activeCartProducts.length > 0) {
-            summary!.style.display = "";
-            pagination!.style.display = "";
+            summary.style.display = "";
+            pagination.style.display = "";
         }
 
         activeCartProducts.forEach((cartProduct) => {

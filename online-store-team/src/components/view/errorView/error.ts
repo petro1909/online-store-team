@@ -9,6 +9,6 @@ export default class ErrorView {
         const pageButton = document.getElementById("page-button") as HTMLButtonElement;
         pageButton.onclick = () => {
             app.router.route("/");
-        }
+        };
     }
 }
