@@ -1,0 +1,63 @@
+:root {
+    --hover-color: #f5c946;
+}
+.footer-wrapper {
+  background-color: #17181c;
+}
+.footer {
+    height: 70px;
+    max-width: 1400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 3rem;
+    margin: 0 auto;
+}
+
+.footer-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.footer-links__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 5px 10px;
+}
+
+.link{
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    transition: all 500ms ease-in-out;
+}
+
+.github, .rsschool {
+    background-color: #ffffff;
+}
+.github:hover, .rsschool:hover {
+    background-color: var(--hover-color);
+}
+
+.github {
+    width: 40px;
+    height: 40px;
+    background-color:rgb(255, 255, 255);
+    -webkit-mask:  url(../../../assets/img/Footer/github-icon.svg) no-repeat 50% 50%;
+    mask: url(../../../assets/img/Footer/github-icon.svg) no-repeat 50% 50%;
+}
+
+.year {
+    height: fit-content;
+}
+
+.rsschool {
+    width: 70px;
+    height: 40px;
+    background-color:white;
+    -webkit-mask:  url(../../../assets/img/Footer/rs-school-icon.svg) no-repeat 50% 50%;
+    mask: url(../../../assets/img/Footer/rs-school-icon.svg) no-repeat 50% 50%;
+}

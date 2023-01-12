@@ -1,0 +1,6 @@
+#root {
+    min-height: calc(100vh - 70px - 70px);
+}
+#root > *:first-child {
+  min-height: inherit;
+}

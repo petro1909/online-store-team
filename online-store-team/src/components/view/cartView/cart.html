@@ -1,0 +1,88 @@
+<section class="cart">
+  <section class="cart__content content">
+      <!-- Cart header section -->
+      <section class="content__pagination pagination" id="pagination">
+          <h2 class="pagination__title">Products In Cart</h2>
+          <div class="pagination__controls">
+              <label class="pagination__items-limit" for="pagination-limit-input">Items on page:</label>
+              <input class="pagination__limit-input" type="number" value="0" id="pagination-limit-input">
+              <span class="pagination__page-word">Page:</span>
+              <div class="pagination__page-number">
+                  <button class="pagination__page-prev btn">◄</button>
+                  <span class="pagination__page-current" id="pagination-page-current">0</span>
+                  <button class="pagination__page-next btn">►</button>
+              </div>
+          </div>
+      </section>
+      <!-- Cart products -->
+      <section class="content__container">
+        <section class="cart-items"></section>
+      </section>
+  </section>
+  <!-- Summary section -->
+  <aside class="cart__summary summary" id="summary">
+    <h2 class="summary__title">Summary</h2>
+    <hr class="summary__separator">
+    <div class="summary__products-wrapper">
+        <div class="summary__products">
+            <span class="summary__products-text">Total count:</span>
+            <span class="summary__products-value">0</span>
+        </div>
+        <div class="summary__total">
+            <span class="summary__total-text">Total: €<span class="summary__total-value">0</span></span>
+            <span class="summary__actual-total-text">Actual Total: €<span class="summary__actual-total-value">0</span></span>
+        </div>
+    </div>
+    <div class="summary__used-promo-codes">
+      <h2 class="summary__used-promo-codes-header">Used promocodes</h2>
+      <div class="summary__used-promo-codes-list"></div>
+    </div>
+    <div class="summary__promo-code-input">
+        <input type="search" placeholder="Enter promo code" class="summary__input-promo" id="summary-input-code"><br>
+    </div>
+    <div class="summary__proposed-promo-codes"></div>
+    <div class="summary__all-promo-codes"></div>
+    <button class="summary__submit btn">BUY NOW</button>
+</aside>
+  <!-- Place for content of cartBuyNowTemplate -->
+</section>
+
+<!-- Cart Item Template -->
+<template id="cartItemTemplate">
+  <article class="cart-item">
+      <div class="cart-item__number">
+          <span class="cart-item__number-value">0</span>
+      </div>
+      <figure class="cart-item__info product">
+          <img class="product__img" alt="iPhone X" src="https://i.dummyjson.com/data/products/2/thumbnail.jpg">
+          <figcaption class="product__desc">
+              <h3 class="product__desc-title">iPhone X</h3>
+              <p class="product__desc-text">SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ... </p>
+              <p class="product__desc-other">
+                  <span class="product__desc-rating">Rating: 0.00</span>
+                  <span class="product__desc-discount">Discount: 00.00%</span>
+              </p>
+          </figcaption>
+      </figure>
+      <div class="cart-item__controls">
+          <span class="cart-item__stock">Stock: 0</span>
+          <div class="cart-item__btns">
+              <button class="cart-item__decrease-btn btn">-</button>
+              <span class="cart-item__quantity">0</span>
+              <button class="cart-item__increase-btn btn">+</button>
+          </div>
+          <span class="cart-item__amount-control">€ 00.00</span>
+      </div>
+  </article>
+</template>
+
+<!-- Promocode Template -->
+<template id="promo-codeTemplate">
+  <section class="promo-code">
+    <p class="promo-code__name"></p>
+    <p class="promo-code__discount"></p>
+    <button class="promo-code__action btn"></button>
+  </section>
+</template>
+
+

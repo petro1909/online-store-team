@@ -1,0 +1,265 @@
+.pop-up {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(40px);
+    overflow: hidden;
+}
+
+.order {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    min-height: 90vh;
+    padding:1rem 0.5rem;
+    border: 1px solid rgb(128, 128, 128);
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 0.25rem;
+    backdrop-filter: blur(0.5rem);
+}
+
+
+
+@media (max-width: 1199px) {
+
+    .order{
+        width: 60%;
+    }
+
+}
+
+@media (max-width: 991px) {
+
+    .order{
+        width: 75%;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .order{
+        width: 85%;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .order{
+        width: 100%;
+        height: 100vh;
+        padding: 0;
+    }
+
+}
+
+.close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+    line-height: 1;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background: transparent;
+    cursor: pointer;
+}
+
+.fieldset-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    color: rgb(255, 255, 255);
+}
+
+.tooltip {
+    width: 100%;
+    padding: 5px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1rem;
+    color: rgb(175, 175, 175);
+    text-align: center;
+}
+
+@media (max-width: 576px) {
+
+    .tooltip{
+        padding: 5px 0;
+        font-size: 0.9rem;
+    }
+
+}
+
+.input-field {
+    height: 2rem;
+    border-radius: 0.25rem;
+    border: 0;
+    font-size: 1.2rem;
+    text-align: center;
+    outline: none;
+    transition: all 100ms;
+}
+
+.input-field__wrapper{
+    position: relative;
+    width: 100%;
+    height: 2rem;
+}
+
+.cross::after{
+    content:"✖";
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    color: rgb(255, 0, 0);
+    transform: scale(1.2);
+}
+
+.checkmark::after{
+    content:"✔";
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    color: rgb(4, 255, 0);
+    transform: scale(1.2);
+}
+
+.input-field:focus {
+    border: 1px solid rgb(0, 179, 255);
+    box-shadow: 0px 0px 3px 2px rgb(0, 179, 255);
+}
+
+.input-field_valid {
+    border: 1px solid rgb(13, 255, 0);
+    box-shadow: 0px 0px 8px 1px rgb(13, 255, 0);
+}
+
+.input-field_invalid {
+    border: 1px solid rgb(255, 56, 56);
+    box-shadow: 0px 0px 8px 1px rgb(255, 56, 56);
+}
+
+.personal-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    padding: 1rem;
+    border: none;
+}
+
+.personal-details__input {
+    width: 100%;
+}
+
+.card-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    padding: 1rem;
+    border: none;
+}
+
+@media (max-width: 1199px) {
+
+    .personal-details,
+    .card-details {
+        width: 75%;
+    }
+
+}
+
+@media (max-width: 991px) {
+
+    .personal-details,
+    .card-details {
+        width: 85%;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .personal-details,
+    .card-details {
+        padding: 0.5rem;
+        width: 90%;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .personal-details,
+    .card-details {
+        width: 94%;
+    }
+
+}
+
+.card-details__input-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+
+.card-details__input {
+    width: 100%;
+}
+
+.card-details__input_long {
+    width: 100%;
+}
+
+.paycard-image {
+    height: 150px;
+    width: 238px;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgb(128, 128, 128);
+    object-fit: cover;
+    object-position: center;
+}
+
+.order-processed {
+    font-size: 4rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    color: rgb(240, 255, 255);
+}
+
+.order__submit {
+    width: fit-content;
+    padding: 1rem 3rem;
+    border: 1px solid rgb(128, 128, 128);
+    border-radius: 0.25rem;
+    margin: 1rem 0;
+    background-color: rgba(255, 0, 0, 0.8);
+    transition: all 300ms;
+    cursor: pointer;
+}
+
+.order__submit:hover {
+    background-color: rgba(94, 255, 0, 0.8);
+    color: rgb(0, 0, 0);
+}
+
+.element_invisible {
+    display: none;
+}

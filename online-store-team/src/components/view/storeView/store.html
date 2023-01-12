@@ -1,0 +1,36 @@
+<section class="store">
+    <div class="popup-bg" id="popup-bg"></div>
+    <section class="filter"></section>
+
+    <section class="goods">
+        <div class="goods__header">
+            <div class="burger-menu">
+                <img class="burger-menu__img">
+            </div>
+            <output class="found">Found: <span class="found__value">0</span></output>
+        </div>
+        <div class="goods__output-wrapper">
+          <div class="goods__output"></div>
+        </div>
+    </section>
+</section>
+
+<template id="productItemTemp">
+  <article class="product-item" loading="lazy"> <!-- background: url(&quot;https://i.dummyjson.com/data/products/98/thumbnail.jpg&quot;) 0% 0% / cover; -->
+      <div class="product-item__desc">
+          <h3 class="product-item__title">Product Name</h3>
+          <ul class="product-item__info info">
+              <li class="info__row">Category:<span class="info__row info__row-category">Category name</span></li>
+              <li class="info__row">Brand:<span class="info__row info__row-brand">Brand name</span></li>
+              <li class="info__row" >Price:<span class="info__row info__row-price">€00.00</span></li>
+              <li class="info__row">Discount:<span class="info__row info__row-discount">0.00%</span></li>
+              <li class="info__row">Rating:<span class="info__row info__row-rating">0.00</span></li>
+              <li class="info__row">Stock:<span class="info__row info__row-stock">00</span></li>
+          </ul>
+      </div>
+      <div class="product-item__buttons">
+          <button class="button-add">ADD TO CART</button>
+          <button class="button-details">DETAILS</button>
+      </div>
+  </article>
+</template>
