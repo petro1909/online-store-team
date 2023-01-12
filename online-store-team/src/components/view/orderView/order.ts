@@ -14,34 +14,34 @@ export default class OrderView {
         const popUp = document.getElementById("pop-up") as HTMLDivElement;
         if (!popUp) {
             const root = document.getElementById("root") as HTMLDivElement;
-            root!.insertAdjacentHTML("beforeend", orderHtml);
+            root.insertAdjacentHTML("beforeend", orderHtml);
 
             const popUp = document.getElementById("pop-up") as HTMLDivElement;
             const closeButton = document.getElementById("close-button") as HTMLFormElement;
 
-            popUp!.addEventListener("click", this.closePopUp);
-            closeButton!.addEventListener("click", this.closePopUp);
+            popUp.addEventListener("click", this.closePopUp);
+            closeButton.addEventListener("click", this.closePopUp);
         } else {
-            popUp!.classList.remove("element_invisible");
+            popUp.classList.remove("element_invisible");
         }
         this.setFormEventHandlers();
     }
     private closePopUp(event: Event) {
         event.stopPropagation();
-        const clickedElement = event.target! as HTMLElement;
+        const clickedElement = event.target as HTMLElement;
         if (clickedElement.classList.contains("pop-up") || clickedElement.classList.contains("close-button")) {
             const inputFields = Array.from(document.querySelectorAll(".input-field")) as HTMLInputElement[];
             inputFields.forEach((item) => {
-                const parentElement = item.parentElement! as HTMLLabelElement;
+                const parentElement = item.parentElement as HTMLLabelElement;
                 item.classList.remove("input-field_valid");
                 item.classList.remove("input-field_invalid");
                 parentElement.classList.remove("cross");
                 parentElement.classList.remove("checkmark");
             });
             const order = document.getElementById("order") as HTMLFormElement;
-            order!.reset();
+            order.reset();
             const popUp = document.getElementById("pop-up") as HTMLDivElement;
-            popUp!.classList.add("element_invisible");
+            popUp.classList.add("element_invisible");
         }
     }
     private setFormEventHandlers() {
@@ -62,11 +62,11 @@ export default class OrderView {
 
     private checkInputValueValidity(event: Event) {
         const targetElement = event.target as HTMLInputElement;
-        const parentElement = targetElement.parentElement! as HTMLLabelElement;
+        const parentElement = targetElement.parentElement as HTMLLabelElement;
         const targetElementId = targetElement.id;
         if (targetElementId !== "order-submit") {
             const tempRegEx = new RegExp(OrderView.regEx[targetElementId]);
-            const inputFieldValue = targetElement!.value.trim();
+            const inputFieldValue = targetElement.value.trim();
             const isValueValid = tempRegEx.test(inputFieldValue);
             if (isValueValid) {
                 parentElement.classList.add("checkmark");
@@ -86,7 +86,7 @@ export default class OrderView {
 
     private addSpacesAfterCardDigitBlocks(event: KeyboardEvent) {
         const targetElement = event.target as HTMLInputElement;
-        let inputFieldValue = targetElement!.value;
+        let inputFieldValue = targetElement.value;
         const eventKey = event.key;
         if (/^\d{1}$/.test(eventKey) || /^Backspace$/.test(eventKey)) {
             if (
@@ -102,17 +102,19 @@ export default class OrderView {
 
     private forbidNotDigitalInput(event: Event) {
         const targetElement = event.target as HTMLInputElement;
-        let inputFieldValue = targetElement!.value;
-        const lastChar = inputFieldValue[inputFieldValue.length - 1]!;
-        if (!/^\d{1}$/.test(lastChar)) {
-            inputFieldValue = inputFieldValue.slice(0, -1);
-            targetElement.value = inputFieldValue;
+        let inputFieldValue = targetElement.value;
+        const lastChar = inputFieldValue[inputFieldValue.length - 1];
+        if (lastChar) {
+            if (!/^\d{1}$/.test(lastChar)) {
+                inputFieldValue = inputFieldValue.slice(0, -1);
+                targetElement.value = inputFieldValue;
+            }
         }
     }
 
     private choosePaymentSystem(event: Event) {
         const targetElement = event.target as HTMLInputElement;
-        let inputFieldValue = targetElement!.value;
+        let inputFieldValue = targetElement.value;
         if (inputFieldValue.length === 0) {
             const paycardImage = document.getElementById("paycard-image") as HTMLImageElement;
             paycardImage.src = _default;
@@ -155,7 +157,7 @@ export default class OrderView {
 
     private addSlashAfterDigitBlocks(event: KeyboardEvent) {
         const targetElement = event.target as HTMLInputElement;
-        let inputFieldValue = targetElement!.value;
+        let inputFieldValue = targetElement.value;
         const eventKey = event.key;
         if (/^\d{1}$/.test(eventKey) || /^Backspace$/.test(eventKey)) {
             if (inputFieldValue.length === 2 && event.code !== "Backspace") {
@@ -167,7 +169,7 @@ export default class OrderView {
 
     private correctMonthAndDate(event: Event) {
         const targetElement = event.target as HTMLInputElement;
-        let inputFieldValue = targetElement!.value;
+        let inputFieldValue = targetElement.value;
         if (inputFieldValue) {
             const monthAndDateLength = inputFieldValue.length;
             switch (monthAndDateLength) {
@@ -235,7 +237,7 @@ export default class OrderView {
         } else if (isAllFieldsInvalid) {
             inputFields.forEach((item) => {
                 if (item.dataset["validity"] === "false") {
-                    const parentElement = item.parentElement! as HTMLLabelElement;
+                    const parentElement = item.parentElement as HTMLLabelElement;
                     item.classList.add("input-field_invalid");
                     parentElement.classList.add("cross");
                 }
