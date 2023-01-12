@@ -4,7 +4,8 @@ import "./error.css";
 
 export default class ErrorView {
     public drawError(): void {
-        document.getElementById("root")!.innerHTML = errorHtml;
+        const rootElement = document.getElementById("root") as HTMLElement;
+        rootElement.innerHTML = errorHtml;
         const pageButton = document.getElementById("page-button") as HTMLButtonElement;
         pageButton.onclick = () => {
             app.router.route("/");

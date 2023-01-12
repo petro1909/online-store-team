@@ -289,6 +289,7 @@ export default class StoreView {
                 selectedOption.selected = true;
             }
         }
+
         const categoryFilterSection = filterSection.querySelector("fieldset.category") as HTMLFieldSetElement | null;
         if (categoryFilterSection) {
             const categoryCheckboxesLines = Array.from(
@@ -336,19 +337,24 @@ export default class StoreView {
                 }
             });
         }
-        if (Number.isFinite(filter.minPrice)) {
-            Utils.setInputValue(filterSection, "#min-price", `${filter.minPrice}`);
-        } else {
-            Utils.setInputValue(filterSection, "#min-price", "Not found");
-        }
 
-        Utils.setInputValue(filterSection, "#max-price", `${filter.maxPrice}`);
+        this.checkAndSetRangeValues(filter.minPrice, "#min-price", filterSection);
+        this.checkAndSetRangeValues(filter.maxPrice, "#max-price", filterSection);
+        this.checkAndSetRangeValues(filter.minStock, "#min-stock", filterSection);
+        this.checkAndSetRangeValues(filter.maxStock, "#max-stock", filterSection);
+
         Utils.setInputValue(filterSection, "#lower-price", `${filter.minPrice}`);
         Utils.setInputValue(filterSection, "#upper-price", `${filter.maxPrice}`);
-        Utils.setInputValue(filterSection, "#min-stock", `${filter.minStock}`);
-        Utils.setInputValue(filterSection, "#max-stock", `${filter.maxStock}`);
         Utils.setInputValue(filterSection, "#lower-stock", `${filter.minStock}`);
         Utils.setInputValue(filterSection, "#upper-stock", `${filter.maxStock}`);
+    }
+
+    private checkAndSetRangeValues(inputRangeValue: number, inputRangeId: string, filterSection: HTMLElement) {
+        if (Number.isFinite(inputRangeValue)) {
+            Utils.setInputValue(filterSection, inputRangeId, `${inputRangeValue}`);
+        } else {
+            Utils.setInputValue(filterSection, inputRangeId, "Not found");
+        }
     }
 
     private sliderInput(sliderId: string, minScope: number) {
@@ -391,6 +397,7 @@ export default class StoreView {
             }
         };
     }
+
     public static styleProductCard(textContent: string, clickedButton: HTMLElement): void {
         const articleElem = clickedButton.closest(".product-item") as HTMLElement;
         clickedButton.classList.toggle("button-add");

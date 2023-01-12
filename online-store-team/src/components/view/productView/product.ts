@@ -5,6 +5,7 @@ import { Product } from "../../model/type/product";
 import { app } from "../../..";
 import CartView from "../cartView/cart";
 import { CartOptions } from "../../model/storeOptions";
+import Utils from "../common/utils";
 
 export default class ProductView {
     public async drawProduct(productId: number): Promise<void> {
@@ -29,14 +30,15 @@ export default class ProductView {
         if (productIdentifierSection) {
             productIdentifierSection.setAttribute("data-id", `${findedProduct.id}`);
         }
-        this.SetElementInnerHtml(productWrapperSection, "#product-title", findedProduct.title);
-        this.SetElementInnerHtml(productWrapperSection, "#product-description", findedProduct.description);
-        this.SetElementInnerHtml(productWrapperSection, "#product-discount", `${findedProduct.discountPercentage}%`);
-        this.SetElementInnerHtml(productWrapperSection, "#product-rating", `${findedProduct.rating}`);
-        this.SetElementInnerHtml(productWrapperSection, "#product-stock", `${findedProduct.stock}`);
-        this.SetElementInnerHtml(productWrapperSection, "#product-brand", findedProduct.brand);
-        this.SetElementInnerHtml(productWrapperSection, "#product-category", findedProduct.category);
-        this.SetElementInnerHtml(productWrapperSection, "#product-price", `€${findedProduct.price}`);
+
+        Utils.setElementInnerHtml(productWrapperSection, "#product-title", findedProduct.title);
+        Utils.setElementInnerHtml(productWrapperSection, "#product-description", findedProduct.description);
+        Utils.setElementInnerHtml(productWrapperSection, "#product-discount", `${findedProduct.discountPercentage}%`);
+        Utils.setElementInnerHtml(productWrapperSection, "#product-rating", `${findedProduct.rating}`);
+        Utils.setElementInnerHtml(productWrapperSection, "#product-stock", `${findedProduct.stock}`);
+        Utils.setElementInnerHtml(productWrapperSection, "#product-brand", findedProduct.brand);
+        Utils.setElementInnerHtml(productWrapperSection, "#product-category", findedProduct.category);
+        Utils.setElementInnerHtml(productWrapperSection, "#product-price", `€${findedProduct.price}`);
 
         const breadcrumbs = document.getElementById("breadcrumbs") as HTMLElement;
         breadcrumbs.addEventListener("click", (event: Event) => {
@@ -101,7 +103,7 @@ export default class ProductView {
         for (let i = 0; i < product.images.length; i++) {
             const element = document.createElement("div");
             element.classList.add("controls__btn");
-            element.style.backgroundImage = (`url(${product.images[i]})`)
+            element.style.backgroundImage = `url(${product.images[i]})`;
             element.setAttribute("data-id", `${i}`);
             if (i === 0) element.classList.add("controls__btn_active");
             controlsOfImages.append(element);
@@ -154,18 +156,11 @@ export default class ProductView {
 
         if (!isProductInCart) {
             app.cart.putProductIntoCart(product!);
+            app.header.drawHeader(app.cart);
         }
         app.router.route(`/cart`);
         cartView.drawCart(new CartOptions());
         cartView.drawOrder();
-    }
-
-    private SetElementInnerHtml(parentElement: HTMLElement, selector: string, value: string): void {
-        const element = parentElement.querySelector(selector) as HTMLElement;
-        if (!element) {
-            return;
-        }
-        element.innerHTML = value;
     }
 
     private SetAnchorHrefAndInnerHtml(
